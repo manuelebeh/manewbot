@@ -1,0 +1,62 @@
+{
+  "name": "OVL-MD-V2",
+  "description": "Bot WhatsApp Multi-Device basé sur Baileys",
+  "keywords": ["Ainz", "OVL-MD-V2", "Whatsapp", "Baileys", "Muti-device"],
+  "logo": "https://files.catbox.moe/lojrxz.jpg",
+  "repository": "https://github.com/Ainz-devs/OVL-MD-V2",
+  "success_url": "/",
+  "stack": "container",
+  "env": {
+    "PREFIXE": {
+      "description": "Préfixe utilisé pour les commandes du bot",
+      "value": ".",
+      "required": false
+    },
+    "NOM_OWNER": {
+      "description": "Nom de l'Owner du bot",
+      "value": "Ainz",
+      "required": false
+    },
+    "NUMERO_OWNER": {
+      "description": "Numéro WhatsApp de l'Owner (au format international)",
+      "value": "226xxxxxxxx",
+      "required": true
+    },
+    "MODE": {
+      "description": "Mode de fonctionnement du bot (public ou private)",
+      "value": "public",
+      "required": false
+    },
+    "SESSION_ID": {
+      "description": "Identifiant de session",
+      "value": "ovl",
+      "required": true
+    },
+    "DATABASE": {
+      "description": "Lien de la base de données PostgreSQL",
+      "value": "",
+      "required": false
+    },
+    "LEVEL_UP": {
+      "description": "Activer le système de niveau (oui ou non)",
+      "value": "non",
+      "required": false
+    },
+    "STICKER_PACK_NAME": {
+      "description": "Nom du pack de stickers",
+      "value": "Wa-sticker",
+      "required": false
+    },
+    "STICKER_AUTHOR_NAME": {
+      "description": "Auteur du sticker",
+      "value": "ᴏᴠʟ-ᴍᴅ-ᴠ𝟸",
+      "required": false
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}
