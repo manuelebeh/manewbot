@@ -1,7 +1,7 @@
 {
   "name": "OVL-MD-V2",
   "version": "2.0.0",
-  "description": "Bot Whatsapp multi-appareil developpé par Ainz",
+  "description": "Bot Whatsapp multi-appareil developpé par Ainz.",
   "main": "index.js",
   "scripts": {
     "start": "node Ovl.js",
