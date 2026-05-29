@@ -54,10 +54,10 @@ const Mention = sequelize.define("Mention", {
 });
 (async () => {
   await Mention.sync();
-  const _0x16208e = sequelize.getQueryInterface();
-  const _0x46f71b = await _0x16208e.describeTable("mention");
-  if (!_0x46f71b.type) {
-    await _0x16208e.addColumn("mention", "type", {
+  const queryInterface = sequelize.getQueryInterface();
+  const tableDesc = await queryInterface.describeTable("mention");
+  if (!tableDesc.type) {
+    await queryInterface.addColumn("mention", "type", {
       type: DataTypes.STRING,
       defaultValue: "texte"
     });
@@ -78,14 +78,14 @@ async function setMention({
   });
 }
 async function delMention() {
-  const _0x462a0b = await Mention.findOne({
+  const row = await Mention.findOne({
     where: {
       id: 1
     }
   });
-  if (_0x462a0b) {
-    _0x462a0b.mode = "non";
-    await _0x462a0b.save();
+  if (row) {
+    row.mode = "non";
+    await row.save();
   }
 }
 async function getMention() {

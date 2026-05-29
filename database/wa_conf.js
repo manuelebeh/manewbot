@@ -87,14 +87,14 @@ const WA_CONF2 = sequelize.define("WA_CONF2", {
 (async () => {
   await WA_CONF.sync();
   await WA_CONF2.sync();
-  const _0x3bfe13 = await WA_CONF.findAll({
+  const legacyRows = await WA_CONF.findAll({
     where: {
       mention: "non"
     }
   });
-  for (const _0x46bf69 of _0x3bfe13) {
-    _0x46bf69.mention = "1";
-    await _0x46bf69.save();
+  for (const row of legacyRows) {
+    row.mention = "1";
+    await row.save();
   }
 })();
 module.exports = {

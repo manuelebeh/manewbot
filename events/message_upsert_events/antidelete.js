@@ -1,93 +1,93 @@
 const {
   WA_CONF
 } = require("../../database/wa_conf");
-async function antidelete(_0xf91dc9, _0x51ac00, _0x353d7f, _0x2365b0, _0x174fae, _0x1f12f2, _0x37be1f) {
-  const _0x280bb7 = await WA_CONF.findOne({
+async function antidelete(sock, msg, senderJid, contentType, getMessage, chatJid, botJid) {
+  const config = await WA_CONF.findOne({
     where: {
       id: "1"
     }
   });
-  if (!_0x280bb7) {
+  if (!config) {
     return;
   }
   try {
-    const _0x29b3ee = _0x280bb7.antidelete;
-    const _0x3277d4 = ["pm", "gc", "status", "all", "pm/gc", "pm/status", "gc/status"];
-    const _0x3ca381 = _0x3277d4.some(_0x498637 => _0x29b3ee.startsWith(_0x498637));
-    if (!_0x3ca381) {
+    const antideleteMode = config.antidelete;
+    const validModes = ["pm", "gc", "status", "all", "pm/gc", "pm/status", "gc/status"];
+    const isValidMode = validModes.some(mode => antideleteMode.startsWith(mode));
+    if (!isValidMode) {
       return;
     }
-    if (_0x2365b0 === "protocolMessage") {
-      const _0x52131d = _0x51ac00.message.protocolMessage;
-      if (!_0x52131d?.key?.id) {
+    if (contentType === "protocolMessage") {
+      const protocolMessage = msg.message.protocolMessage;
+      if (!protocolMessage?.key?.id) {
         return;
       }
-      const _0x590d5f = _0x174fae(_0x52131d.key.id);
-      if (!_0x590d5f) {
+      const deletedMessage = getMessage(protocolMessage.key.id);
+      if (!deletedMessage) {
         return;
       }
-      const _0xfb9cc9 = _0x590d5f.key.remoteJid;
-      const _0x3ad9f0 = _0x590d5f.key.remoteJidAlt || "";
-      const _0xf3aa6c = _0x3ad9f0 || _0xfb9cc9;
-      const _0x1ae95f = _0xfb9cc9 === "status@broadcast";
-      const _0x156e92 = _0xfb9cc9.endsWith("@g.us");
-      const _0xb36daf = !_0x1ae95f && _0x3ad9f0.endsWith("@s.whatsapp.net");
-      const _0x110429 = _0x156e92;
-      const _0x2cfa95 = _0x110429 ? _0x590d5f.key.participant || _0x590d5f.participant : _0xf3aa6c;
-      const _0x5602e3 = new Date().toISOString().substr(11, 8);
-      if (!_0x590d5f.key.fromMe) {
-        function _0x37453b(_0x5c57ad) {
-          return _0x29b3ee.includes(_0x5c57ad);
+      const remoteJid = deletedMessage.key.remoteJid;
+      const remoteJidAlt = deletedMessage.key.remoteJidAlt || "";
+      const chatId = remoteJidAlt || remoteJid;
+      const isStatus = remoteJid === "status@broadcast";
+      const isGroup = remoteJid.endsWith("@g.us");
+      const isPrivate = !isStatus && remoteJidAlt.endsWith("@s.whatsapp.net");
+      const isGroupChat = isGroup;
+      const authorJid = isGroupChat ? deletedMessage.key.participant || deletedMessage.participant : chatId;
+      const deleteTime = new Date().toISOString().substr(11, 8);
+      if (!deletedMessage.key.fromMe) {
+        function modeIncludes(mode) {
+          return antideleteMode.includes(mode);
         }
-        const _0xaa4543 = _0x37453b("gc") && _0x156e92 || _0x37453b("pm") && _0xb36daf || _0x37453b("status") && _0x1ae95f || _0x37453b("all") || _0x37453b("pm/gc") && (_0x156e92 || _0xb36daf) || _0x37453b("pm/status") && (_0x1ae95f || _0xb36daf) || _0x37453b("gc/status") && (_0x156e92 || _0x1ae95f);
-        if (!_0xaa4543) {
+        const shouldNotify = modeIncludes("gc") && isGroup || modeIncludes("pm") && isPrivate || modeIncludes("status") && isStatus || modeIncludes("all") || modeIncludes("pm/gc") && (isGroup || isPrivate) || modeIncludes("pm/status") && (isStatus || isPrivate) || modeIncludes("gc/status") && (isGroup || isStatus);
+        if (!shouldNotify) {
           return;
         }
-        const _0x4026a6 = _0x110429 ? "👥 Groupe : " + (await _0xf91dc9.groupMetadata(_0xfb9cc9)).subject : _0x1ae95f ? "📢 Status WhatsApp" : "📩 Chat : @" + _0xf3aa6c.split("@")[0];
-        const _0x1c2380 = ("\n✨ Manewbot ANTI-DELETE MSG ✨\n👤 Envoyé par : @" + _0x2cfa95.split("@")[0] + "\n❌ Supprimé par : @" + _0x353d7f.split("@")[0] + "\n⏰ Heure de suppression : " + _0x5602e3 + "\n" + _0x4026a6 + "\n        ").trim();
-        if (_0x29b3ee.includes("-org")) {
-          if (!_0x1f12f2) {
+        const sourceLabel = isGroupChat ? "👥 Groupe : " + (await sock.groupMetadata(remoteJid)).subject : isStatus ? "📢 Status WhatsApp" : "📩 Chat : @" + chatId.split("@")[0];
+        const alertText = ("\n✨ Manewbot ANTI-DELETE MSG ✨\n👤 Envoyé par : @" + authorJid.split("@")[0] + "\n❌ Supprimé par : @" + senderJid.split("@")[0] + "\n⏰ Heure de suppression : " + deleteTime + "\n" + sourceLabel + "\n        ").trim();
+        if (antideleteMode.includes("-org")) {
+          if (!botJid) {
             return;
           }
-          await _0xf91dc9.sendMessage(_0x1f12f2, {
-            text: _0x1c2380,
-            mentions: [_0x2cfa95, _0x353d7f]
+          await sock.sendMessage(botJid, {
+            text: alertText,
+            mentions: [authorJid, senderJid]
           }, {
-            quoted: _0x590d5f
+            quoted: deletedMessage
           });
-          const _0x257a66 = _0x590d5f.message;
-          const _0xd0cb1f = Object.keys(_0x257a66 || {})[0];
-          if (_0xd0cb1f === "conversation" || _0xd0cb1f === "extendedTextMessage") {
-            const _0x3e0d63 = _0x257a66?.conversation || _0x257a66?.extendedTextMessage?.text || "📝 Message supprimé (vide)";
-            await _0xf91dc9.sendMessage(_0x1f12f2, {
-              text: _0x3e0d63
+          const messageContent = deletedMessage.message;
+          const messageType = Object.keys(messageContent || {})[0];
+          if (messageType === "conversation" || messageType === "extendedTextMessage") {
+            const textContent = messageContent?.conversation || messageContent?.extendedTextMessage?.text || "📝 Message supprimé (vide)";
+            await sock.sendMessage(botJid, {
+              text: textContent
             }, {
-              quoted: _0x590d5f
+              quoted: deletedMessage
             });
           } else {
-            await _0xf91dc9.sendMessage(_0x1f12f2, {
-              forward: _0x590d5f
+            await sock.sendMessage(botJid, {
+              forward: deletedMessage
             }, {
-              quoted: _0x590d5f
+              quoted: deletedMessage
             });
           }
         } else {
-          await _0xf91dc9.sendMessage(_0x37be1f, {
-            text: _0x1c2380,
-            mentions: [_0x2cfa95, _0x353d7f]
+          await sock.sendMessage(chatJid, {
+            text: alertText,
+            mentions: [authorJid, senderJid]
           }, {
-            quoted: _0x590d5f
+            quoted: deletedMessage
           });
-          await _0xf91dc9.sendMessage(_0x37be1f, {
-            forward: _0x590d5f
+          await sock.sendMessage(chatJid, {
+            forward: deletedMessage
           }, {
-            quoted: _0x590d5f
+            quoted: deletedMessage
           });
         }
       }
     }
-  } catch (_0xcccca1) {
-    console.error("❌ Une erreur est survenue dans antidelete :", _0xcccca1);
+  } catch (err) {
+    console.error("❌ Une erreur est survenue dans antidelete :", err);
   }
 }
 module.exports = antidelete;

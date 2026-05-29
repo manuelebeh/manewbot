@@ -2,105 +2,105 @@ const {
   Antibot,
   AntibotWarnings
 } = require("../../database/antibot");
-async function antibot(_0x3e17a7, _0x23563b, _0x3db788, _0x3696a5, _0x430b17, _0x37546f, _0x2d9bba) {
+async function antibot(sock, chatJid, msg, isGroup, isAdmin, isBotAdmin, senderJid) {
   try {
-    const _0x44f4ba = _0x3db788.key.id.startsWith("BAES") || _0x3db788.key.id.startsWith("BAE5") || _0x3db788.key.id.startsWith("EVO") || _0x3db788.key.id.startsWith("3EB0");
-    if (_0x44f4ba) {
-      const _0x21c711 = await Antibot.findOne({
+    const isBotMessage = msg.key.id.startsWith("BAES") || msg.key.id.startsWith("BAE5") || msg.key.id.startsWith("EVO") || msg.key.id.startsWith("3EB0");
+    if (isBotMessage) {
+      const antibotConfig = await Antibot.findOne({
         where: {
-          id: _0x23563b
+          id: chatJid
         }
       });
-      if (_0x3696a5 && _0x21c711 && _0x21c711.mode === "oui") {
-        if (!_0x430b17 && _0x37546f) {
-          const _0x4896c1 = {
-            remoteJid: _0x23563b,
+      if (isGroup && antibotConfig && antibotConfig.mode === "oui") {
+        if (!isAdmin && isBotAdmin) {
+          const deleteKey = {
+            remoteJid: chatJid,
             fromMe: false,
-            id: _0x3db788.key.id,
-            participant: _0x2d9bba
+            id: msg.key.id,
+            participant: senderJid
           };
-          const _0x2e9d12 = _0x2d9bba.split("@")[0];
-          switch (_0x21c711.type) {
+          const senderNumber = senderJid.split("@")[0];
+          switch (antibotConfig.type) {
             case "supp":
-              await _0x3e17a7.sendMessage(_0x23563b, {
-                text: "@" + _0x2e9d12 + ", les bots ne sont pas autorisés ici.",
-                mentions: [_0x2d9bba]
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + ", les bots ne sont pas autorisés ici.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x3db788
+                quoted: msg
               });
-              await _0x3e17a7.sendMessage(_0x23563b, {
-                delete: _0x4896c1
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
               break;
             case "kick":
-              await _0x3e17a7.sendMessage(_0x23563b, {
-                text: "@" + _0x2e9d12 + " a été retiré pour avoir utilisé un bot.",
-                mentions: [_0x2d9bba]
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + " a été retiré pour avoir utilisé un bot.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x3db788
+                quoted: msg
               });
-              await _0x3e17a7.sendMessage(_0x23563b, {
-                delete: _0x4896c1
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
-              await _0x3e17a7.groupParticipantsUpdate(_0x23563b, [_0x2d9bba], "remove");
+              await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
               break;
             case "warn":
-              let _0x2f6fb2 = await AntibotWarnings.findOne({
+              let warningRecord = await AntibotWarnings.findOne({
                 where: {
-                  groupId: _0x23563b,
-                  userId: _0x2d9bba
+                  groupId: chatJid,
+                  userId: senderJid
                 }
               });
-              if (!_0x2f6fb2) {
+              if (!warningRecord) {
                 await AntibotWarnings.create({
-                  groupId: _0x23563b,
-                  userId: _0x2d9bba
+                  groupId: chatJid,
+                  userId: senderJid
                 });
-                await _0x3e17a7.sendMessage(_0x23563b, {
-                  delete: _0x4896c1
+                await sock.sendMessage(chatJid, {
+                  delete: deleteKey
                 });
-                await _0x3e17a7.sendMessage(_0x23563b, {
-                  text: "@" + _0x2e9d12 + ", avertissement 1/3 pour utilisation de bot.",
-                  mentions: [_0x2d9bba]
+                await sock.sendMessage(chatJid, {
+                  text: "@" + senderNumber + ", avertissement 1/3 pour utilisation de bot.",
+                  mentions: [senderJid]
                 }, {
-                  quoted: _0x3db788
+                  quoted: msg
                 });
               } else {
-                _0x2f6fb2.count += 1;
-                await _0x2f6fb2.save();
-                if (_0x2f6fb2.count >= 3) {
-                  await _0x3e17a7.sendMessage(_0x23563b, {
-                    text: "@" + _0x2e9d12 + " a été retiré après 3 avertissements.",
-                    mentions: [_0x2d9bba]
+                warningRecord.count += 1;
+                await warningRecord.save();
+                if (warningRecord.count >= 3) {
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + " a été retiré après 3 avertissements.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x3db788
+                    quoted: msg
                   });
-                  await _0x3e17a7.sendMessage(_0x23563b, {
-                    delete: _0x4896c1
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x3e17a7.groupParticipantsUpdate(_0x23563b, [_0x2d9bba], "remove");
-                  await _0x2f6fb2.destroy();
+                  await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
+                  await warningRecord.destroy();
                 } else {
-                  await _0x3e17a7.sendMessage(_0x23563b, {
-                    delete: _0x4896c1
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x3e17a7.sendMessage(_0x23563b, {
-                    text: "@" + _0x2e9d12 + ", avertissement " + _0x2f6fb2.count + "/3 pour utilisation de bot.",
-                    mentions: [_0x2d9bba]
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + ", avertissement " + warningRecord.count + "/3 pour utilisation de bot.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x3db788
+                    quoted: msg
                   });
                 }
               }
               break;
             default:
-              console.error("Action inconnue : " + _0x21c711.type);
+              console.error("Action inconnue : " + antibotConfig.type);
           }
         }
       }
     }
-  } catch (_0x37215b) {
-    console.error("Erreur dans le système Anti-Bot :", _0x37215b);
+  } catch (err) {
+    console.error("Erreur dans le système Anti-Bot :", err);
   }
 }
 module.exports = antibot;

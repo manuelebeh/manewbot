@@ -14,298 +14,300 @@ registerCommand({
   react: "🎮",
   desc: "Jeu du Tic-Tac-Toe",
   alias: ["ttt"]
-}, async (_0x53a25c, _0x5e3db1, _0x1c2c2f) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    arg: _0x1e4776,
-    ms: _0x180084,
-    msg_Repondu: _0x56646a,
-    auteur_Msg_Repondu: _0x29ad03,
-    auteur_Message: _0x11b4c0,
-    getJid: _0x26cf88
-  } = _0x1c2c2f;
-  let _0x2fc365 = _0x11b4c0.split("@")[0];
-  let _0x5d3619;
-  let _0x38c220;
-  if (_0x56646a) {
-    _0x5d3619 = _0x29ad03.split("@")[0];
-    _0x38c220 = _0x29ad03;
-  } else if (_0x1e4776.length > 0 && _0x1e4776[0].includes("@")) {
-    _0x38c220 = await _0x26cf88(_0x1e4776[0].replace("@", "") + "@lid", _0x53a25c, _0x5e3db1);
-    _0x5d3619 = _0x38c220.split("@")[0];
+    arg,
+    ms,
+    msg_Repondu,
+    auteur_Msg_Repondu,
+    auteur_Message,
+    getJid
+  } = ctx;
+  const challengerTag = auteur_Message.split("@")[0];
+  let opponentTag;
+  let opponentJid;
+  if (msg_Repondu) {
+    opponentTag = auteur_Msg_Repondu.split("@")[0];
+    opponentJid = auteur_Msg_Repondu;
+  } else if (arg.length > 0 && arg[0].includes("@")) {
+    opponentJid = await getJid(arg[0].replace("@", "") + "@lid", chatJid, sock);
+    opponentTag = opponentJid.split("@")[0];
   } else {
-    return _0x5e3db1.sendMessage(_0x53a25c, {
+    return sock.sendMessage(chatJid, {
       text: "🙋‍♂️ Veuillez *mentionner* ou *répondre* au message du joueur pour lancer une partie."
     }, {
-      quoted: _0x180084
+      quoted: ms
     });
   }
-  if (_0x11b4c0 === _0x38c220) {
-    return _0x5e3db1.sendMessage(_0x53a25c, {
+  if (auteur_Message === opponentJid) {
+    return sock.sendMessage(chatJid, {
       text: "🚫 Vous ne pouvez pas jouer contre vous-même !"
     }, {
-      quoted: _0x180084
+      quoted: ms
     });
   }
-  if (activeGames[_0x11b4c0] || activeGames[_0x38c220]) {
-    delete activeGames[_0x11b4c0];
-    delete activeGames[_0x38c220];
+  if (activeGames[auteur_Message] || activeGames[opponentJid]) {
+    delete activeGames[auteur_Message];
+    delete activeGames[opponentJid];
   }
-  const _0x13a1f7 = Date.now() + "-" + _0x11b4c0 + "-" + _0x38c220;
-  activeGames[_0x11b4c0] = {
-    opponent: _0x38c220,
-    gameID: _0x13a1f7
+  const gameId = Date.now() + "-" + auteur_Message + "-" + opponentJid;
+  activeGames[auteur_Message] = {
+    opponent: opponentJid,
+    gameID: gameId
   };
-  activeGames[_0x38c220] = {
-    opponent: _0x11b4c0,
-    gameID: _0x13a1f7
+  activeGames[opponentJid] = {
+    opponent: auteur_Message,
+    gameID: gameId
   };
-  await _0x5e3db1.sendMessage(_0x53a25c, {
-    text: "🎮 *Tic-Tac-Toe Défi !*\n\n🔸 @" + _0x2fc365 + " défie @" + _0x5d3619 + " !\n\n✍️ Pour accepter, réponds *oui* dans les 60 secondes.",
-    mentions: [_0x11b4c0, _0x38c220]
+  await sock.sendMessage(chatJid, {
+    text: "🎮 *Tic-Tac-Toe Défi !*\n\n🔸 @" + challengerTag + " défie @" + opponentTag + " !\n\n✍️ Pour accepter, réponds *oui* dans les 60 secondes.",
+    mentions: [auteur_Message, opponentJid]
   }, {
-    quoted: _0x180084
+    quoted: ms
   });
   try {
-    const _0x3a8604 = await _0x5e3db1.recup_msg({
-      auteur: _0x38c220,
-      ms_org: _0x53a25c,
+    const acceptReply = await sock.recup_msg({
+      auteur: opponentJid,
+      ms_org: chatJid,
       temps: 60000
     });
-    const _0x2ec154 = _0x3a8604?.message?.conversation || _0x3a8604?.message?.extendedTextMessage?.text || "";
-    if (_0x2ec154.toLowerCase() === "oui") {
-      let _0x4b2c68 = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
-      let _0xdcef73 = 0;
-      let _0x50d71d = ["❌", "⭕"];
-      let _0x48a754 = [_0x11b4c0, _0x38c220];
-      activeGames[_0x11b4c0] = {
-        opponent: _0x38c220,
-        grid: _0x4b2c68,
-        currentPlayer: _0xdcef73,
-        gameID: _0x13a1f7
+    const acceptText = acceptReply?.message?.conversation || acceptReply?.message?.extendedTextMessage?.text || "";
+    if (acceptText.toLowerCase() === "oui") {
+      const grid = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"];
+      let currentPlayerIndex = 0;
+      const symbols = ["❌", "⭕"];
+      const players = [auteur_Message, opponentJid];
+      activeGames[auteur_Message] = {
+        opponent: opponentJid,
+        grid,
+        currentPlayer: currentPlayerIndex,
+        gameID: gameId
       };
-      activeGames[_0x38c220] = {
-        opponent: _0x11b4c0,
-        grid: _0x4b2c68,
-        currentPlayer: _0xdcef73,
-        gameID: _0x13a1f7
+      activeGames[opponentJid] = {
+        opponent: auteur_Message,
+        grid,
+        currentPlayer: currentPlayerIndex,
+        gameID: gameId
       };
-      const _0x5f51ba = (_0x1c2be8 = false) => {
-        let _0x9eceec = "\n╔═══╦═══╦═══╗\n║ " + _0x4b2c68[0] + "    " + _0x4b2c68[1] + "    " + _0x4b2c68[2] + "\n╠═══╬═══╬═══╣\n║ " + _0x4b2c68[3] + "    " + _0x4b2c68[4] + "    " + _0x4b2c68[5] + "\n╠═══╬═══╬═══╣\n║ " + _0x4b2c68[6] + "    " + _0x4b2c68[7] + "    " + _0x4b2c68[8] + "\n╚═══╩═══╩═══╝\n\n❌ : @" + _0x2fc365 + "\n⭕ : @" + _0x5d3619;
-        if (!_0x1c2be8) {
-          _0x9eceec += "\n\n🎯 C'est au tour de @" + _0x48a754[_0xdcef73].split("@")[0] + " de jouer !";
+      const renderBoard = (finished = false) => {
+        let boardText = "\n╔═══╦═══╦═══╗\n║ " + grid[0] + "    " + grid[1] + "    " + grid[2] + "\n╠═══╬═══╬═══╣\n║ " + grid[3] + "    " + grid[4] + "    " + grid[5] + "\n╠═══╬═══╬═══╣\n║ " + grid[6] + "    " + grid[7] + "    " + grid[8] + "\n╚═══╩═══╩═══╝\n\n❌ : @" + challengerTag + "\n⭕ : @" + opponentTag;
+        if (!finished) {
+          boardText += "\n\n🎯 C'est au tour de @" + players[currentPlayerIndex].split("@")[0] + " de jouer !";
         }
-        return _0x9eceec;
+        return boardText;
       };
-      const _0x5905e8 = _0x15a25f => {
-        const _0x174c8d = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-        return _0x174c8d.some(_0x5939f5 => _0x5939f5.every(_0x338292 => _0x4b2c68[_0x338292] === _0x15a25f));
+      const checkWin = symbol => {
+        const winLines = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+        return winLines.some(line => line.every(index => grid[index] === symbol));
       };
-      for (let _0x54b176 = 0; _0x54b176 < 9; _0x54b176++) {
-        let _0x53a762 = _0x50d71d[_0xdcef73];
-        await _0x5e3db1.sendMessage(_0x53a25c, {
-          text: _0x5f51ba(),
-          mentions: [_0x11b4c0, _0x38c220]
+      for (let turn = 0; turn < 9; turn++) {
+        const currentSymbol = symbols[currentPlayerIndex];
+        await sock.sendMessage(chatJid, {
+          text: renderBoard(),
+          mentions: [auteur_Message, opponentJid]
         }, {
-          quoted: _0x180084
+          quoted: ms
         });
-        let _0x5289b2;
-        let _0x50ad24 = false;
-        while (!_0x50ad24) {
-          const _0x5b101f = await _0x5e3db1.recup_msg({
-            auteur: _0x48a754[_0xdcef73],
-            ms_org: _0x53a25c,
+        let cellIndex;
+        let validMove = false;
+        while (!validMove) {
+          const moveReply = await sock.recup_msg({
+            auteur: players[currentPlayerIndex],
+            ms_org: chatJid,
             temps: 60000
           });
-          let _0x1a985b = _0x5b101f?.message?.conversation || _0x5b101f?.message?.extendedTextMessage?.text || "";
-          if (!isNaN(_0x1a985b)) {
-            _0x5289b2 = parseInt(_0x1a985b);
-            if (_0x4b2c68[_0x5289b2 - 1] !== "❌" && _0x4b2c68[_0x5289b2 - 1] !== "⭕" && _0x5289b2 >= 1 && _0x5289b2 <= 9) {
-              _0x4b2c68[_0x5289b2 - 1] = _0x53a762;
-              _0x50ad24 = true;
+          const moveText = moveReply?.message?.conversation || moveReply?.message?.extendedTextMessage?.text || "";
+          if (!isNaN(moveText)) {
+            cellIndex = parseInt(moveText);
+            if (grid[cellIndex - 1] !== "❌" && grid[cellIndex - 1] !== "⭕" && cellIndex >= 1 && cellIndex <= 9) {
+              grid[cellIndex - 1] = currentSymbol;
+              validMove = true;
             } else {
-              await _0x5e3db1.sendMessage(_0x53a25c, {
+              await sock.sendMessage(chatJid, {
                 text: "❗ *Position invalide !* Choisis une case encore libre (1 à 9).",
-                mentions: _0x48a754
+                mentions: players
               }, {
-                quoted: _0x180084
+                quoted: ms
               });
             }
-          } else if (_0x1a985b.toLowerCase().startsWith(config.PREFIXE + "ttt")) {} else {
-            await _0x5e3db1.sendMessage(_0x53a25c, {
+          } else if (moveText.toLowerCase().startsWith(config.PREFIXE + "ttt")) {} else {
+            await sock.sendMessage(chatJid, {
               text: "❌ *Entrée invalide !* Réponds avec un chiffre entre 1 et 9.",
-              mentions: _0x48a754
+              mentions: players
             }, {
-              quoted: _0x180084
+              quoted: ms
             });
           }
         }
-        if (_0x5905e8(_0x53a762)) {
-          await _0x5e3db1.sendMessage(_0x53a25c, {
-            text: "🏆 *Victoire !*\n\n🎉 @" + _0x48a754[_0xdcef73].split("@")[0] + " a gagné la partie !\n" + _0x5f51ba(true),
-            mentions: _0x48a754
+        if (checkWin(currentSymbol)) {
+          await sock.sendMessage(chatJid, {
+            text: "🏆 *Victoire !*\n\n🎉 @" + players[currentPlayerIndex].split("@")[0] + " a gagné la partie !\n" + renderBoard(true),
+            mentions: players
           }, {
-            quoted: _0x180084
+            quoted: ms
           });
-          delete activeGames[_0x11b4c0];
-          delete activeGames[_0x38c220];
+          delete activeGames[auteur_Message];
+          delete activeGames[opponentJid];
           return;
         }
-        _0xdcef73 = 1 - _0xdcef73;
-        activeGames[_0x11b4c0].currentPlayer = _0xdcef73;
-        activeGames[_0x38c220].currentPlayer = _0xdcef73;
+        currentPlayerIndex = 1 - currentPlayerIndex;
+        activeGames[auteur_Message].currentPlayer = currentPlayerIndex;
+        activeGames[opponentJid].currentPlayer = currentPlayerIndex;
       }
-      await _0x5e3db1.sendMessage(_0x53a25c, {
-        text: "🤝 *Match Nul !*\n\nAucun gagnant cette fois-ci !\n" + _0x5f51ba(true),
-        mentions: _0x48a754
+      await sock.sendMessage(chatJid, {
+        text: "🤝 *Match Nul !*\n\nAucun gagnant cette fois-ci !\n" + renderBoard(true),
+        mentions: players
       }, {
-        quoted: _0x180084
+        quoted: ms
       });
-      delete activeGames[_0x11b4c0];
-      delete activeGames[_0x38c220];
+      delete activeGames[auteur_Message];
+      delete activeGames[opponentJid];
     } else {
-      return _0x5e3db1.sendMessage(_0x53a25c, {
+      return sock.sendMessage(chatJid, {
         text: "❌ Invitation refusée par le joueur."
       }, {
-        quoted: _0x180084
+        quoted: ms
       });
     }
-  } catch (_0x16a976) {
-    if (_0x16a976.message === "Timeout") {
-      await _0x5e3db1.sendMessage(_0x53a25c, {
-        text: "⏱️ @" + _0x5d3619 + " a mis trop de temps. Partie annulée.",
-        mentions: [_0x11b4c0, _0x38c220]
+  } catch (err) {
+    if (err.message === "Timeout") {
+      await sock.sendMessage(chatJid, {
+        text: "⏱️ @" + opponentTag + " a mis trop de temps. Partie annulée.",
+        mentions: [auteur_Message, opponentJid]
       }, {
-        quoted: _0x180084
+        quoted: ms
       });
     } else {
-      console.error(_0x16a976);
+      console.error(err);
     }
-    delete activeGames[_0x11b4c0];
-    delete activeGames[_0x38c220];
+    delete activeGames[auteur_Message];
+    delete activeGames[opponentJid];
   }
 });
+
 registerCommand({
   nom_cmd: "anime-quizz",
   classe: "Jeux",
   react: "📺",
   desc: "Lance un quiz anime.",
   alias: ["a-quizz"]
-}, async (_0x592fc9, _0x5812a6, {
-  repondre: _0x575a94,
-  auteur_Message: _0x559579,
-  verif_Groupe: _0x5a3d0e,
-  isSudo: _0x37fdc4,
-  getJid: _0x55a58b
-}) => {
-  if (!_0x5a3d0e) {
-    return _0x575a94("❌ Cette commande fonctionne uniquement dans les groupes.");
+}, async (chatJid, sock, ctx) => {
+  const {
+    repondre,
+    auteur_Message,
+    verif_Groupe,
+    isSudo,
+    getJid
+  } = ctx;
+  if (!verif_Groupe) {
+    return repondre("❌ Cette commande fonctionne uniquement dans les groupes.");
   }
-  const _0x322507 = _0x559579 || _0x37fdc4;
-  const _0xccc26f = "🎯 *Anime Quiz*\n\nChoisis le nombre de questions :\n1️⃣ 10 questions\n2️⃣ 20 questions\n3️⃣ 30 questions\n\n✋ Envoie *stop* à tout moment pour annuler (créateur uniquement).";
-  await _0x5812a6.sendMessage(_0x592fc9, {
-    text: _0xccc26f
+  const value = auteur_Message || isSudo;
+  const url = "🎯 *Anime Quiz*\n\nChoisis le nombre de questions :\n1️⃣ 10 questions\n2️⃣ 20 questions\n3️⃣ 30 questions\n\n✋ Envoie *stop* à tout moment pour annuler (créateur uniquement).";
+  await sock.sendMessage(chatJid, {
+    text: url
   });
-  let _0x353dc0 = 10;
+  let currentPlayer = 10;
   try {
-    const _0x500ed4 = await _0x5812a6.recup_msg({
-      ms_org: _0x592fc9,
-      auteur: _0x322507,
+    const replyMsg = await sock.recup_msg({
+      ms_org: chatJid,
+      auteur: value,
       temps: 30000
     });
-    const _0x4cee2f = (_0x500ed4?.message?.conversation || _0x500ed4?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
-    if (_0x4cee2f === "stop") {
-      return _0x575a94("🛑 Quiz annulé.");
+    const value2 = (replyMsg?.message?.conversation || replyMsg?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
+    if (value2 === "stop") {
+      return repondre("🛑 Quiz annulé.");
     }
-    if (_0x4cee2f === "1") {
-      _0x353dc0 = 10;
-    } else if (_0x4cee2f === "2") {
-      _0x353dc0 = 20;
-    } else if (_0x4cee2f === "3") {
-      _0x353dc0 = 30;
+    if (value2 === "1") {
+      currentPlayer = 10;
+    } else if (value2 === "2") {
+      currentPlayer = 20;
+    } else if (value2 === "3") {
+      currentPlayer = 30;
     } else {
-      return _0x575a94("❗ Choix invalide. Réponds par 1, 2 ou 3.");
+      return repondre("❗ Choix invalide. Réponds par 1, 2 ou 3.");
     }
   } catch {
-    return _0x575a94("⏱️ Temps écoulé. Relance la commande pour recommencer.");
+    return repondre("⏱️ Temps écoulé. Relance la commande pour recommencer.");
   }
-  let _0x3ff363;
+  let item;
   try {
-    const _0x424279 = fs.readFileSync("./lib/aquizz.json", "utf8");
-    _0x3ff363 = JSON.parse(_0x424279).sort(() => 0.5 - Math.random()).slice(0, _0x353dc0);
+    const fileData = fs.readFileSync("./lib/aquizz.json", "utf8");
+    item = JSON.parse(fileData).sort(() => 0.5 - Math.random()).slice(0, currentPlayer);
   } catch {
-    return _0x575a94("❌ Impossible de récupérer les questions.");
+    return repondre("❌ Impossible de récupérer les questions.");
   }
-  const _0x58305b = {
+  const options = {
     "1": "a",
     "2": "b",
     "3": "c",
     "4": "d"
   };
-  const _0x5ba8de = {};
-  for (let _0x502fad = 0; _0x502fad < _0x353dc0; _0x502fad++) {
+  const options2 = {};
+  for (let currentPlayer2 = 0; currentPlayer2 < currentPlayer; currentPlayer2++) {
     const {
-      question: _0x4fce8b,
-      options: _0x2c5276,
-      answer: _0x4b19c2
-    } = _0x3ff363[_0x502fad];
-    const _0x1190ea = _0x4b19c2.toLowerCase();
-    const _0x47f60a = _0x2c5276[_0x1190ea];
-    const _0x5f3609 = Object.values(_0x2c5276).map((_0x51cc30, _0x5a4ee4) => _0x5a4ee4 + 1 + ". " + _0x51cc30).join("\n");
-    const _0x52d207 = "📺 *Question " + (_0x502fad + 1) + "/" + _0x353dc0 + "*\n\n" + (_0x4fce8b + "\n\n") + (_0x5f3609 + "\n\n") + "⏳ *15 secondes* — Réponds avec 1, 2, 3 ou 4\n🛑 Le créateur peut envoyer *stop* pour annuler.";
-    await _0x5812a6.sendMessage(_0x592fc9, {
-      text: _0x52d207
+      question: tmp,
+      options: tmp2,
+      answer: tmp3
+    } = item[currentPlayer2];
+    const value3 = tmp3.toLowerCase();
+    const value4 = tmp2[value3];
+    const text = Object.values(tmp2).map((tmp4, tmp5) => tmp5 + 1 + ". " + tmp4).join("\n");
+    const url2 = "📺 *Question " + (currentPlayer2 + 1) + "/" + currentPlayer + "*\n\n" + (tmp + "\n\n") + (text + "\n\n") + "⏳ *15 secondes* — Réponds avec 1, 2, 3 ou 4\n🛑 Le créateur peut envoyer *stop* pour annuler.";
+    await sock.sendMessage(chatJid, {
+      text: url2
     });
-    const _0x39740a = Date.now();
-    let _0x3f482e = false;
-    while (Date.now() - _0x39740a < 15000 && !_0x3f482e) {
+    const timestamp = Date.now();
+    let false2 = false;
+    while (Date.now() - timestamp < 15000 && !false2) {
       try {
-        const _0x246107 = await _0x5812a6.recup_msg({
-          ms_org: _0x592fc9,
-          temps: 15000 - (Date.now() - _0x39740a)
+        const timestamp2 = await sock.recup_msg({
+          ms_org: chatJid,
+          temps: 15000 - (Date.now() - timestamp)
         });
-        const _0x500d20 = (_0x246107?.message?.conversation || _0x246107?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
-        const _0xb70a70 = _0x246107.key.participant || _0x246107.key.remoteJid;
-        const _0x481dc6 = await _0x55a58b(_0xb70a70, _0x592fc9, _0x5812a6);
-        if (_0x500d20 === "stop" && _0x481dc6 === _0x322507) {
-          return _0x5812a6.sendMessage(_0x592fc9, {
-            text: "🛑 Quiz annulé par le créateur @" + _0x481dc6.split("@")[0],
-            mentions: [_0x481dc6]
+        const value5 = (timestamp2?.message?.conversation || timestamp2?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
+        const value6 = timestamp2.key.participant || timestamp2.key.remoteJid;
+        const value7 = await getJid(value6, chatJid, sock);
+        if (value5 === "stop" && value7 === value) {
+          return sock.sendMessage(chatJid, {
+            text: "🛑 Quiz annulé par le créateur @" + value7.split("@")[0],
+            mentions: [value7]
           });
         }
-        if (!["1", "2", "3", "4"].includes(_0x500d20)) {
+        if (!["1", "2", "3", "4"].includes(value5)) {
           continue;
         }
-        const _0x5226d6 = _0x58305b[_0x500d20];
-        if (_0x5226d6 === _0x1190ea) {
-          _0x5ba8de[_0x481dc6] = (_0x5ba8de[_0x481dc6] || 0) + 1;
-          await _0x5812a6.sendMessage(_0x592fc9, {
-            text: "✅ Bonne réponse @" + _0x481dc6.split("@")[0] + " ! C'était *" + _0x47f60a + "*",
-            quoted: _0x246107,
-            mentions: [_0x481dc6]
+        const value8 = options[value5];
+        if (value8 === value3) {
+          options2[value7] = (options2[value7] || 0) + 1;
+          await sock.sendMessage(chatJid, {
+            text: "✅ Bonne réponse @" + value7.split("@")[0] + " ! C'était *" + value4 + "*",
+            quoted: timestamp2,
+            mentions: [value7]
           });
-          _0x3f482e = true;
+          false2 = true;
         }
       } catch {
         break;
       }
     }
-    if (!_0x3f482e) {
-      await _0x5812a6.sendMessage(_0x592fc9, {
-        text: "⌛ Temps écoulé ! La bonne réponse était *" + _0x47f60a + "*"
+    if (!false2) {
+      await sock.sendMessage(chatJid, {
+        text: "⌛ Temps écoulé ! La bonne réponse était *" + value4 + "*"
       });
     }
     await delay(1000);
   }
-  if (!Object.keys(_0x5ba8de).length) {
-    return _0x5812a6.sendMessage(_0x592fc9, {
+  if (!Object.keys(options2).length) {
+    return sock.sendMessage(chatJid, {
       text: "😢 Personne n'a marqué de point. Fin du quiz."
     });
   }
-  const _0x419f35 = Object.entries(_0x5ba8de).sort(([, _0x212fad], [, _0x4dc764]) => _0x4dc764 - _0x212fad).map(([_0x35c2ff, _0xcb4fc8], _0x26dd15) => _0x26dd15 + 1 + ". @" + _0x35c2ff.split("@")[0] + " — *" + _0xcb4fc8 + "* point" + (_0xcb4fc8 > 1 ? "s" : "")).join("\n");
-  const _0x2b8269 = "🏁 *Fin du Quiz Anime !*\n\n📊 *Classement final :*\n\n" + _0x419f35;
-  await _0x5812a6.sendMessage(_0x592fc9, {
-    text: _0x2b8269,
-    mentions: Object.keys(_0x5ba8de)
+  const text2 = Object.entries(options2).sort(([, tmp6], [, tmp7]) => tmp7 - tmp6).map(([tmp8, tmp9], tmp10) => tmp10 + 1 + ". @" + tmp8.split("@")[0] + " — *" + tmp9 + "* point" + (tmp9 > 1 ? "s" : "")).join("\n");
+  const url3 = "🏁 *Fin du Quiz Anime !*\n\n📊 *Classement final :*\n\n" + text2;
+  await sock.sendMessage(chatJid, {
+    text: url3,
+    mentions: Object.keys(options2)
   });
 });
 registerCommand({
@@ -313,250 +315,251 @@ registerCommand({
   classe: "Jeux",
   react: "🪹",
   desc: "Jouez à plusieurs au jeu du Mot Mélangé"
-}, async (_0x3a939f, _0x42f13f, {
-  repondre: _0x56ef2a,
-  auteur_Message: _0x9a4334,
-  isSudo: _0x20727d,
-  getJid: _0x14ea36
-}) => {
-  const _0x487722 = new Map();
-  const _0x3472ad = Date.now();
-  let _0x5c0b39 = [];
-  const _0x5b2c2b = new Set();
+}, async (chatJid, sock, ctx) => {
+  const {
+    repondre,
+    auteur_Message,
+    isSudo,
+    getJid
+  } = ctx;
+  const value = new Map();
+  const timestamp = Date.now();
+  let list = [];
+  const value2 = new Set();
   try {
-    const _0x591154 = fs.readFileSync("./lib/mots.json", "utf8");
-    _0x5c0b39 = JSON.parse(_0x591154);
-    _0x5c0b39 = _0x5c0b39.sort(() => Math.random() - 0.5);
-  } catch (_0x265bdc) {
-    return _0x56ef2a("❌ Impossible de récupérer les mots.");
+    const fileData = fs.readFileSync("./lib/mots.json", "utf8");
+    list = JSON.parse(fileData);
+    list = list.sort(() => Math.random() - 0.5);
+  } catch (err) {
+    return repondre("❌ Impossible de récupérer les mots.");
   }
-  function _0x3cf51e(_0x142c48) {
-    return _0x142c48.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "").trim();
+  function tmp(tmp2) {
+    return tmp2.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]/g, "").trim();
   }
-  const _0x441107 = _0x2b8891 => {
-    let _0x233683;
-    let _0x3f2fbf = 0;
-    const _0x504d3e = _0x2b8891.toLowerCase();
+  const value3 = tmp3 => {
+    let item;
+    let currentPlayer = 0;
+    const value4 = tmp3.toLowerCase();
     do {
-      const _0x2ba2d6 = _0x2b8891.split("");
-      for (let _0x56629b = _0x2ba2d6.length - 1; _0x56629b > 0; _0x56629b--) {
-        const _0x495381 = Math.floor(Math.random() * (_0x56629b + 1));
-        [_0x2ba2d6[_0x56629b], _0x2ba2d6[_0x495381]] = [_0x2ba2d6[_0x495381], _0x2ba2d6[_0x56629b]];
+      const value5 = tmp3.split("");
+      for (let value6 = value5.length - 1; value6 > 0; value6--) {
+        const randomValue = Math.floor(Math.random() * (value6 + 1));
+        [value5[value6], value5[randomValue]] = [value5[randomValue], value5[value6]];
       }
-      _0x233683 = _0x2ba2d6.join("");
-      _0x3f2fbf++;
-    } while (_0x3f2fbf < 20 && (_0x233683.toLowerCase() === _0x504d3e || _0x233683 === _0x2b8891.split("").reverse().join("") || _0x233683.toLowerCase() === _0x2b8891.split("").reverse().join("").toLowerCase()));
-    return _0x233683;
+      item = value5.join("");
+      currentPlayer++;
+    } while (currentPlayer < 20 && (item.toLowerCase() === value4 || item === tmp3.split("").reverse().join("") || item.toLowerCase() === tmp3.split("").reverse().join("").toLowerCase()));
+    return item;
   };
-  const _0x776ad1 = _0x2364b4 => {
-    const _0x4b7e1d = _0x2364b4.filter(_0x5c655d => !_0x5b2c2b.has(_0x3cf51e(_0x5c655d)));
-    if (_0x4b7e1d.length === 0) {
-      _0x5b2c2b.clear();
-      return _0x2364b4[Math.floor(Math.random() * _0x2364b4.length)];
+  const value7 = tmp4 => {
+    const tmp5 = tmp4.filter(tmp6 => !value2.has(tmp(tmp6)));
+    if (tmp5.length === 0) {
+      value2.clear();
+      return tmp4[Math.floor(Math.random() * tmp4.length)];
     }
-    const _0x5a68e1 = _0x4b7e1d[Math.floor(Math.random() * _0x4b7e1d.length)];
-    _0x5b2c2b.add(_0x3cf51e(_0x5a68e1));
-    return _0x5a68e1;
+    const randomValue2 = tmp5[Math.floor(Math.random() * tmp5.length)];
+    value2.add(tmp(randomValue2));
+    return randomValue2;
   };
-  _0x487722.set(_0x9a4334, {
-    id: _0x9a4334,
+  value.set(auteur_Message, {
+    id: auteur_Message,
     score: 0
   });
-  const _0x28cb82 = _0x9a4334 || _0x20727d;
-  await _0x42f13f.sendMessage(_0x3a939f, {
+  const value8 = auteur_Message || isSudo;
+  await sock.sendMessage(chatJid, {
     text: "🎮 *Jeu du Mot Mélangé - MULTIJOUEURS* 🎮\n\nTapez 'join' pour participer !\n🆕 Tapez 'start' pour commencer immédiatement (créateur)\n❌ Tapez 'stop' pour annuler (créateur)\n⏳ Temps max d'inscription : 60s\n🎯 Dernier survivant gagne !"
   });
-  const _0x536ecd = [45000, 30000, 15000];
-  const _0x5bb79b = new Set();
-  let _0x3564cc = false;
-  let _0x25a184 = false;
-  const _0x54d407 = setInterval(async () => {
-    const _0x56fb54 = 60000 - (Date.now() - _0x3472ad);
-    if (_0x56fb54 <= 0 || _0x3564cc || _0x25a184) {
-      return clearInterval(_0x54d407);
+  const list2 = [45000, 30000, 15000];
+  const value9 = new Set();
+  let false2 = false;
+  let false3 = false;
+  const timestamp2 = setInterval(async () => {
+    const tmp7 = 60000 - (Date.now() - timestamp);
+    if (tmp7 <= 0 || false2 || false3) {
+      return clearInterval(timestamp2);
     }
-    const _0xde699b = Math.floor(_0x56fb54 / 1000);
-    for (let _0x40e97f of _0x536ecd) {
-      if (_0xde699b === _0x40e97f / 1000 && !_0x5bb79b.has(_0x40e97f)) {
-        _0x5bb79b.add(_0x40e97f);
-        await _0x42f13f.sendMessage(_0x3a939f, {
-          text: "⏳ Temps restant : " + _0x40e97f / 1000 + "s ! Tapez *join* pour participer ou *start* pour commencer."
+    const value10 = Math.floor(tmp7 / 1000);
+    for (let tmp8 of list2) {
+      if (value10 === tmp8 / 1000 && !value9.has(tmp8)) {
+        value9.add(tmp8);
+        await sock.sendMessage(chatJid, {
+          text: "⏳ Temps restant : " + tmp8 / 1000 + "s ! Tapez *join* pour participer ou *start* pour commencer."
         });
       }
     }
   }, 1000);
-  while (Date.now() - _0x3472ad < 60000 && !_0x3564cc && !_0x25a184) {
+  while (Date.now() - timestamp < 60000 && !false2 && !false3) {
     try {
-      const _0x4af9ba = await _0x42f13f.recup_msg({
-        ms_org: _0x3a939f,
-        temps: 60000 - (Date.now() - _0x3472ad)
+      const timestamp3 = await sock.recup_msg({
+        ms_org: chatJid,
+        temps: 60000 - (Date.now() - timestamp)
       });
-      const _0x144cc4 = (_0x4af9ba?.message?.conversation || _0x4af9ba?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
-      const _0x2bff40 = _0x4af9ba?.key?.participant || _0x4af9ba?.key?.remoteJid || _0x4af9ba?.message?.senderKey;
-      const _0x1ba501 = await _0x14ea36(_0x2bff40, _0x3a939f, _0x42f13f);
-      if (_0x144cc4 === "join" && _0x1ba501 && !_0x487722.has(_0x1ba501)) {
-        _0x487722.set(_0x1ba501, {
-          id: _0x1ba501,
+      const value11 = (timestamp3?.message?.conversation || timestamp3?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
+      const value12 = timestamp3?.key?.participant || timestamp3?.key?.remoteJid || timestamp3?.message?.senderKey;
+      const value13 = await getJid(value12, chatJid, sock);
+      if (value11 === "join" && value13 && !value.has(value13)) {
+        value.set(value13, {
+          id: value13,
           score: 0
         });
-        await _0x42f13f.sendMessage(_0x3a939f, {
-          text: "✅ @" + _0x1ba501.split("@")[0] + " a rejoint la partie ! (" + _0x487722.size + " joueur" + (_0x487722.size > 1 ? "s" : "") + ")",
-          mentions: [_0x1ba501]
+        await sock.sendMessage(chatJid, {
+          text: "✅ @" + value13.split("@")[0] + " a rejoint la partie ! (" + value.size + " joueur" + (value.size > 1 ? "s" : "") + ")",
+          mentions: [value13]
         });
-      } else if (_0x144cc4 === "start" && _0x1ba501 === _0x28cb82) {
-        if (_0x487722.size < 2) {
-          await _0x42f13f.sendMessage(_0x3a939f, {
-            text: "❌ Il faut au moins 2 joueurs pour démarrer. (Actuellement : " + _0x487722.size + ")",
-            mentions: [_0x1ba501]
+      } else if (value11 === "start" && value13 === value8) {
+        if (value.size < 2) {
+          await sock.sendMessage(chatJid, {
+            text: "❌ Il faut au moins 2 joueurs pour démarrer. (Actuellement : " + value.size + ")",
+            mentions: [value13]
           });
         } else {
-          _0x3564cc = true;
-          clearInterval(_0x54d407);
+          false2 = true;
+          clearInterval(timestamp2);
           break;
         }
-      } else if (_0x144cc4 === "stop" && _0x1ba501 === _0x28cb82) {
-        _0x25a184 = true;
-        clearInterval(_0x54d407);
-        await _0x42f13f.sendMessage(_0x3a939f, {
-          text: "🛑 Partie annulée par @" + _0x1ba501.split("@")[0],
-          mentions: [_0x1ba501]
+      } else if (value11 === "stop" && value13 === value8) {
+        false3 = true;
+        clearInterval(timestamp2);
+        await sock.sendMessage(chatJid, {
+          text: "🛑 Partie annulée par @" + value13.split("@")[0],
+          mentions: [value13]
         });
         return;
       }
     } catch {}
   }
-  if (_0x25a184) {
+  if (false3) {
     return;
   }
-  if (!_0x3564cc) {
-    if (_0x487722.size < 2) {
-      await _0x56ef2a("❌ Pas assez de joueurs (minimum 2). Partie annulée.");
+  if (!false2) {
+    if (value.size < 2) {
+      await repondre("❌ Pas assez de joueurs (minimum 2). Partie annulée.");
       return;
     }
-    _0x3564cc = true;
-    clearInterval(_0x54d407);
+    false2 = true;
+    clearInterval(timestamp2);
   }
-  await _0x42f13f.sendMessage(_0x3a939f, {
-    text: "🚀 *Début de la Partie*\n" + ("👥 Joueurs (" + _0x487722.size + ") : " + [..._0x487722.values()].map(_0x3dc304 => "@" + _0x3dc304.id.split("@")[0]).join(", ") + "\n") + "⏱️ 20 secondes par mot\nBonne chance à tous 🍀",
-    mentions: [..._0x487722.keys()]
+  await sock.sendMessage(chatJid, {
+    text: "🚀 *Début de la Partie*\n" + ("👥 Joueurs (" + value.size + ") : " + [...value.values()].map(tmp9 => "@" + tmp9.id.split("@")[0]).join(", ") + "\n") + "⏱️ 20 secondes par mot\nBonne chance à tous 🍀",
+    mentions: [...value.keys()]
   });
-  let _0xb0c227 = 1;
-  let _0x1b4c48 = [..._0x487722.values()];
-  const _0x8e668f = _0x17b894 => {
-    if (_0x17b894 === 1) {
-      return _0x5c0b39.filter(_0x24d51c => _0x24d51c.length >= 4 && _0x24d51c.length <= 5);
+  let currentPlayer2 = 1;
+  let list3 = [...value.values()];
+  const value14 = tmp10 => {
+    if (tmp10 === 1) {
+      return list.filter(tmp11 => tmp11.length >= 4 && tmp11.length <= 5);
     }
-    if (_0x17b894 === 2) {
-      return _0x5c0b39.filter(_0x9a5678 => _0x9a5678.length >= 6 && _0x9a5678.length <= 7);
+    if (tmp10 === 2) {
+      return list.filter(tmp12 => tmp12.length >= 6 && tmp12.length <= 7);
     }
-    if (_0x17b894 === 3) {
-      return _0x5c0b39.filter(_0x169982 => _0x169982.length >= 8 && _0x169982.length <= 9);
+    if (tmp10 === 3) {
+      return list.filter(tmp13 => tmp13.length >= 8 && tmp13.length <= 9);
     }
-    return _0x5c0b39.filter(_0x695adb => _0x695adb.length >= 10);
+    return list.filter(tmp14 => tmp14.length >= 10);
   };
-  while (_0x1b4c48.length > 1 && !_0x25a184) {
-    const _0x266111 = [..._0x1b4c48];
-    let _0xcf4475 = 0;
-    await _0x42f13f.sendMessage(_0x3a939f, {
-      text: "📢 *Tour " + _0xb0c227 + "* - " + _0x1b4c48.length + " joueur" + (_0x1b4c48.length > 1 ? "s" : "") + " en lice !"
+  while (list3.length > 1 && !false3) {
+    const list4 = [...list3];
+    let currentPlayer3 = 0;
+    await sock.sendMessage(chatJid, {
+      text: "📢 *Tour " + currentPlayer2 + "* - " + list3.length + " joueur" + (list3.length > 1 ? "s" : "") + " en lice !"
     });
-    for (const _0x14e575 of _0x266111) {
-      const _0x4b5d2c = _0x8e668f(_0xb0c227);
-      if (!_0x4b5d2c.length) {
-        await _0x42f13f.sendMessage(_0x3a939f, {
+    for (const tmp15 of list4) {
+      const value15 = value14(currentPlayer2);
+      if (!value15.length) {
+        await sock.sendMessage(chatJid, {
           text: "❌ Plus de mots disponibles pour ce tour. Fin de partie !"
         });
         break;
       }
-      const _0x296e93 = _0x776ad1(_0x4b5d2c);
-      const _0x3b3d11 = _0x441107(_0x296e93);
-      await _0x42f13f.sendMessage(_0x3a939f, {
-        text: "🎯 Tour de @" + _0x14e575.id.split("@")[0] + "\n" + ("🔀 Mot mélangé : *" + _0x3b3d11 + "*\n") + ("💡 Indice : " + _0x296e93.length + " lettres, commence par *" + _0x296e93[0].toUpperCase() + "*\n") + "⏱️ 20 secondes pour répondre !",
-        mentions: [_0x14e575.id]
+      const value16 = value7(value15);
+      const value17 = value3(value16);
+      await sock.sendMessage(chatJid, {
+        text: "🎯 Tour de @" + tmp15.id.split("@")[0] + "\n" + ("🔀 Mot mélangé : *" + value17 + "*\n") + ("💡 Indice : " + value16.length + " lettres, commence par *" + value16[0].toUpperCase() + "*\n") + "⏱️ 20 secondes pour répondre !",
+        mentions: [tmp15.id]
       });
-      let _0x427055 = false;
-      const _0x46803a = Date.now();
+      let false4 = false;
+      const timestamp4 = Date.now();
       try {
-        const _0x39ebf3 = await _0x42f13f.recup_msg({
-          ms_org: _0x3a939f,
-          auteur: _0x14e575.id,
+        const replyMsg = await sock.recup_msg({
+          ms_org: chatJid,
+          auteur: tmp15.id,
           temps: 20000
         });
-        const _0x4f5cf7 = (_0x39ebf3?.message?.conversation || _0x39ebf3?.message?.extendedTextMessage?.text || "").trim();
-        const _0x1e5ab9 = await _0x14ea36(_0x39ebf3?.key?.participant || _0x39ebf3?.key?.remoteJid || _0x39ebf3?.message?.senderKey, _0x3a939f, _0x42f13f);
-        if (_0x1e5ab9 !== _0x14e575.id) {
+        const value18 = (replyMsg?.message?.conversation || replyMsg?.message?.extendedTextMessage?.text || "").trim();
+        const value19 = await getJid(replyMsg?.key?.participant || replyMsg?.key?.remoteJid || replyMsg?.message?.senderKey, chatJid, sock);
+        if (value19 !== tmp15.id) {
           throw new Error("Mauvais joueur");
         }
-        if (_0x4f5cf7.toLowerCase() === "stop" && _0x1e5ab9 === _0x28cb82) {
-          _0x25a184 = true;
-          await _0x42f13f.sendMessage(_0x3a939f, {
-            text: "🛑 Partie arrêtée par @" + _0x28cb82.split("@")[0],
-            mentions: [_0x28cb82]
+        if (value18.toLowerCase() === "stop" && value19 === value8) {
+          false3 = true;
+          await sock.sendMessage(chatJid, {
+            text: "🛑 Partie arrêtée par @" + value8.split("@")[0],
+            mentions: [value8]
           });
           return;
         }
-        if (_0x3cf51e(_0x4f5cf7) === _0x3cf51e(_0x296e93)) {
-          _0x14e575.score++;
-          _0x427055 = true;
-          _0xcf4475++;
-          await _0x42f13f.sendMessage(_0x3a939f, {
-            text: "✅ Excellent @" + _0x14e575.id.split("@")[0] + " ! Le mot était *" + _0x296e93 + "*",
-            mentions: [_0x14e575.id]
+        if (tmp(value18) === tmp(value16)) {
+          tmp15.score++;
+          false4 = true;
+          currentPlayer3++;
+          await sock.sendMessage(chatJid, {
+            text: "✅ Excellent @" + tmp15.id.split("@")[0] + " ! Le mot était *" + value16 + "*",
+            mentions: [tmp15.id]
           });
         } else {
-          await _0x42f13f.sendMessage(_0x3a939f, {
-            text: "❌ Dommage @" + _0x14e575.id.split("@")[0] + " ! Vous avez dit \"" + _0x4f5cf7 + "\" mais c'était *" + _0x296e93 + "*",
-            mentions: [_0x14e575.id]
+          await sock.sendMessage(chatJid, {
+            text: "❌ Dommage @" + tmp15.id.split("@")[0] + " ! Vous avez dit \"" + value18 + "\" mais c'était *" + value16 + "*",
+            mentions: [tmp15.id]
           });
         }
-      } catch (_0x5f8611) {
-        await _0x42f13f.sendMessage(_0x3a939f, {
-          text: "⏰ Temps écoulé ! @" + _0x14e575.id.split("@")[0] + " est éliminé... Le mot était *" + _0x296e93 + "*",
-          mentions: [_0x14e575.id]
+      } catch (tmp16) {
+        await sock.sendMessage(chatJid, {
+          text: "⏰ Temps écoulé ! @" + tmp15.id.split("@")[0] + " est éliminé... Le mot était *" + value16 + "*",
+          mentions: [tmp15.id]
         });
       }
-      if (!_0x427055) {
-        _0x14e575.elimine = true;
+      if (!false4) {
+        tmp15.elimine = true;
       }
-      await new Promise(_0x526747 => setTimeout(_0x526747, 1500));
+      await new Promise(tmp17 => setTimeout(tmp17, 1500));
     }
-    _0x1b4c48 = _0x1b4c48.filter(_0x539504 => !_0x539504.elimine);
-    if (_0x25a184) {
+    list3 = list3.filter(tmp18 => !tmp18.elimine);
+    if (false3) {
       return;
     }
-    if (_0xcf4475 === 0) {
-      await _0x42f13f.sendMessage(_0x3a939f, {
-        text: "💥 Aucun joueur n'a trouvé au tour " + _0xb0c227 + ". Fin de la partie !"
+    if (currentPlayer3 === 0) {
+      await sock.sendMessage(chatJid, {
+        text: "💥 Aucun joueur n'a trouvé au tour " + currentPlayer2 + ". Fin de la partie !"
       });
       break;
     }
-    if (_0x1b4c48.length > 1) {
-      _0xb0c227++;
-      await _0x42f13f.sendMessage(_0x3a939f, {
-        text: "📊 *Fin du tour " + (_0xb0c227 - 1) + "*\n" + ("✅ Survivants : " + _0x1b4c48.map(_0x3efe04 => "@" + _0x3efe04.id.split("@")[0]).join(", ") + "\n") + ("⬆️ Tour " + _0xb0c227 + " - Difficulté accrue !"),
-        mentions: _0x1b4c48.map(_0x33e06a => _0x33e06a.id)
+    if (list3.length > 1) {
+      currentPlayer2++;
+      await sock.sendMessage(chatJid, {
+        text: "📊 *Fin du tour " + (currentPlayer2 - 1) + "*\n" + ("✅ Survivants : " + list3.map(tmp19 => "@" + tmp19.id.split("@")[0]).join(", ") + "\n") + ("⬆️ Tour " + currentPlayer2 + " - Difficulté accrue !"),
+        mentions: list3.map(tmp20 => tmp20.id)
       });
-      await new Promise(_0x46fdf8 => setTimeout(_0x46fdf8, 3000));
+      await new Promise(tmp21 => setTimeout(tmp21, 3000));
     }
   }
-  let _0x566514 = "";
-  if (_0x1b4c48.length === 1) {
-    _0x566514 = "🏆 *VICTOIRE !*\n\n" + ("👑 Vainqueur : @" + _0x1b4c48[0].id.split("@")[0] + "\n") + ("🎯 Score final : " + _0x1b4c48[0].score + " point(s)\n") + ("📈 Tours complétés : " + _0xb0c227 + "\n\n");
-  } else if (_0x1b4c48.length === 0) {
-    _0x566514 = "💥 *Fin de Partie - Aucun survivant !*\n\n";
+  let url = "";
+  if (list3.length === 1) {
+    url = "🏆 *VICTOIRE !*\n\n" + ("👑 Vainqueur : @" + list3[0].id.split("@")[0] + "\n") + ("🎯 Score final : " + list3[0].score + " point(s)\n") + ("📈 Tours complétés : " + currentPlayer2 + "\n\n");
+  } else if (list3.length === 0) {
+    url = "💥 *Fin de Partie - Aucun survivant !*\n\n";
   } else {
-    _0x566514 = "🏁 *Fin de Partie*\n\n";
+    url = "🏁 *Fin de Partie*\n\n";
   }
-  _0x566514 += "📊 *Classement Final :*\n";
-  const _0x1d8049 = [..._0x487722.values()].sort((_0x4d2021, _0x241b01) => _0x241b01.score - _0x4d2021.score);
-  _0x1d8049.forEach((_0x548832, _0x21bfb5) => {
-    const _0xe58b47 = _0x21bfb5 === 0 ? "🥇" : _0x21bfb5 === 1 ? "🥈" : _0x21bfb5 === 2 ? "🥉" : "  ";
-    _0x566514 += _0xe58b47 + " @" + _0x548832.id.split("@")[0] + " : " + _0x548832.score + " point(s)\n";
+  url += "📊 *Classement Final :*\n";
+  const list5 = [...value.values()].sort((tmp22, tmp23) => tmp23.score - tmp22.score);
+  list5.forEach((tmp24, tmp25) => {
+    const value20 = tmp25 === 0 ? "🥇" : tmp25 === 1 ? "🥈" : tmp25 === 2 ? "🥉" : "  ";
+    url += value20 + " @" + tmp24.id.split("@")[0] + " : " + tmp24.score + " point(s)\n";
   });
-  _0x566514 += "\n🎮 Merci d'avoir joué ! Tapez *dmots* pour rejouer.";
-  await _0x42f13f.sendMessage(_0x3a939f, {
-    text: _0x566514,
-    mentions: [..._0x487722.keys()]
+  url += "\n🎮 Merci d'avoir joué ! Tapez *dmots* pour rejouer.";
+  await sock.sendMessage(chatJid, {
+    text: url,
+    mentions: [...value.keys()]
   });
 });
 registerCommand({
@@ -564,345 +567,346 @@ registerCommand({
   classe: "Jeux",
   react: "🎯",
   desc: "Word Chain Game - Survivez en trouvant des mots !"
-}, async (_0x605ab0, _0x2b1ae2, {
-  repondre: _0x77221c,
-  auteur_Message: _0x217e93,
-  isSudo: _0x5d1b86,
-  getJid: _0x5072d5
-}) => {
-  const _0x5e3795 = new Map();
-  const _0x3dcd9b = Date.now();
-  const _0x59a5f7 = new Set();
-  function _0x3461f7(_0x41257c) {
-    return _0x41257c.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "").trim();
+}, async (chatJid, sock, ctx) => {
+  const {
+    repondre,
+    auteur_Message,
+    isSudo,
+    getJid
+  } = ctx;
+  const value = new Map();
+  const timestamp = Date.now();
+  const value2 = new Set();
+  function tmp(tmp2) {
+    return tmp2.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z]/g, "").trim();
   }
-  async function _0x21b5df(_0x14e369) {
+  async function tmp3(tmp4) {
     try {
-      const _0x42d00e = _0x3461f7(_0x14e369);
-      const _0x32350d = "https://fr.wiktionary.org/wiki/" + encodeURIComponent(_0x42d00e);
-      const _0x10d6be = await fetch(_0x32350d);
-      if (!_0x10d6be.ok) {
+      const value3 = tmp(tmp4);
+      const apiUrl = "https://fr.wiktionary.org/wiki/" + encodeURIComponent(value3);
+      const value4 = await fetch(apiUrl);
+      if (!value4.ok) {
         return false;
       }
-      const _0x3c9375 = await _0x10d6be.text();
-      if (_0x3c9375.includes("Pas de résultat pour")) {
+      const value5 = await value4.text();
+      if (value5.includes("Pas de résultat pour")) {
         return false;
       }
       return true;
-    } catch (_0xfeeb7a) {
-      console.error(_0xfeeb7a);
+    } catch (err) {
+      console.error(err);
       return false;
     }
   }
-  _0x5e3795.set(_0x217e93, {
-    id: _0x217e93,
+  value.set(auteur_Message, {
+    id: auteur_Message,
     score: 0
   });
-  const _0x1358e3 = _0x217e93 || _0x5d1b86;
-  await _0x2b1ae2.sendMessage(_0x605ab0, {
+  const value6 = auteur_Message || isSudo;
+  await sock.sendMessage(chatJid, {
     text: "╔════════════════╗\n  🎮 WORD CHAIN GAME\n╚════════════════╝\n\n📝 Trouvez des mots valides\n🎯 Dernier survivant gagne\n💬 'join' pour rejoindre\n🚀 'start' pour lancer\n🛑 'stop' pour annuler\n\n⏳ Inscription : 60s"
   });
-  const _0xcbef9d = [45000, 30000, 15000];
-  const _0x1b0850 = new Set();
-  let _0x51f2ba = false;
-  let _0x5b4e2f = false;
-  const _0x1c662c = setInterval(async () => {
-    const _0x3f1d4a = 60000 - (Date.now() - _0x3dcd9b);
-    if (_0x3f1d4a <= 0 || _0x51f2ba || _0x5b4e2f) {
-      return clearInterval(_0x1c662c);
+  const list = [45000, 30000, 15000];
+  const value7 = new Set();
+  let false2 = false;
+  let false3 = false;
+  const timestamp2 = setInterval(async () => {
+    const tmp5 = 60000 - (Date.now() - timestamp);
+    if (tmp5 <= 0 || false2 || false3) {
+      return clearInterval(timestamp2);
     }
-    const _0xc612b4 = Math.floor(_0x3f1d4a / 1000);
-    for (let _0x3c95cc of _0xcbef9d) {
-      if (_0xc612b4 === _0x3c95cc / 1000 && !_0x1b0850.has(_0x3c95cc)) {
-        _0x1b0850.add(_0x3c95cc);
-        await _0x2b1ae2.sendMessage(_0x605ab0, {
-          text: "⏰ Plus que " + _0x3c95cc / 1000 + "s pour rejoindre !"
+    const value8 = Math.floor(tmp5 / 1000);
+    for (let tmp6 of list) {
+      if (value8 === tmp6 / 1000 && !value7.has(tmp6)) {
+        value7.add(tmp6);
+        await sock.sendMessage(chatJid, {
+          text: "⏰ Plus que " + tmp6 / 1000 + "s pour rejoindre !"
         });
       }
     }
   }, 1000);
-  while (Date.now() - _0x3dcd9b < 60000 && !_0x51f2ba && !_0x5b4e2f) {
+  while (Date.now() - timestamp < 60000 && !false2 && !false3) {
     try {
-      const _0x2fad4c = await _0x2b1ae2.recup_msg({
-        ms_org: _0x605ab0,
-        temps: 60000 - (Date.now() - _0x3dcd9b)
+      const timestamp3 = await sock.recup_msg({
+        ms_org: chatJid,
+        temps: 60000 - (Date.now() - timestamp)
       });
-      const _0x55e274 = (_0x2fad4c?.message?.conversation || _0x2fad4c?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
-      const _0x5e7521 = _0x2fad4c?.key?.participant || _0x2fad4c?.key?.remoteJid || _0x2fad4c?.message?.senderKey;
-      const _0x123fe4 = await _0x5072d5(_0x5e7521, _0x605ab0, _0x2b1ae2);
-      if (_0x55e274 === "join" && _0x123fe4 && !_0x5e3795.has(_0x123fe4)) {
-        _0x5e3795.set(_0x123fe4, {
-          id: _0x123fe4,
+      const value9 = (timestamp3?.message?.conversation || timestamp3?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
+      const value10 = timestamp3?.key?.participant || timestamp3?.key?.remoteJid || timestamp3?.message?.senderKey;
+      const value11 = await getJid(value10, chatJid, sock);
+      if (value9 === "join" && value11 && !value.has(value11)) {
+        value.set(value11, {
+          id: value11,
           score: 0
         });
-        await _0x2b1ae2.sendMessage(_0x605ab0, {
-          text: "✅ @" + _0x123fe4.split("@")[0] + " a rejoint la partie !\n👥 Total : " + _0x5e3795.size + " joueur" + (_0x5e3795.size > 1 ? "s" : ""),
-          mentions: [_0x123fe4]
+        await sock.sendMessage(chatJid, {
+          text: "✅ @" + value11.split("@")[0] + " a rejoint la partie !\n👥 Total : " + value.size + " joueur" + (value.size > 1 ? "s" : ""),
+          mentions: [value11]
         });
-      } else if (_0x55e274 === "start" && _0x123fe4 === _0x1358e3) {
-        if (_0x5e3795.size < 2) {
-          await _0x2b1ae2.sendMessage(_0x605ab0, {
-            text: "❌ Minimum 2 joueurs requis\n📊 Actuellement : " + _0x5e3795.size
+      } else if (value9 === "start" && value11 === value6) {
+        if (value.size < 2) {
+          await sock.sendMessage(chatJid, {
+            text: "❌ Minimum 2 joueurs requis\n📊 Actuellement : " + value.size
           });
         } else {
-          _0x51f2ba = true;
-          clearInterval(_0x1c662c);
+          false2 = true;
+          clearInterval(timestamp2);
           break;
         }
-      } else if (_0x55e274 === "stop" && _0x123fe4 === _0x1358e3) {
-        _0x5b4e2f = true;
-        clearInterval(_0x1c662c);
-        await _0x2b1ae2.sendMessage(_0x605ab0, {
-          text: "🛑 Partie annulée par @" + _0x123fe4.split("@")[0],
-          mentions: [_0x123fe4]
+      } else if (value9 === "stop" && value11 === value6) {
+        false3 = true;
+        clearInterval(timestamp2);
+        await sock.sendMessage(chatJid, {
+          text: "🛑 Partie annulée par @" + value11.split("@")[0],
+          mentions: [value11]
         });
         return;
       }
     } catch {}
   }
-  if (_0x5b4e2f) {
+  if (false3) {
     return;
   }
-  if (!_0x51f2ba) {
-    if (_0x5e3795.size < 2) {
-      await _0x77221c("❌ Pas assez de joueurs");
+  if (!false2) {
+    if (value.size < 2) {
+      await repondre("❌ Pas assez de joueurs");
       return;
     }
-    _0x51f2ba = true;
-    clearInterval(_0x1c662c);
+    false2 = true;
+    clearInterval(timestamp2);
   }
-  await _0x2b1ae2.sendMessage(_0x605ab0, {
-    text: "╔═════════════╗\n    🚀 DÉBUT DU JEU\n╚═════════════╝\n\n" + ("👥 Joueurs (" + _0x5e3795.size + ") :\n") + ([..._0x5e3795.values()].map(_0x386099 => "  • @" + _0x386099.id.split("@")[0]).join("\n") + "\n\n") + "🎯 Bonne chance à tous !",
-    mentions: [..._0x5e3795.keys()]
+  await sock.sendMessage(chatJid, {
+    text: "╔═════════════╗\n    🚀 DÉBUT DU JEU\n╚═════════════╝\n\n" + ("👥 Joueurs (" + value.size + ") :\n") + ([...value.values()].map(tmp7 => "  • @" + tmp7.id.split("@")[0]).join("\n") + "\n\n") + "🎯 Bonne chance à tous !",
+    mentions: [...value.keys()]
   });
-  await new Promise(_0xa8ab5c => setTimeout(_0xa8ab5c, 2000));
-  let _0x1350f6 = 1;
-  let _0x54ee1d = [..._0x5e3795.values()];
-  let _0x8d07a1 = false;
-  const _0x9cdd9e = _0x1b8132 => {
-    if (_0x1b8132 === 1) {
+  await new Promise(tmp8 => setTimeout(tmp8, 2000));
+  let currentPlayer = 1;
+  let list2 = [...value.values()];
+  let false4 = false;
+  const value12 = tmp9 => {
+    if (tmp9 === 1) {
       return [3, 4];
     }
-    if (_0x1b8132 === 2) {
+    if (tmp9 === 2) {
       return [4, 5, 6];
     }
-    if (_0x1b8132 === 3) {
+    if (tmp9 === 3) {
       return [5, 6, 7];
     }
-    if (_0x1b8132 === 4) {
+    if (tmp9 === 4) {
       return [6, 7, 8];
     }
-    if (_0x1b8132 === 5) {
+    if (tmp9 === 5) {
       return [7, 8, 9];
     }
-    if (_0x1b8132 === 6) {
+    if (tmp9 === 6) {
       return [8, 9, 10];
     }
-    if (_0x1b8132 === 7) {
+    if (tmp9 === 7) {
       return [9, 10, 11];
     }
-    if (_0x1b8132 === 8) {
+    if (tmp9 === 8) {
       return [10, 11, 12];
     }
-    if (_0x1b8132 === 9) {
+    if (tmp9 === 9) {
       return [11, 12, 13];
     }
-    if (_0x1b8132 === 10) {
+    if (tmp9 === 10) {
       return [12, 13, 14];
     }
-    if (_0x1b8132 === 11) {
+    if (tmp9 === 11) {
       return [13, 14, 15];
     }
-    if (_0x1b8132 === 12) {
+    if (tmp9 === 12) {
       return [14, 15, 16];
     }
-    if (_0x1b8132 === 13) {
+    if (tmp9 === 13) {
       return [15, 16, 17];
     }
-    if (_0x1b8132 === 14) {
+    if (tmp9 === 14) {
       return [16, 17, 18];
     }
-    if (_0x1b8132 === 15) {
+    if (tmp9 === 15) {
       return [18, 19, 20];
     }
-    if (_0x1b8132 === 16) {
+    if (tmp9 === 16) {
       return [20, 21, 22];
     }
-    if (_0x1b8132 === 17) {
+    if (tmp9 === 17) {
       return [22, 23, 24];
     }
     return [25];
   };
-  const _0x3a6b48 = _0x49353d => {
-    if (_0x49353d <= 4) {
+  const value13 = tmp10 => {
+    if (tmp10 <= 4) {
       return 10000;
     }
-    if (_0x49353d <= 6) {
+    if (tmp10 <= 6) {
       return 15000;
     }
-    if (_0x49353d <= 8) {
+    if (tmp10 <= 8) {
       return 18000;
     }
-    if (_0x49353d <= 10) {
+    if (tmp10 <= 10) {
       return 20000;
     }
-    if (_0x49353d <= 14) {
+    if (tmp10 <= 14) {
       return 25000;
     }
     return 30000;
   };
-  while (_0x54ee1d.length > 1 && !_0x5b4e2f && !_0x8d07a1) {
-    const _0x396eb2 = [..._0x54ee1d];
-    let _0x13de4c = 0;
-    const _0x7448bf = _0x3a6b48(_0x1350f6);
-    const _0x58e735 = Math.floor(_0x7448bf / 1000);
-    await _0x2b1ae2.sendMessage(_0x605ab0, {
-      text: "\n━━━━━━━━━━━━━━━\n" + ("   🎯 TOUR " + _0x1350f6 + "\n") + "━━━━━━━━━━━━━━━━\n" + ("👥 " + _0x54ee1d.length + " survivant" + (_0x54ee1d.length > 1 ? "s" : "") + "\n") + ("⏱️ " + _0x58e735 + "s par mot")
+  while (list2.length > 1 && !false3 && !false4) {
+    const list3 = [...list2];
+    let currentPlayer2 = 0;
+    const value14 = value13(currentPlayer);
+    const value15 = Math.floor(value14 / 1000);
+    await sock.sendMessage(chatJid, {
+      text: "\n━━━━━━━━━━━━━━━\n" + ("   🎯 TOUR " + currentPlayer + "\n") + "━━━━━━━━━━━━━━━━\n" + ("👥 " + list2.length + " survivant" + (list2.length > 1 ? "s" : "") + "\n") + ("⏱️ " + value15 + "s par mot")
     });
-    await new Promise(_0x1e3358 => setTimeout(_0x1e3358, 1500));
-    for (const _0x4653b9 of _0x396eb2) {
-      const _0x2e3693 = _0x9cdd9e(_0x1350f6);
-      const _0x500f3c = _0x2e3693[Math.floor(Math.random() * _0x2e3693.length)];
-      await _0x2b1ae2.sendMessage(_0x605ab0, {
-        text: "┌────── TOUR ─────┐\n" + ("│ @" + _0x4653b9.id.split("@")[0] + "\n") + ("│ Longueur : " + _0x500f3c + " lettres\n") + "└───────────────┘\n" + ("⏰ " + _0x58e735 + " secondes !"),
-        mentions: [_0x4653b9.id]
+    await new Promise(tmp11 => setTimeout(tmp11, 1500));
+    for (const tmp12 of list3) {
+      const value16 = value12(currentPlayer);
+      const randomValue = value16[Math.floor(Math.random() * value16.length)];
+      await sock.sendMessage(chatJid, {
+        text: "┌────── TOUR ─────┐\n" + ("│ @" + tmp12.id.split("@")[0] + "\n") + ("│ Longueur : " + randomValue + " lettres\n") + "└───────────────┘\n" + ("⏰ " + value15 + " secondes !"),
+        mentions: [tmp12.id]
       });
-      let _0x30cad2 = false;
-      let _0x6869e1 = 3;
-      while (_0x6869e1 > 0 && !_0x30cad2) {
+      let false5 = false;
+      let currentPlayer3 = 3;
+      while (currentPlayer3 > 0 && !false5) {
         try {
-          const _0x2738f3 = await _0x2b1ae2.recup_msg({
-            ms_org: _0x605ab0,
-            auteur: _0x4653b9.id,
-            temps: _0x7448bf
+          const replyMsg = await sock.recup_msg({
+            ms_org: chatJid,
+            auteur: tmp12.id,
+            temps: value14
           });
-          const _0x1e20f8 = (_0x2738f3?.message?.conversation || _0x2738f3?.message?.extendedTextMessage?.text || "").trim();
-          const _0x24e805 = await _0x5072d5(_0x2738f3?.key?.participant || _0x2738f3?.key?.remoteJid || _0x2738f3?.message?.senderKey, _0x605ab0, _0x2b1ae2);
-          if (_0x24e805 !== _0x4653b9.id) {
+          const value17 = (replyMsg?.message?.conversation || replyMsg?.message?.extendedTextMessage?.text || "").trim();
+          const value18 = await getJid(replyMsg?.key?.participant || replyMsg?.key?.remoteJid || replyMsg?.message?.senderKey, chatJid, sock);
+          if (value18 !== tmp12.id) {
             throw new Error("Mauvais joueur");
           }
-          if (!_0x1e20f8 || _0x1e20f8 === "") {
-            _0x6869e1--;
-            if (_0x6869e1 > 0) {
-              await _0x2b1ae2.sendMessage(_0x605ab0, {
-                text: "⚠️ @" + _0x4653b9.id.split("@")[0] + ", envoyez un MESSAGE TEXTE svp !\n⏰ " + _0x6869e1 + " tentative" + (_0x6869e1 > 1 ? "s" : "") + " restante" + (_0x6869e1 > 1 ? "s" : ""),
-                mentions: [_0x4653b9.id]
+          if (!value17 || value17 === "") {
+            currentPlayer3--;
+            if (currentPlayer3 > 0) {
+              await sock.sendMessage(chatJid, {
+                text: "⚠️ @" + tmp12.id.split("@")[0] + ", envoyez un MESSAGE TEXTE svp !\n⏰ " + currentPlayer3 + " tentative" + (currentPlayer3 > 1 ? "s" : "") + " restante" + (currentPlayer3 > 1 ? "s" : ""),
+                mentions: [tmp12.id]
               });
               continue;
             } else {
-              await _0x2b1ae2.sendMessage(_0x605ab0, {
-                text: "❌ Éliminé : @" + _0x4653b9.id.split("@")[0] + "\nRaison : Aucun message texte envoyé",
-                mentions: [_0x4653b9.id]
+              await sock.sendMessage(chatJid, {
+                text: "❌ Éliminé : @" + tmp12.id.split("@")[0] + "\nRaison : Aucun message texte envoyé",
+                mentions: [tmp12.id]
               });
               break;
             }
           }
-          if (_0x1e20f8.toLowerCase() === "stop" && _0x24e805 === _0x1358e3) {
-            _0x5b4e2f = true;
-            await _0x2b1ae2.sendMessage(_0x605ab0, {
+          if (value17.toLowerCase() === "stop" && value18 === value6) {
+            false3 = true;
+            await sock.sendMessage(chatJid, {
               text: "🛑 Partie interrompue"
             });
             return;
           }
-          const _0x33b6f9 = _0x1e20f8;
-          if (_0x33b6f9.length < _0x500f3c) {
-            await _0x2b1ae2.sendMessage(_0x605ab0, {
-              text: "❌ Éliminé : @" + _0x4653b9.id.split("@")[0] + "\n" + ("Raison : Longueur incorrecte (" + _0x33b6f9.length + " < " + _0x500f3c + ")"),
-              mentions: [_0x4653b9.id]
+          const groupJid = value17;
+          if (groupJid.length < randomValue) {
+            await sock.sendMessage(chatJid, {
+              text: "❌ Éliminé : @" + tmp12.id.split("@")[0] + "\n" + ("Raison : Longueur incorrecte (" + groupJid.length + " < " + randomValue + ")"),
+              mentions: [tmp12.id]
             });
             break;
-          } else if (_0x59a5f7.has(_0x33b6f9.toLowerCase())) {
-            await _0x2b1ae2.sendMessage(_0x605ab0, {
-              text: "❌ Éliminé : @" + _0x4653b9.id.split("@")[0] + "\nRaison : Mot déjà utilisé",
-              mentions: [_0x4653b9.id]
+          } else if (value2.has(groupJid.toLowerCase())) {
+            await sock.sendMessage(chatJid, {
+              text: "❌ Éliminé : @" + tmp12.id.split("@")[0] + "\nRaison : Mot déjà utilisé",
+              mentions: [tmp12.id]
             });
             break;
           } else {
-            const _0x288683 = await _0x21b5df(_0x33b6f9);
-            if (_0x288683) {
-              _0x59a5f7.add(_0x33b6f9.toLowerCase());
-              _0x4653b9.score++;
-              _0x30cad2 = true;
-              _0x13de4c++;
-              if (_0x500f3c === 25) {
-                _0x8d07a1 = true;
-                await _0x2b1ae2.sendMessage(_0x605ab0, {
-                  text: "\n🏆🏆🏆 EXPLOIT ! 🏆🏆🏆\n\n" + ("@" + _0x4653b9.id.split("@")[0] + " a trouvé un mot de 25 lettres !\n") + ("Mot : *" + _0x1e20f8.toUpperCase() + "*\n\n") + "🎉 VICTOIRE ABSOLUE !",
-                  mentions: [_0x4653b9.id]
+            const value19 = await tmp3(groupJid);
+            if (value19) {
+              value2.add(groupJid.toLowerCase());
+              tmp12.score++;
+              false5 = true;
+              currentPlayer2++;
+              if (randomValue === 25) {
+                false4 = true;
+                await sock.sendMessage(chatJid, {
+                  text: "\n🏆🏆🏆 EXPLOIT ! 🏆🏆🏆\n\n" + ("@" + tmp12.id.split("@")[0] + " a trouvé un mot de 25 lettres !\n") + ("Mot : *" + value17.toUpperCase() + "*\n\n") + "🎉 VICTOIRE ABSOLUE !",
+                  mentions: [tmp12.id]
                 });
                 break;
               } else {
-                await _0x2b1ae2.sendMessage(_0x605ab0, {
-                  text: "✅ *" + _0x1e20f8.toUpperCase() + "* validé !"
+                await sock.sendMessage(chatJid, {
+                  text: "✅ *" + value17.toUpperCase() + "* validé !"
                 });
               }
               break;
             } else {
-              await _0x2b1ae2.sendMessage(_0x605ab0, {
-                text: "❌ Éliminé : @" + _0x4653b9.id.split("@")[0] + "\nRaison : Mot inexistant",
-                mentions: [_0x4653b9.id]
+              await sock.sendMessage(chatJid, {
+                text: "❌ Éliminé : @" + tmp12.id.split("@")[0] + "\nRaison : Mot inexistant",
+                mentions: [tmp12.id]
               });
               break;
             }
           }
-        } catch (_0x432c3f) {
-          console.error(_0x432c3f);
-          await _0x2b1ae2.sendMessage(_0x605ab0, {
-            text: "⏰ Temps écoulé : @" + _0x4653b9.id.split("@")[0] + "\nÉliminé !",
-            mentions: [_0x4653b9.id]
+        } catch (tmp13) {
+          console.error(tmp13);
+          await sock.sendMessage(chatJid, {
+            text: "⏰ Temps écoulé : @" + tmp12.id.split("@")[0] + "\nÉliminé !",
+            mentions: [tmp12.id]
           });
           break;
         }
       }
-      if (!_0x30cad2) {
-        _0x4653b9.elimine = true;
+      if (!false5) {
+        tmp12.elimine = true;
       }
-      await new Promise(_0x22b91a => setTimeout(_0x22b91a, 1000));
+      await new Promise(tmp14 => setTimeout(tmp14, 1000));
     }
-    if (_0x8d07a1) {
+    if (false4) {
       break;
     }
-    _0x54ee1d = _0x54ee1d.filter(_0x4c5b84 => !_0x4c5b84.elimine);
-    if (_0x5b4e2f) {
+    list2 = list2.filter(tmp15 => !tmp15.elimine);
+    if (false3) {
       return;
     }
-    if (_0x13de4c === 0) {
-      await _0x2b1ae2.sendMessage(_0x605ab0, {
-        text: "\n💥 Aucun survivant au tour " + _0x1350f6 + "\nFin de partie !"
+    if (currentPlayer2 === 0) {
+      await sock.sendMessage(chatJid, {
+        text: "\n💥 Aucun survivant au tour " + currentPlayer + "\nFin de partie !"
       });
       break;
     }
-    if (_0x54ee1d.length > 1) {
-      _0x1350f6++;
-      await _0x2b1ae2.sendMessage(_0x605ab0, {
-        text: "\n✅ Survivants :\n" + (_0x54ee1d.map(_0x24e7dd => "  • @" + _0x24e7dd.id.split("@")[0]).join("\n") + "\n\n") + ("⏭️ Passage au tour " + _0x1350f6 + "..."),
-        mentions: _0x54ee1d.map(_0x171124 => _0x171124.id)
+    if (list2.length > 1) {
+      currentPlayer++;
+      await sock.sendMessage(chatJid, {
+        text: "\n✅ Survivants :\n" + (list2.map(tmp16 => "  • @" + tmp16.id.split("@")[0]).join("\n") + "\n\n") + ("⏭️ Passage au tour " + currentPlayer + "..."),
+        mentions: list2.map(tmp17 => tmp17.id)
       });
-      await new Promise(_0x4dd8b1 => setTimeout(_0x4dd8b1, 2500));
+      await new Promise(tmp18 => setTimeout(tmp18, 2500));
     }
   }
-  let _0x1170e2 = "";
-  if (_0x8d07a1) {
-    const _0x12fe3a = _0x54ee1d.filter(_0x1129fc => !_0x1129fc.elimine);
-    if (_0x12fe3a.length === 1) {
-      _0x1170e2 = "\n╔══════════════════╗\n   🏆 VICTOIRE TOTALE 🏆\n╚══════════════════╝\n\n" + ("👑 Champion ultime : @" + _0x12fe3a[0].id.split("@")[0] + "\n") + ("🎯 Score : " + _0x12fe3a[0].score + " point" + (_0x12fe3a[0].score > 1 ? "s" : "") + "\n") + ("📈 Tours : " + _0x1350f6 + "\n") + "🏅 Exploit : Mot de 25 lettres !\n\n";
+  let url = "";
+  if (false4) {
+    const value20 = list2.filter(tmp19 => !tmp19.elimine);
+    if (value20.length === 1) {
+      url = "\n╔══════════════════╗\n   🏆 VICTOIRE TOTALE 🏆\n╚══════════════════╝\n\n" + ("👑 Champion ultime : @" + value20[0].id.split("@")[0] + "\n") + ("🎯 Score : " + value20[0].score + " point" + (value20[0].score > 1 ? "s" : "") + "\n") + ("📈 Tours : " + currentPlayer + "\n") + "🏅 Exploit : Mot de 25 lettres !\n\n";
     } else {
-      _0x1170e2 = "\n╔══════════════════╗\n   🏆 VICTOIRE TOTALE 🏆\n╚══════════════════╝\n\n" + ("👑 Champions : " + _0x12fe3a.map(_0x124a84 => "@" + _0x124a84.id.split("@")[0]).join(", ") + "\n") + ("📈 Tours : " + _0x1350f6 + "\n") + "🏅 Exploit : Mots de 25 lettres !\n\n";
+      url = "\n╔══════════════════╗\n   🏆 VICTOIRE TOTALE 🏆\n╚══════════════════╝\n\n" + ("👑 Champions : " + value20.map(tmp20 => "@" + tmp20.id.split("@")[0]).join(", ") + "\n") + ("📈 Tours : " + currentPlayer + "\n") + "🏅 Exploit : Mots de 25 lettres !\n\n";
     }
-  } else if (_0x54ee1d.length === 1) {
-    _0x1170e2 = "\n╔══════════════════╗\n     👑 VICTOIRE ! 👑\n╚══════════════════╝\n\n" + ("🏆 Vainqueur : @" + _0x54ee1d[0].id.split("@")[0] + "\n") + ("🎯 Score : " + _0x54ee1d[0].score + " point" + (_0x54ee1d[0].score > 1 ? "s" : "") + "\n") + ("📈 Tours complétés : " + _0x1350f6 + "\n\n");
+  } else if (list2.length === 1) {
+    url = "\n╔══════════════════╗\n     👑 VICTOIRE ! 👑\n╚══════════════════╝\n\n" + ("🏆 Vainqueur : @" + list2[0].id.split("@")[0] + "\n") + ("🎯 Score : " + list2[0].score + " point" + (list2[0].score > 1 ? "s" : "") + "\n") + ("📈 Tours complétés : " + currentPlayer + "\n\n");
   } else {
-    _0x1170e2 = "\n💥 Fin de partie - Aucun survivant\n\n";
+    url = "\n💥 Fin de partie - Aucun survivant\n\n";
   }
-  const _0x77d48b = [..._0x5e3795.values()].sort((_0x203cf1, _0x5d81d3) => _0x5d81d3.score - _0x203cf1.score);
-  _0x1170e2 += "━━━━━━━━━━━━━━━━━━━\n📊 CLASSEMENT FINAL\n━━━━━━━━━━━━━━━━━━━\n\n";
-  _0x77d48b.forEach((_0x47acab, _0x433c9b) => {
-    const _0x37cd78 = _0x433c9b === 0 ? "🥇" : _0x433c9b === 1 ? "🥈" : _0x433c9b === 2 ? "🥉" : _0x433c9b + 1 + ".";
-    _0x1170e2 += _0x37cd78 + " @" + _0x47acab.id.split("@")[0] + " : " + _0x47acab.score + " point" + (_0x47acab.score > 1 ? "s" : "") + "\n";
+  const list4 = [...value.values()].sort((tmp21, tmp22) => tmp22.score - tmp21.score);
+  url += "━━━━━━━━━━━━━━━━━━━\n📊 CLASSEMENT FINAL\n━━━━━━━━━━━━━━━━━━━\n\n";
+  list4.forEach((tmp23, tmp24) => {
+    const value21 = tmp24 === 0 ? "🥇" : tmp24 === 1 ? "🥈" : tmp24 === 2 ? "🥉" : tmp24 + 1 + ".";
+    url += value21 + " @" + tmp23.id.split("@")[0] + " : " + tmp23.score + " point" + (tmp23.score > 1 ? "s" : "") + "\n";
   });
-  _0x1170e2 += "\n🎮 Tapez 'wcg' pour rejouer !";
-  await _0x2b1ae2.sendMessage(_0x605ab0, {
-    text: _0x1170e2,
-    mentions: [..._0x5e3795.keys()]
+  url += "\n🎮 Tapez 'wcg' pour rejouer !";
+  await sock.sendMessage(chatJid, {
+    text: url,
+    mentions: [...value.keys()]
   });
 });

@@ -58,13 +58,13 @@ const ECONOMIE = sequelize.define("ECONOMIE", {
 (async () => {
   await ECONOMIE.sync();
 })();
-async function ajouterUtilisateur(_0x442cba, _0x13302d = "Utilisateur") {
+async function ajouterUtilisateur(userId, pseudo = "Utilisateur") {
   return await ECONOMIE.findOrCreate({
     where: {
-      id: _0x442cba
+      id: userId
     },
     defaults: {
-      pseudo: _0x13302d,
+      pseudo: pseudo,
       portefeuille: 0,
       banque: 0,
       capacite_banque: 1000,
@@ -72,111 +72,111 @@ async function ajouterUtilisateur(_0x442cba, _0x13302d = "Utilisateur") {
     }
   });
 }
-async function supprimerUtilisateur(_0x71cb1c) {
+async function supprimerUtilisateur(userId) {
   return await ECONOMIE.destroy({
     where: {
-      id: _0x71cb1c
+      id: userId
     }
   });
 }
-async function getInfosUtilisateur(_0x46cb77) {
-  const _0x3b6e06 = await ECONOMIE.findOne({
+async function getInfosUtilisateur(userId) {
+  const user = await ECONOMIE.findOne({
     where: {
-      id: _0x46cb77
+      id: userId
     }
   });
-  if (!_0x3b6e06) {
+  if (!user) {
     return null;
   }
-  return _0x3b6e06.dataValues;
+  return user.dataValues;
 }
-async function modifierSolde(_0x23e799, _0x22587a = "portefeuille", _0x3fed61 = 0) {
-  const _0x11ef06 = await ECONOMIE.findOne({
+async function modifierSolde(userId, balanceType = "portefeuille", amount = 0) {
+  const user = await ECONOMIE.findOne({
     where: {
-      id: _0x23e799
+      id: userId
     }
   });
-  if (!_0x11ef06) {
+  if (!user) {
     return null;
   }
-  if (!["portefeuille", "banque"].includes(_0x22587a)) {
+  if (!["portefeuille", "banque"].includes(balanceType)) {
     throw new Error("Type de solde invalide. Utilise 'portefeuille' ou 'banque'.");
   }
-  const _0x3744e8 = Number(_0x11ef06[_0x22587a]);
-  const _0x33f246 = Math.abs(Number(_0x3fed61));
-  const _0x223589 = _0x3fed61 < 0 ? Math.max(_0x3744e8 - _0x33f246, 0) : _0x3744e8 + _0x33f246;
-  _0x11ef06[_0x22587a] = _0x223589;
-  await _0x11ef06.save();
+  const currentBalance = Number(user[balanceType]);
+  const delta = Math.abs(Number(amount));
+  const newBalance = amount < 0 ? Math.max(currentBalance - delta, 0) : currentBalance + delta;
+  user[balanceType] = newBalance;
+  await user.save();
   return {
-    nouveauSolde: _0x223589
+    nouveauSolde: newBalance
   };
 }
-async function mettreAJourCapaciteBanque(_0x359b76, _0x453960) {
-  const _0x57c8b5 = await ECONOMIE.findOne({
+async function mettreAJourCapaciteBanque(userId, capacity) {
+  const user = await ECONOMIE.findOne({
     where: {
-      id: _0x359b76
+      id: userId
     }
   });
-  if (!_0x57c8b5) {
+  if (!user) {
     return null;
   }
-  _0x57c8b5.capacite_banque = _0x453960;
-  await _0x57c8b5.save();
-  return _0x57c8b5.capacite_banque;
+  user.capacite_banque = capacity;
+  await user.save();
+  return user.capacite_banque;
 }
-async function changerPseudo(_0x3532be, _0x442634) {
-  const _0x226590 = await ECONOMIE.findOne({
+async function changerPseudo(userId, pseudo) {
+  const user = await ECONOMIE.findOne({
     where: {
-      id: _0x3532be
+      id: userId
     }
   });
-  if (!_0x226590) {
+  if (!user) {
     return null;
   }
-  _0x226590.pseudo = _0x442634;
-  await _0x226590.save();
-  return _0x226590.pseudo;
+  user.pseudo = pseudo;
+  await user.save();
+  return user.pseudo;
 }
-async function resetEconomie(_0x22a7c3, _0x1eb511 = {
+async function resetEconomie(userId, options = {
   wallet: false,
   banque: false,
   capacite: false
 }) {
-  const _0x1d08dd = await ECONOMIE.findOne({
+  const user = await ECONOMIE.findOne({
     where: {
-      id: _0x22a7c3
+      id: userId
     }
   });
-  if (!_0x1d08dd) {
+  if (!user) {
     return null;
   }
-  if (_0x1eb511.wallet) {
-    _0x1d08dd.portefeuille = 0;
+  if (options.wallet) {
+    user.portefeuille = 0;
   }
-  if (_0x1eb511.banque) {
-    _0x1d08dd.banque = 0;
+  if (options.banque) {
+    user.banque = 0;
   }
-  if (_0x1eb511.capacite) {
-    _0x1d08dd.capacite_banque = 10000;
+  if (options.capacite) {
+    user.capacite_banque = 10000;
   }
-  await _0x1d08dd.save();
-  return _0x1d08dd.dataValues;
+  await user.save();
+  return user.dataValues;
 }
 async function TopBanque() {
   try {
-    const _0x451d01 = await ECONOMIE.findAll({
+    const topUsers = await ECONOMIE.findAll({
       order: [["banque", "DESC"]],
       limit: 10,
       attributes: ["id", "portefeuille", "banque", "capacite"]
     });
-    return _0x451d01.map(_0x5a5be4 => ({
-      id: _0x5a5be4.id,
-      portefeuille: _0x5a5be4.portefeuille,
-      banque: _0x5a5be4.banque,
-      capacite: _0x5a5be4.capacite
+    return topUsers.map(row => ({
+      id: row.id,
+      portefeuille: row.portefeuille,
+      banque: row.banque,
+      capacite: row.capacite
     }));
-  } catch (_0x4b2a3a) {
-    console.error("Erreur lors de la récupération du top banque :", _0x4b2a3a);
+  } catch (err) {
+    console.error("Erreur lors de la récupération du top banque :", err);
     return [];
   }
 }

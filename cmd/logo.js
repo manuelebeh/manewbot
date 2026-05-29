@@ -2,66 +2,66 @@ const {
   registerCommand
 } = require("../lib/commands");
 const textmaker = require("../lib/textmaker");
-function addTextproCommand(_0x2a29ac, _0x4fbc9f, _0x543789) {
+function addTextproCommand(commandName, url, textType) {
   registerCommand({
-    nom_cmd: _0x2a29ac,
+    nom_cmd: commandName,
     classe: "Logo",
     react: "✨",
     desc: "Effet de texte avec Ephoto360"
-  }, async (_0x23d15e, _0x4c11da, _0x38a36b) => {
+  }, async (jid, bot, ctx) => {
     const {
-      arg: _0x599244,
-      ms: _0x5e00ea
-    } = _0x38a36b;
-    const _0x4ea2ec = _0x599244.join(" ");
-    if (!_0x4ea2ec) {
-      return await _0x4c11da.sendMessage(_0x23d15e, {
+      arg,
+      ms
+    } = ctx;
+    const text = arg.join(" ");
+    if (!text) {
+      return await bot.sendMessage(jid, {
         text: "Vous devez fournir un texte."
       }, {
-        quoted: _0x5e00ea
+        quoted: ms
       });
     }
     try {
-      let _0x2cc4e1;
-      switch (_0x543789) {
+      let result;
+      switch (textType) {
         case 1:
-          if (_0x4ea2ec.includes(";")) {
-            return await _0x4c11da.sendMessage(_0x23d15e, {
+          if (text.includes(";")) {
+            return await bot.sendMessage(jid, {
               text: "Veuillez fournir du texte sans point-virgule (;) pour cette commande."
             }, {
-              quoted: _0x5e00ea
+              quoted: ms
             });
           }
-          _0x2cc4e1 = await textmaker(_0x4fbc9f, _0x4ea2ec);
+          result = await textmaker(url, text);
           break;
         case 2:
-          const _0x59fe06 = _0x4ea2ec.split(";");
-          if (_0x59fe06.length < 2) {
-            return await _0x4c11da.sendMessage(_0x23d15e, {
+          const parts = text.split(";");
+          if (parts.length < 2) {
+            return await bot.sendMessage(jid, {
               text: "Veuillez fournir exactement deux textes séparés par un point-virgule (;), par exemple : Manew;Bot."
             }, {
-              quoted: _0x5e00ea
+              quoted: ms
             });
           }
-          _0x2cc4e1 = await textmaker(_0x4fbc9f, _0x4ea2ec);
+          result = await textmaker(url, text);
           break;
         default:
-          throw new Error("Type " + _0x543789 + " non supporté.");
+          throw new Error("Type " + textType + " non supporté.");
       }
-      await _0x4c11da.sendMessage(_0x23d15e, {
+      await bot.sendMessage(jid, {
         image: {
-          url: _0x2cc4e1.url
+          url: result.url
         },
         caption: "```Powered by Manewbot```"
       }, {
-        quoted: _0x5e00ea
+        quoted: ms
       });
-    } catch (_0x503024) {
-      console.error("Erreur avec la commande " + _0x2a29ac + ":", _0x503024.message || _0x503024);
-      await _0x4c11da.sendMessage(_0x23d15e, {
-        text: "Une erreur est survenue lors de la génération du logo : " + _0x503024.message
+    } catch (err) {
+      console.error("Erreur avec la commande " + commandName + ":", err.message || err);
+      await bot.sendMessage(jid, {
+        text: "Une erreur est survenue lors de la génération du logo : " + err.message
       }, {
-        quoted: _0x5e00ea
+        quoted: ms
       });
     }
   });

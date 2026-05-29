@@ -42,35 +42,35 @@ const StickCmds = sequelize.define("StickCmds", {
 (async () => {
   await StickCmds.sync();
 })();
-async function set_stick_cmd(_0x294c76, _0x178d92) {
-  if (!_0x294c76 || !_0x178d92) {
+async function set_stick_cmd(cmdName, stickHash) {
+  if (!cmdName || !stickHash) {
     throw new Error("Commande ou URL manquante");
   }
   await StickCmds.upsert({
-    no_cmd: _0x294c76,
-    stick_hash: _0x178d92
+    no_cmd: cmdName,
+    stick_hash: stickHash
   });
   return true;
 }
-async function del_stick_cmd(_0x2e32d4) {
-  if (!_0x2e32d4) {
+async function del_stick_cmd(cmdName) {
+  if (!cmdName) {
     throw new Error("Commande manquante");
   }
-  const _0x2412b8 = await StickCmds.destroy({
+  const deletedCount = await StickCmds.destroy({
     where: {
-      no_cmd: _0x2e32d4
+      no_cmd: cmdName
     }
   });
-  return _0x2412b8 > 0;
+  return deletedCount > 0;
 }
 async function get_stick_cmd() {
-  const _0x50c1df = await StickCmds.findAll();
-  return _0x50c1df.map(({
-    no_cmd: _0x432a96,
-    stick_hash: _0x5cc4fc
+  const rows = await StickCmds.findAll();
+  return rows.map(({
+    no_cmd,
+    stick_hash
   }) => ({
-    no_cmd: _0x432a96,
-    stick_hash: _0x5cc4fc
+    no_cmd: no_cmd,
+    stick_hash: stick_hash
   }));
 }
 module.exports = {

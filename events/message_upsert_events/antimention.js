@@ -2,93 +2,93 @@ const {
   Antimention,
   Antimention_warnings
 } = require("../../database/antimention");
-async function antimention(_0x15af5c, _0x47e6e7, _0x5ba24a, _0x3b1d8b, _0x57ec70, _0x22f61d, _0x281ae9) {
+async function antimention(sock, chatJid, msg, isGroup, isAdmin, isBotAdmin, senderJid) {
   try {
-    const _0x1ab0fc = _0x5ba24a.message?.groupStatusMentionMessage;
-    if (_0x1ab0fc) {
-      const _0x5514fe = await Antimention.findOne({
+    const statusMention = msg.message?.groupStatusMentionMessage;
+    if (statusMention) {
+      const antimentionConfig = await Antimention.findOne({
         where: {
-          id: _0x47e6e7
+          id: chatJid
         }
       });
-      if (_0x3b1d8b) {
-        if (_0x5514fe && _0x5514fe.mode === "oui") {
-          if (!_0x57ec70 && _0x22f61d) {
-            const _0x20e36c = _0x281ae9.split("@")[0];
-            const _0x4423e7 = {
-              remoteJid: _0x47e6e7,
+      if (isGroup) {
+        if (antimentionConfig && antimentionConfig.mode === "oui") {
+          if (!isAdmin && isBotAdmin) {
+            const senderNumber = senderJid.split("@")[0];
+            const deleteKey = {
+              remoteJid: chatJid,
               fromMe: false,
-              id: _0x5ba24a.key.id,
-              participant: _0x281ae9
+              id: msg.key.id,
+              participant: senderJid
             };
-            if (_0x5514fe.type === "supp") {
-              await _0x15af5c.sendMessage(_0x47e6e7, {
-                text: "@" + _0x20e36c + ", la mention du groupe est interdite.",
-                mentions: [_0x281ae9]
+            if (antimentionConfig.type === "supp") {
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + ", la mention du groupe est interdite.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x5ba24a
+                quoted: msg
               });
-              await _0x15af5c.sendMessage(_0x47e6e7, {
-                delete: _0x4423e7
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
             }
-            if (_0x5514fe.type === "kick") {
-              await _0x15af5c.sendMessage(_0x47e6e7, {
-                text: "@" + _0x20e36c + " a été retiré pour avoir mentionné tout le groupe.",
-                mentions: [_0x281ae9]
+            if (antimentionConfig.type === "kick") {
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + " a été retiré pour avoir mentionné tout le groupe.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x5ba24a
+                quoted: msg
               });
-              await _0x15af5c.sendMessage(_0x47e6e7, {
-                delete: _0x4423e7
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
-              await _0x15af5c.groupParticipantsUpdate(_0x47e6e7, [_0x281ae9], "remove");
+              await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
             }
-            if (_0x5514fe.type === "warn") {
-              let _0x1a2126 = await Antimention_warnings.findOne({
+            if (antimentionConfig.type === "warn") {
+              let warningRecord = await Antimention_warnings.findOne({
                 where: {
-                  groupId: _0x47e6e7,
-                  userId: _0x281ae9
+                  groupId: chatJid,
+                  userId: senderJid
                 }
               });
-              if (!_0x1a2126) {
+              if (!warningRecord) {
                 await Antimention_warnings.create({
-                  groupId: _0x47e6e7,
-                  userId: _0x281ae9
+                  groupId: chatJid,
+                  userId: senderJid
                 });
-                await _0x15af5c.sendMessage(_0x47e6e7, {
-                  delete: _0x4423e7
+                await sock.sendMessage(chatJid, {
+                  delete: deleteKey
                 });
-                await _0x15af5c.sendMessage(_0x47e6e7, {
-                  text: "@" + _0x20e36c + ", avertissement 1/3 pour mention abusive.",
-                  mentions: [_0x281ae9]
+                await sock.sendMessage(chatJid, {
+                  text: "@" + senderNumber + ", avertissement 1/3 pour mention abusive.",
+                  mentions: [senderJid]
                 }, {
-                  quoted: _0x5ba24a
+                  quoted: msg
                 });
               } else {
-                _0x1a2126.count += 1;
-                await _0x1a2126.save();
-                if (_0x1a2126.count >= 3) {
-                  await _0x15af5c.sendMessage(_0x47e6e7, {
-                    text: "@" + _0x20e36c + " a été retiré après 3 avertissements.",
-                    mentions: [_0x281ae9]
+                warningRecord.count += 1;
+                await warningRecord.save();
+                if (warningRecord.count >= 3) {
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + " a été retiré après 3 avertissements.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x5ba24a
+                    quoted: msg
                   });
-                  await _0x15af5c.sendMessage(_0x47e6e7, {
-                    delete: _0x4423e7
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x15af5c.groupParticipantsUpdate(_0x47e6e7, [_0x281ae9], "remove");
-                  await _0x1a2126.destroy();
+                  await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
+                  await warningRecord.destroy();
                 } else {
-                  await _0x15af5c.sendMessage(_0x47e6e7, {
-                    delete: _0x4423e7
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x15af5c.sendMessage(_0x47e6e7, {
-                    text: "@" + _0x20e36c + ", avertissement " + _0x1a2126.count + "/3 pour mention abusive.",
-                    mentions: [_0x281ae9]
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + ", avertissement " + warningRecord.count + "/3 pour mention abusive.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x5ba24a
+                    quoted: msg
                   });
                 }
               }
@@ -97,8 +97,8 @@ async function antimention(_0x15af5c, _0x47e6e7, _0x5ba24a, _0x3b1d8b, _0x57ec70
         }
       }
     }
-  } catch (_0x6bd2da) {
-    console.error("Erreur dans le système Antimention :", _0x6bd2da);
+  } catch (err) {
+    console.error("Erreur dans le système Antimention :", err);
   }
 }
 module.exports = antimention;

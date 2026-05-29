@@ -4,145 +4,145 @@ const {
 } = require("../../database/antispam");
 const messageStore = {};
 const advancedSurveillance = {};
-async function antispam(_0x4bc163, _0x4be075, _0x1318da, _0x56bd16, _0x5a3100, _0x5ed919, _0x113c15) {
+async function antispam(sock, chatJid, msg, senderJid, isGroup, isAdmin, isBotAdmin) {
   try {
-    if (!_0x5a3100 || !_0x56bd16 || !_0x1318da.key?.id) {
+    if (!isGroup || !senderJid || !msg.key?.id) {
       return;
     }
-    if (_0x5ed919 || !_0x113c15) {
+    if (isAdmin || !isBotAdmin) {
       return;
     }
-    const _0x4ca8a6 = Date.now();
-    if (!messageStore[_0x4be075]) {
-      messageStore[_0x4be075] = {};
+    const now = Date.now();
+    if (!messageStore[chatJid]) {
+      messageStore[chatJid] = {};
     }
-    if (!messageStore[_0x4be075][_0x56bd16]) {
-      messageStore[_0x4be075][_0x56bd16] = [];
+    if (!messageStore[chatJid][senderJid]) {
+      messageStore[chatJid][senderJid] = [];
     }
-    const _0x2713be = messageStore[_0x4be075][_0x56bd16];
-    const _0x20ccef = advancedSurveillance[_0x4be075]?.[_0x56bd16];
-    if (_0x20ccef && _0x4ca8a6 - _0x20ccef < 2500) {
+    const userMessages = messageStore[chatJid][senderJid];
+    const lastSpamTime = advancedSurveillance[chatJid]?.[senderJid];
+    if (lastSpamTime && now - lastSpamTime < 2500) {
       try {
-        await _0x4bc163.sendMessage(_0x4be075, {
+        await sock.sendMessage(chatJid, {
           delete: {
-            remoteJid: _0x4be075,
+            remoteJid: chatJid,
             fromMe: false,
-            id: _0x1318da.key.id,
-            participant: _0x56bd16
+            id: msg.key.id,
+            participant: senderJid
           }
         });
-      } catch (_0x88792e) {
-        console.error(_0x88792e);
+      } catch (deleteErr) {
+        console.error(deleteErr);
       }
       return;
     }
-    _0x2713be.push({
-      id: _0x1318da.key.id,
-      timestamp: _0x4ca8a6
+    userMessages.push({
+      id: msg.key.id,
+      timestamp: now
     });
-    if (_0x2713be.length > 10) {
-      _0x2713be.shift();
+    if (userMessages.length > 10) {
+      userMessages.shift();
     }
-    const _0xaa2ec2 = await Antispam.findOne({
+    const antispamConfig = await Antispam.findOne({
       where: {
-        id: _0x4be075
+        id: chatJid
       }
     });
-    if (!_0xaa2ec2 || _0xaa2ec2.mode?.toLowerCase() !== "oui") {
+    if (!antispamConfig || antispamConfig.mode?.toLowerCase() !== "oui") {
       return;
     }
-    for (let _0x51ec70 = 0; _0x51ec70 <= _0x2713be.length - 5; _0x51ec70++) {
-      const _0x37ae69 = _0x2713be[_0x51ec70];
-      const _0xb32e5e = _0x2713be[_0x51ec70 + 4];
-      const _0x5deb9f = _0xb32e5e.timestamp - _0x37ae69.timestamp;
-      if (_0x5deb9f < 15000) {
-        advancedSurveillance[_0x4be075] ??= {};
-        advancedSurveillance[_0x4be075][_0x56bd16] = _0x4ca8a6;
-        for (let _0x1e67cf = _0x51ec70; _0x1e67cf <= _0x51ec70 + 4; _0x1e67cf++) {
+    for (let i = 0; i <= userMessages.length - 5; i++) {
+      const firstMsg = userMessages[i];
+      const fifthMsg = userMessages[i + 4];
+      const spanMs = fifthMsg.timestamp - firstMsg.timestamp;
+      if (spanMs < 15000) {
+        advancedSurveillance[chatJid] ??= {};
+        advancedSurveillance[chatJid][senderJid] = now;
+        for (let j = i; j <= i + 4; j++) {
           try {
-            await _0x4bc163.sendMessage(_0x4be075, {
+            await sock.sendMessage(chatJid, {
               delete: {
-                remoteJid: _0x4be075,
+                remoteJid: chatJid,
                 fromMe: false,
-                id: _0x2713be[_0x1e67cf].id,
-                participant: _0x56bd16
+                id: userMessages[j].id,
+                participant: senderJid
               }
             });
-          } catch (_0x1f26f3) {
-            console.error(_0x1f26f3);
+          } catch (deleteErr) {
+            console.error(deleteErr);
           }
         }
-        const _0x5c9df3 = "@" + _0x56bd16.split("@")[0];
+        const mentionTag = "@" + senderJid.split("@")[0];
         try {
-          switch (_0xaa2ec2.type) {
+          switch (antispamConfig.type) {
             case "supp":
-              await _0x4bc163.sendMessage(_0x4be075, {
-                text: _0x5c9df3 + ", le spam est interdit ici.",
-                mentions: [_0x56bd16]
+              await sock.sendMessage(chatJid, {
+                text: mentionTag + ", le spam est interdit ici.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x1318da
+                quoted: msg
               });
               break;
             case "kick":
-              await _0x4bc163.sendMessage(_0x4be075, {
-                text: _0x5c9df3 + " a été retiré pour spam.",
-                mentions: [_0x56bd16]
+              await sock.sendMessage(chatJid, {
+                text: mentionTag + " a été retiré pour spam.",
+                mentions: [senderJid]
               }, {
-                quoted: _0x1318da
+                quoted: msg
               });
-              await _0x4bc163.groupParticipantsUpdate(_0x4be075, [_0x56bd16], "remove");
+              await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
               break;
             case "warn":
-              let _0x4afda2 = await AntispamWarnings.findOne({
+              let warningRecord = await AntispamWarnings.findOne({
                 where: {
-                  groupId: _0x4be075,
-                  userId: _0x56bd16
+                  groupId: chatJid,
+                  userId: senderJid
                 }
               });
-              if (!_0x4afda2) {
+              if (!warningRecord) {
                 await AntispamWarnings.create({
-                  groupId: _0x4be075,
-                  userId: _0x56bd16,
+                  groupId: chatJid,
+                  userId: senderJid,
                   count: 1
                 });
-                await _0x4bc163.sendMessage(_0x4be075, {
-                  text: _0x5c9df3 + ", avertissement 1/3 pour spam.",
-                  mentions: [_0x56bd16]
+                await sock.sendMessage(chatJid, {
+                  text: mentionTag + ", avertissement 1/3 pour spam.",
+                  mentions: [senderJid]
                 }, {
-                  quoted: _0x1318da
+                  quoted: msg
                 });
               } else {
-                _0x4afda2.count += 1;
-                await _0x4afda2.save();
-                if (_0x4afda2.count >= 3) {
-                  await _0x4bc163.sendMessage(_0x4be075, {
-                    text: _0x5c9df3 + " retiré après 3 avertissements.",
-                    mentions: [_0x56bd16]
+                warningRecord.count += 1;
+                await warningRecord.save();
+                if (warningRecord.count >= 3) {
+                  await sock.sendMessage(chatJid, {
+                    text: mentionTag + " retiré après 3 avertissements.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x1318da
+                    quoted: msg
                   });
-                  await _0x4bc163.groupParticipantsUpdate(_0x4be075, [_0x56bd16], "remove");
-                  await _0x4afda2.destroy();
+                  await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
+                  await warningRecord.destroy();
                 } else {
-                  await _0x4bc163.sendMessage(_0x4be075, {
-                    text: _0x5c9df3 + ", avertissement " + _0x4afda2.count + "/3 pour spam.",
-                    mentions: [_0x56bd16]
+                  await sock.sendMessage(chatJid, {
+                    text: mentionTag + ", avertissement " + warningRecord.count + "/3 pour spam.",
+                    mentions: [senderJid]
                   }, {
-                    quoted: _0x1318da
+                    quoted: msg
                   });
                 }
               }
               break;
           }
-        } catch (_0x4c0a1f) {
-          console.error(_0x4c0a1f);
+        } catch (actionErr) {
+          console.error(actionErr);
         }
-        messageStore[_0x4be075][_0x56bd16] = _0x2713be.slice(-1);
+        messageStore[chatJid][senderJid] = userMessages.slice(-1);
         break;
       }
     }
-  } catch (_0xd2db56) {
-    console.error("Erreur dans Antispam:", _0xd2db56);
+  } catch (err) {
+    console.error("Erreur dans Antispam:", err);
   }
 }
 module.exports = antispam;

@@ -8,91 +8,91 @@ const FileType = require("file-type");
 const {
   getJid
 } = require("./message_upsert_events");
-async function dl_save_media_ms(_0x15b63b, _0x2c8b79) {
-  const _0x43e944 = _0x2c8b79.msg || _0x2c8b79;
-  const _0x21115c = _0x43e944.mimetype || "";
-  const _0x54ed14 = _0x43e944.mtype ? _0x43e944.mtype.replace(/Message/gi, "") : _0x21115c.split("/")[0];
-  if (!_0x21115c) {
+async function dl_save_media_ms(content, message) {
+  const msg = message.msg || message;
+  const mimetype = msg.mimetype || "";
+  const mediaType = msg.mtype ? msg.mtype.replace(/Message/gi, "") : mimetype.split("/")[0];
+  if (!mimetype) {
     throw new Error("MIME type manquant");
   }
-  const _0x10aea3 = await downloadContentFromMessage(_0x43e944, _0x54ed14);
-  const _0x1ebccc = [];
-  for await (const _0x4293bf of _0x10aea3) {
-    _0x1ebccc.push(_0x4293bf);
+  const stream = await downloadContentFromMessage(msg, mediaType);
+  const chunks = [];
+  for await (const chunk of stream) {
+    chunks.push(chunk);
   }
-  const _0x3cece7 = Buffer.concat(_0x1ebccc);
-  const _0x363cfc = await FileType.fromBuffer(_0x3cece7);
-  if (!_0x363cfc) {
+  const buffer = Buffer.concat(chunks);
+  const fileType = await FileType.fromBuffer(buffer);
+  if (!fileType) {
     throw new Error("Type de fichier inconnu");
   }
-  const _0x495843 = "./downloads";
-  if (!fs.existsSync(_0x495843)) {
-    fs.mkdirSync(_0x495843, {
+  const downloadsDir = "./downloads";
+  if (!fs.existsSync(downloadsDir)) {
+    fs.mkdirSync(downloadsDir, {
       recursive: true
     });
   }
-  const _0x29059d = path.join(_0x495843, "media_" + Date.now() + "." + _0x363cfc.ext);
-  await fs.promises.writeFile(_0x29059d, _0x3cece7);
+  const filePath = path.join(downloadsDir, "media_" + Date.now() + "." + fileType.ext);
+  await fs.promises.writeFile(filePath, buffer);
   setTimeout(() => {
-    fs.unlink(_0x29059d, () => {});
+    fs.unlink(filePath, () => {});
   }, 300000);
-  return _0x29059d;
+  return filePath;
 }
-const decodeJid = _0x28915b => {
-  if (!_0x28915b) {
-    return _0x28915b;
+const decodeJid = jid => {
+  if (!jid) {
+    return jid;
   }
-  if (/:\d+@/gi.test(_0x28915b)) {
-    const _0x3483f5 = jidDecode(_0x28915b) || {};
-    return _0x3483f5.user && _0x3483f5.server && _0x3483f5.user + "@" + _0x3483f5.server || _0x28915b;
+  if (/:\d+@/gi.test(jid)) {
+    const decoded = jidDecode(jid) || {};
+    return decoded.user && decoded.server && decoded.user + "@" + decoded.server || jid;
   }
-  return _0x28915b;
+  return jid;
 };
 async function recup_msg({
-  bot: _0x1ffb32,
-  auteur: _0x47b751,
-  ms_org: _0x400a08,
+  bot,
+  auteur,
+  ms_org,
   temps = 30000
 } = {}) {
-  return new Promise(async (_0x4f63ea, _0x2ec9cb) => {
-    if (_0x47b751 !== undefined && typeof _0x47b751 !== "string") {
-      return _0x2ec9cb(new Error("L'auteur doit être une chaîne si défini."));
+  return new Promise(async (resolve, reject) => {
+    if (auteur !== undefined && typeof auteur !== "string") {
+      return reject(new Error("L'auteur doit être une chaîne si défini."));
     }
-    if (_0x400a08 !== undefined && typeof _0x400a08 !== "string") {
-      return _0x2ec9cb(new Error("Le ms_org doit être une chaîne si défini."));
+    if (ms_org !== undefined && typeof ms_org !== "string") {
+      return reject(new Error("Le ms_org doit être une chaîne si défini."));
     }
     if (typeof temps !== "number") {
-      return _0x2ec9cb(new Error("Le temps doit être un nombre."));
+      return reject(new Error("Le temps doit être un nombre."));
     }
-    const _0x24b940 = _0x47b751 && _0x400a08 ? await getJid(_0x47b751, _0x400a08, _0x1ffb32) : _0x47b751;
-    let _0xf05f3f;
-    const _0x550303 = async ({
-      type: _0x3cd217,
-      messages: _0x46a4e3
+    const resolvedAuthor = auteur && ms_org ? await getJid(auteur, ms_org, bot) : auteur;
+    let timeoutId;
+    const onMessagesUpsert = async ({
+      type,
+      messages
     }) => {
-      if (_0x3cd217 !== "notify") {
+      if (type !== "notify") {
         return;
       }
-      for (const _0x16abb2 of _0x46a4e3) {
-        const _0x31458d = (_0x16abb2.key.remoteJidAlt || _0x16abb2.key.remoteJid) === decodeJid(_0x1ffb32.user.lid) ? decodeJid(_0x1ffb32.user.id) : _0x16abb2.key.remoteJidAlt || _0x16abb2.key.remoteJid;
-        let _0x279390 = _0x16abb2.key.fromMe ? decodeJid(_0x1ffb32.user.id) : _0x16abb2.key.participantAlt || _0x16abb2.key.participant || _0x16abb2.key.senderPn ? await getJid(_0x16abb2.key.participantAlt || _0x16abb2.key.participant || _0x16abb2.key.senderPn || _0x16abb2.key.remoteJid, _0x31458d, _0x1ffb32) : _0x31458d;
-        const _0x1a581b = _0x24b940 && _0x400a08 && _0x279390 == _0x24b940 && _0x31458d == _0x400a08 || _0x24b940 && !_0x400a08 && _0x279390 == _0x24b940 || !_0x24b940 && _0x400a08 && _0x31458d == _0x400a08 || !_0x24b940 && !_0x400a08;
-        if (_0x1a581b) {
-          _0x1ffb32.ev.off("messages.upsert", _0x550303);
-          if (_0xf05f3f) {
-            clearTimeout(_0xf05f3f);
+      for (const message of messages) {
+        const remoteJid = (message.key.remoteJidAlt || message.key.remoteJid) === decodeJid(bot.user.lid) ? decodeJid(bot.user.id) : message.key.remoteJidAlt || message.key.remoteJid;
+        let participantJid = message.key.fromMe ? decodeJid(bot.user.id) : message.key.participantAlt || message.key.participant || message.key.senderPn ? await getJid(message.key.participantAlt || message.key.participant || message.key.senderPn || message.key.remoteJid, remoteJid, bot) : remoteJid;
+        const matchesFilter = resolvedAuthor && ms_org && participantJid == resolvedAuthor && remoteJid == ms_org || resolvedAuthor && !ms_org && participantJid == resolvedAuthor || !resolvedAuthor && ms_org && remoteJid == ms_org || !resolvedAuthor && !ms_org;
+        if (matchesFilter) {
+          bot.ev.off("messages.upsert", onMessagesUpsert);
+          if (timeoutId) {
+            clearTimeout(timeoutId);
           }
-          _0x16abb2.key.participant = _0x279390;
-          _0x16abb2.key.remoteJid = _0x31458d;
-          return _0x4f63ea(_0x16abb2);
+          message.key.participant = participantJid;
+          message.key.remoteJid = remoteJid;
+          return resolve(message);
         }
       }
     };
-    _0x1ffb32.ev.on("messages.upsert", _0x550303);
+    bot.ev.on("messages.upsert", onMessagesUpsert);
     if (temps > 0) {
-      _0xf05f3f = setTimeout(() => {
-        _0x1ffb32.ev.off("messages.upsert", _0x550303);
-        _0x2ec9cb(new Error("Timeout"));
+      timeoutId = setTimeout(() => {
+        bot.ev.off("messages.upsert", onMessagesUpsert);
+        reject(new Error("Timeout"));
       }, temps);
     }
   });

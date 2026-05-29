@@ -2,98 +2,98 @@ const {
   Antilink,
   Antilink_warnings
 } = require("../../database/antilink");
-function containsLink(_0x33c67f) {
-  const _0x32eb67 = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/i;
-  return _0x32eb67.test(_0x33c67f);
+function containsLink(text) {
+  const linkRegex = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/i;
+  return linkRegex.test(text);
 }
-async function antilink(_0x1c738c, _0x4e815b, _0x11a0a4, _0x4840a8, _0x1028a6, _0x52f439, _0x407abe, _0x4bdbee) {
+async function antilink(sock, chatJid, msg, messageText, isGroup, isAdmin, isBotAdmin, senderJid) {
   try {
-    if (containsLink(_0x4840a8)) {
-      const _0x16f31c = await Antilink.findOne({
+    if (containsLink(messageText)) {
+      const antilinkConfig = await Antilink.findOne({
         where: {
-          id: _0x4e815b
+          id: chatJid
         }
       });
-      if (_0x1028a6 && _0x16f31c && _0x16f31c.mode === "oui") {
-        if (!_0x52f439 && _0x407abe) {
-          const _0x283895 = _0x4bdbee.split("@")[0];
-          const _0x38d413 = {
-            remoteJid: _0x4e815b,
+      if (isGroup && antilinkConfig && antilinkConfig.mode === "oui") {
+        if (!isAdmin && isBotAdmin) {
+          const senderNumber = senderJid.split("@")[0];
+          const deleteKey = {
+            remoteJid: chatJid,
             fromMe: false,
-            id: _0x11a0a4.key.id,
-            participant: _0x4bdbee
+            id: msg.key.id,
+            participant: senderJid
           };
-          switch (_0x16f31c.type) {
+          switch (antilinkConfig.type) {
             case "supp":
-              await _0x1c738c.sendMessage(_0x4e815b, {
-                text: "@" + _0x283895 + ", les liens ne sont pas autorisés ici.",
-                mentions: [_0x4bdbee]
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + ", les liens ne sont pas autorisés ici.",
+                mentions: [senderJid]
               });
-              await _0x1c738c.sendMessage(_0x4e815b, {
-                delete: _0x38d413
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
               break;
             case "kick":
-              await _0x1c738c.sendMessage(_0x4e815b, {
-                text: "@" + _0x283895 + " a été retiré pour avoir envoyé un lien.",
-                mentions: [_0x4bdbee]
+              await sock.sendMessage(chatJid, {
+                text: "@" + senderNumber + " a été retiré pour avoir envoyé un lien.",
+                mentions: [senderJid]
               });
-              await _0x1c738c.sendMessage(_0x4e815b, {
-                delete: _0x38d413
+              await sock.sendMessage(chatJid, {
+                delete: deleteKey
               });
-              await _0x1c738c.groupParticipantsUpdate(_0x4e815b, [_0x4bdbee], "remove");
+              await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
               break;
             case "warn":
-              let _0x134464 = await Antilink_warnings.findOne({
+              let warningRecord = await Antilink_warnings.findOne({
                 where: {
-                  groupId: _0x4e815b,
-                  userId: _0x4bdbee
+                  groupId: chatJid,
+                  userId: senderJid
                 }
               });
-              if (!_0x134464) {
+              if (!warningRecord) {
                 await Antilink_warnings.create({
-                  groupId: _0x4e815b,
-                  userId: _0x4bdbee
+                  groupId: chatJid,
+                  userId: senderJid
                 });
-                await _0x1c738c.sendMessage(_0x4e815b, {
-                  delete: _0x38d413
+                await sock.sendMessage(chatJid, {
+                  delete: deleteKey
                 });
-                await _0x1c738c.sendMessage(_0x4e815b, {
-                  text: "@" + _0x283895 + ", avertissement 1/3 pour avoir envoyé un lien.",
-                  mentions: [_0x4bdbee]
+                await sock.sendMessage(chatJid, {
+                  text: "@" + senderNumber + ", avertissement 1/3 pour avoir envoyé un lien.",
+                  mentions: [senderJid]
                 });
               } else {
-                _0x134464.count += 1;
-                await _0x134464.save();
-                if (_0x134464.count >= 3) {
-                  await _0x1c738c.sendMessage(_0x4e815b, {
-                    text: "@" + _0x283895 + " a été retiré après 3 avertissements.",
-                    mentions: [_0x4bdbee]
+                warningRecord.count += 1;
+                await warningRecord.save();
+                if (warningRecord.count >= 3) {
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + " a été retiré après 3 avertissements.",
+                    mentions: [senderJid]
                   });
-                  await _0x1c738c.sendMessage(_0x4e815b, {
-                    delete: _0x38d413
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x1c738c.groupParticipantsUpdate(_0x4e815b, [_0x4bdbee], "remove");
-                  await _0x134464.destroy();
+                  await sock.groupParticipantsUpdate(chatJid, [senderJid], "remove");
+                  await warningRecord.destroy();
                 } else {
-                  await _0x1c738c.sendMessage(_0x4e815b, {
-                    delete: _0x38d413
+                  await sock.sendMessage(chatJid, {
+                    delete: deleteKey
                   });
-                  await _0x1c738c.sendMessage(_0x4e815b, {
-                    text: "@" + _0x283895 + ", avertissement " + _0x134464.count + "/3 pour avoir envoyé un lien.",
-                    mentions: [_0x4bdbee]
+                  await sock.sendMessage(chatJid, {
+                    text: "@" + senderNumber + ", avertissement " + warningRecord.count + "/3 pour avoir envoyé un lien.",
+                    mentions: [senderJid]
                   });
                 }
               }
               break;
             default:
-              console.error("⚠️ Action inconnue : " + _0x16f31c.type);
+              console.error("⚠️ Action inconnue : " + antilinkConfig.type);
           }
         }
       }
     }
-  } catch (_0x33d794) {
-    console.error("❌ Erreur dans le système Antilink :", _0x33d794);
+  } catch (err) {
+    console.error("❌ Erreur dans le système Antilink :", err);
   }
 }
 module.exports = antilink;
