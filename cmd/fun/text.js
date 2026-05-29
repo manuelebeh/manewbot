@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  fancy,
-  axios,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, fancy, axios } = require('./deps');
 
 registerCommand({
   nom_cmd: "fliptext",

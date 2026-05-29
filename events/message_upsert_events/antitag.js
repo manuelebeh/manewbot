@@ -102,4 +102,4 @@ async function antitag(sock, msg, chatJid, contentType, isGroup, isBotAdmin, isA
     }
   }
 }
-module.exports = antitag;
+module.exports = { antitag };

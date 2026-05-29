@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  WA_CONF,
-  stylize,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, WA_CONF, stylize } = require('./deps');
 const { sendThemedCaption } = require('../../lib/menu-helpers');
 
 registerCommand({

@@ -1,14 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  getInfosUtilisateur,
-  modifierSolde,
-  resetEconomie,
-  generateUserId,
-  generateTransactionId,
-  TopBanque,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { getInfosUtilisateur, modifierSolde, resetEconomie, generateUserId, generateTransactionId, TopBanque, config } = require('./deps');
 
 registerCommand({
   nom_cmd: "myecon",
@@ -30,7 +23,7 @@ registerCommand({
     if (!resolvedJid) {
       return await repondre("❌ Impossible de trouver l'utilisateur.");
     }
-    let profilePic = "https://wallpapercave.com/uwp/uwp4820694.jpeg";
+    let profilePic = config.ECONOMY_PROFILE_FALLBACK_URL;
     try {
       profilePic = await sock.profilePictureUrl(resolvedJid, "image");
     } catch {}

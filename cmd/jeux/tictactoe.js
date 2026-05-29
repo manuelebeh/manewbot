@@ -1,12 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  axios,
-  config,
-  fs,
-  activeGames,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { axios, config, fs, activeGames } = require('./deps');
 
 registerCommand({
   nom_cmd: "tictactoe",

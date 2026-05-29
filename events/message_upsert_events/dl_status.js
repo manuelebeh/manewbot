@@ -43,4 +43,4 @@ async function dl_status(sock, chatJid, msg, botJid) {
     }
   }
 }
-module.exports = dl_status;
+module.exports = { dl_status };

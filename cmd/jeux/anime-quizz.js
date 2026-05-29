@@ -1,10 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  delay,
-  fs,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { delay, fs } = require('./deps');
 
 registerCommand({
   nom_cmd: "anime-quizz",

@@ -14,6 +14,8 @@ describe('env-keys', () => {
     assert.ok(Object.isFrozen(ALLOWED_ENV_KEYS));
     assert.ok(ALLOWED_ENV_KEYS.includes('PREFIXE'));
     assert.ok(ALLOWED_ENV_KEYS.includes('COMMAND_REACT'));
+    assert.ok(ALLOWED_ENV_KEYS.includes('WHATSAPP_NEWSLETTER_JID'));
+    assert.ok(ALLOWED_ENV_KEYS.includes('WHATSAPP_NEWSLETTER_NAME'));
   });
 
   it('isAllowedEnvKey is case-insensitive', () => {

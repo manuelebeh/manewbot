@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  fbdl,
-  axios,
-  resolveArgsWithLink,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { fbdl, axios, resolveArgsWithLink } = require('./deps');
 
 registerCommand({
   nom_cmd: "fbdl",

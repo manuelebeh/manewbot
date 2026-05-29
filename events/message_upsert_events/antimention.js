@@ -101,4 +101,4 @@ async function antimention(sock, chatJid, msg, isGroup, isAdmin, isBotAdmin, sen
     console.error("Erreur dans le système Antimention :", err);
   }
 }
-module.exports = antimention;
+module.exports = { antimention };

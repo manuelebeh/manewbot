@@ -1,6 +1,6 @@
 'use strict';
 
-const { addAudioEffectCommand } = require('./_shared');
+const { addAudioEffectCommand } = require('./audio-fx');
 
 addAudioEffectCommand("bass", "-af equalizer=f=54:width_type=o:width=2:g=20");
 addAudioEffectCommand("blown", "-af acrusher=.1:1:64:0:log");

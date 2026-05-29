@@ -25,4 +25,4 @@ async function call(sock, callEvents) {
     console.error("Erreur lors du traitement de l’appel :", err);
   }
 }
-module.exports = call;
+module.exports = { call };

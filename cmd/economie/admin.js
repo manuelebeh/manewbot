@@ -1,12 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  getInfosUtilisateur,
-  modifierSolde,
-  ECONOMIE,
-  generateUserId,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { getInfosUtilisateur, modifierSolde, ECONOMIE, generateUserId } = require('./deps');
 
 registerCommand({
   nom_cmd: "don",

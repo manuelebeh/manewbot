@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  apkdl,
-  axios,
-  fs,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { apkdl, axios, fs } = require('./deps');
 
 registerCommand({
   nom_cmd: "app",

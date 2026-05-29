@@ -2,7 +2,7 @@
 
 const {
   registerCommand,
-} = require('./_shared');
+} = require('./deps');
 
 registerCommand({
   nom_cmd: "save",

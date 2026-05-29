@@ -1,9 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  axios,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { axios, config } = require('./deps');
 
 registerCommand({
   nom_cmd: "blague",
@@ -12,7 +10,8 @@ registerCommand({
   desc: "Renvoie une blague"
 }, async (chatJid, sock, ctx) => {
   try {
-    let jokeUrl = "https://v2.jokeapi.dev/joke/Any?lang=fr";
+    const jokeBase = (config.JOKEAPI_BASE || 'https://v2.jokeapi.dev').replace(/\/$/, '');
+    let jokeUrl = jokeBase + "/joke/Any?lang=fr";
     let response = await axios.get(jokeUrl);
     let jokeData = response.data;
     if (jokeData.type === "single") {
@@ -49,7 +48,7 @@ registerCommand({
   desc: "Renvoie une citation"
 }, async (chatJid, sock) => {
   try {
-    const apiUrl = "https://kaamelott.chaudie.re/api/random";
+    const apiUrl = (config.KAAMELOTT_API_BASE || 'https://kaamelott.chaudie.re/api').replace(/\/$/, '') + "/random";
     const response = await axios.get(apiUrl);
     const quoteData = response.data;
     if (quoteData.status === 1 && quoteData.citation) {

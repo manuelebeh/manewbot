@@ -1,27 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  fs,
-  path,
-  os,
-  axios,
-  FormData,
-  readFileSync,
-  config,
-  Sticker,
-  StickerTypes,
-  spawn,
-  gTTS,
-  sharp,
-  Ranks,
-  uploadToCatbox,
-  alea,
-  isSupportedFile,
-  fusionCache,
-  remini,
-  convertWebpToMp4,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { fs, path, os, axios, FormData, readFileSync, config, Sticker, StickerTypes, spawn, gTTS, sharp, Ranks, uploadToCatbox, alea, isSupportedFile, fusionCache, remini, convertWebpToMp4 } = require('./media');
 const {
   getServiceUrls,
   serviceNotConfiguredMessage

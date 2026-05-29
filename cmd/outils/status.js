@@ -1,23 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  cmd,
-  fs,
-  path,
-  os,
-  axios,
-  config,
-  translate,
-  prefixe,
-  WA_CONF,
-  TempMail,
-  spawn,
-  AdmZip,
-  pkg,
-  stylize,
-  contextInfo,
-} = require('./_shared');
+const { registerCommand, cmd } = require('./register');
+const { fs, path, os, axios, config, translate, prefixe, WA_CONF, TempMail, spawn, AdmZip, pkg, stylize, contextInfo } = require('./deps');
 
 registerCommand({
   nom_cmd: "ping",

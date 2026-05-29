@@ -1,17 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  updateEnvFile,
-  fs,
-  path,
-  ENV_FILE,
-  CONFIG_ENV_FILE,
-  formatConfigValue,
-  isAllowedEnvKey,
-  writeConfigEnv,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, updateEnvFile, fs, path, ENV_FILE, CONFIG_ENV_FILE, formatConfigValue, isAllowedEnvKey, writeConfigEnv } = require('./deps');
 
 registerCommand({
   nom_cmd: "setvar",

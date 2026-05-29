@@ -8,16 +8,8 @@ registerCommand({
   react: "📊",
   desc: "Crée un sondage dans le groupe(plusieurs votés autorisé)."
 }, async (chatJid, sock, ctx) => {
+  const { ms, repondre, arg, verif_Groupe, verif_Admin } = ctx;
   try {
-    const {
-    ms,
-    repondre,
-    arg,
-    verif_Groupe,
-    infos_Groupe,
-    nom_Auteur_Message,
-    verif_Admin
-  } = ctx;
     if (!verif_Groupe) {
       return repondre("Cette commande ne fonctionne que dans les groupes.");
     }
@@ -52,16 +44,8 @@ registerCommand({
   react: "📊",
   desc: "Crée un sondage dans le groupe(un seul vote autorisé)."
 }, async (chatJid, sock, ctx) => {
+  const { ms, repondre, arg, verif_Groupe, verif_Admin } = ctx;
   try {
-    const {
-    ms,
-    repondre,
-    arg,
-    verif_Groupe,
-    infos_Groupe,
-    nom_Auteur_Message,
-    verif_Admin
-  } = ctx;
     if (!verif_Groupe) {
       return repondre("Cette commande ne fonctionne que dans les groupes.");
     }

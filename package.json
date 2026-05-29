@@ -9,7 +9,9 @@
     "stop": "pm2 stop all",
     "bot": "node bot.js",
     "test": "node --test test/*.test.js",
-    "check:secrets": "bash scripts/check-secrets-git.sh"
+    "check:syntax": "node scripts/check-syntax.js",
+    "check:secrets": "bash scripts/check-secrets-git.sh",
+    "lint": "eslint . --quiet"
   },
   "keywords": [
     "Manewbot",
@@ -42,5 +44,12 @@
     "tempmail.lol": "^4.4.0",
     "wa-sticker-formatter": "^4.4.4",
     "wikipedia": "^2.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4",
+    "globals": "^16.5.0"
+  },
+  "overrides": {
+    "sharp": "0.34.5"
   }
 }

@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  ttdl,
-  axios,
-  extractLink,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { ttdl, axios, extractLink } = require('./deps');
 
 registerCommand({
   nom_cmd: "tiktok",

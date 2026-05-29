@@ -1,8 +1,7 @@
 'use strict';
 
-const {
-  registerCommand, config, git, formatDateGMTFr,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, git, formatDateGMTFr } = require('./deps');
 
 registerCommand({
   nom_cmd: "checkupdate",

@@ -1,6 +1,6 @@
 'use strict';
 
-const { addTextproCommand } = require('./_shared');
+const { addTextproCommand } = require('./textpro');
 
 addTextproCommand("dragonball", "/create-dragon-ball-style-text-effects-online-809.html", 1);
 addTextproCommand("deadpool", "/create-text-effects-in-the-style-of-the-deadpool-logo-818.html", 2);

@@ -1,10 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  axios,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, axios } = require('./deps');
 const { getAiBases, aiNotConfiguredMessage } = require('../../lib/ai-api');
 const { validatePublicHttpUrl } = require('../../lib/url-safety');
 
