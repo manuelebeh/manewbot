@@ -1,7 +1,7 @@
 const {
   getMention
 } = require("../../database/mention");
-const getJid = require("./cache_jid");
+const { getJid } = require("./cache_jid");
 async function mention(sock, chatJid, msg, contentType, isGroup, botJid, repondre, resolvedMentions) {
   try {
     if (resolvedMentions && resolvedMentions.includes(botJid)) {
@@ -69,4 +69,4 @@ async function mention(sock, chatJid, msg, contentType, isGroup, botJid, repondr
     console.error("Erreur dans mention:", err);
   }
 }
-module.exports = mention;
+module.exports = { mention };

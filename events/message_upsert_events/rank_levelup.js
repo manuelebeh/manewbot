@@ -59,4 +59,4 @@ async function rankAndLevelUp(sock, chatJid, messageText, senderJid, pushName) {
     console.error("Erreur dans rankAndLevelUp:", err);
   }
 }
-module.exports = rankAndLevelUp;
+module.exports = { rankAndLevelUp };

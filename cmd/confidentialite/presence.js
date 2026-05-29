@@ -3,7 +3,7 @@
 const {
   registerCommand,
   WA_CONF,
-} = require('./_shared');
+} = require('./deps');
 
 registerCommand({
   nom_cmd: "presence",

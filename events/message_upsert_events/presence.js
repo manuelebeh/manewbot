@@ -17,4 +17,4 @@ async function presence(sock, chatJid) {
     }
   }
 }
-module.exports = presence;
+module.exports = { presence };

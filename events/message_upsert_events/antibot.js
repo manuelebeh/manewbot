@@ -103,4 +103,4 @@ async function antibot(sock, chatJid, msg, isGroup, isAdmin, isBotAdmin, senderJ
     console.error("Erreur dans le système Anti-Bot :", err);
   }
 }
-module.exports = antibot;
+module.exports = { antibot };

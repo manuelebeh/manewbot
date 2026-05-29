@@ -1,12 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  ytdl,
-  fs,
-  acr,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, ytdl, fs, acr } = require('./deps');
 
 registerCommand({
   nom_cmd: "shazam",

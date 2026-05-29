@@ -44,4 +44,4 @@ async function chatbot(chatJid, isGroup, messageText, repondre, resolvedMentions
     console.error("Erreur chatbot :", err.message);
   }
 }
-module.exports = chatbot;
+module.exports = { chatbot };

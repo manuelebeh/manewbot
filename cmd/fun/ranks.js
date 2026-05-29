@@ -1,10 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  levels,
-  Ranks,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, levels, Ranks } = require('./deps');
 
 registerCommand({
   nom_cmd: "rank",

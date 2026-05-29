@@ -2,7 +2,7 @@
 
 const {
   registerCommand, WA_CONF, config,
-} = require('./_shared');
+} = require('./deps');
 
 registerCommand({
   nom_cmd: "lecture_status",

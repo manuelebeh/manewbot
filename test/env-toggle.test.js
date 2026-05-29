@@ -26,18 +26,10 @@ describe('env-toggle', () => {
     assert.match(formatFeatureState(true, null), /base de données/);
   });
 
-  it('resolveCommandReactEnabled prefers COMMAND_REACT then legacy', () => {
-    const prev = process.env.AUTOREACT_MSG;
-    delete process.env.AUTOREACT_MSG;
-    try {
-      assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: 'off' }), false);
-      assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: '' }), true);
-      process.env.AUTOREACT_MSG = '0';
-      assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: '' }), false);
-    } finally {
-      if (prev === undefined) delete process.env.AUTOREACT_MSG;
-      else process.env.AUTOREACT_MSG = prev;
-    }
+  it('resolveCommandReactEnabled uses COMMAND_REACT only', () => {
+    assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: 'off' }), false);
+    assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: 'on' }), true);
+    assert.equal(resolveCommandReactEnabled({ COMMAND_REACT: '' }), true);
   });
 
   it('getCommandReactEnvOverride returns parsed toggle', () => {

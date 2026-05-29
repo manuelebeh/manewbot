@@ -2,28 +2,27 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
 const CMD_DIR = path.join(ROOT, 'cmd');
 
 describe('load-commands', () => {
-  it('loads every cmd/*.js index without error', () => {
+  it('loads every category index without error', () => {
     const { cmd } = require('../lib/commands');
+    const { listCommandBootstrapFiles } = require('../lib/plugin');
     const before = cmd.length;
-    const files = fs
-      .readdirSync(CMD_DIR)
-      .filter((name) => name.endsWith('.js'));
+    const files = listCommandBootstrapFiles(CMD_DIR);
+
+    assert.ok(files.length >= 15, 'expected category index files');
 
     const failures = [];
-    for (const file of files) {
+    for (const filePath of files) {
       try {
-        const filePath = path.join(CMD_DIR, file);
         delete require.cache[require.resolve(filePath)];
         require(filePath);
       } catch (err) {
-        failures.push(`${file}: ${err.message}`);
+        failures.push(`${path.relative(CMD_DIR, filePath)}: ${err.message}`);
       }
     }
 

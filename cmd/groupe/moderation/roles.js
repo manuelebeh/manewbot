@@ -2,7 +2,7 @@
 
 const {
   registerCommand, groupReply, resolveModerationTarget, getAdminJids, filterKickableMembers, moderationDeniedText, requireGroup, requireGroupAdmin, requireBotAdmin, prepareKickall, canRunKickall, setWarn, delWarn, getLimit, setLimit, canModerateTarget,
-} = require('./_shared');
+} = require('./deps');
 
 registerCommand(
   {

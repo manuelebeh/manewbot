@@ -1,14 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  config,
-  buildYoutubeDownloadUrl,
-  serviceNotConfiguredMessage,
-  ytdl,
-  axios,
-  resolveArgsWithLink,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, buildYoutubeDownloadUrl, serviceNotConfiguredMessage, ytdl, axios, resolveArgsWithLink } = require('./deps');
 
 async function fetchYoutubeMedia(repondre, downloadPath) {
   const mediaUrl = buildYoutubeDownloadUrl(config, downloadPath);

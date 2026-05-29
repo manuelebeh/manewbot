@@ -1,12 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  axios,
-  config,
-  wiki,
-  translate,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { axios, config, wiki, translate } = require('./deps');
 
 registerCommand({
   nom_cmd: "google",
@@ -34,7 +29,7 @@ registerCommand({
     });
   }
   try {
-    const response = await axios.get("https://www.googleapis.com/customsearch/v1", {
+    const response = await axios.get(config.GOOGLE_CSE_BASE || 'https://www.googleapis.com/customsearch/v1', {
       params: {
         q: query,
         key: config.GOOGLE_SEARCH_API_KEY,
@@ -121,7 +116,8 @@ registerCommand({
     });
   }
   try {
-    const response = await axios.get("https://api.github.com/users/" + encodeURIComponent(username));
+    const ghBase = (config.GITHUB_API_BASE || 'https://api.github.com').replace(/\/$/, '');
+    const response = await axios.get(ghBase + "/users/" + encodeURIComponent(username));
     const user = response.data;
     const message = "*👤 Nom d'utilisateur :* " + user.login + "\n" + ("*📛 Nom affiché :* " + (user.name || "Non spécifié") + "\n") + ("*📝 Bio :* " + (user.bio || "Aucune bio") + "\n") + ("*🏢 Entreprise :* " + (user.company || "Non spécifiée") + "\n") + ("*📍 Localisation :* " + (user.location || "Non spécifiée") + "\n") + ("*🔗 Lien :* " + user.html_url + "\n") + ("*👥 Followers :* " + user.followers + "\n") + ("*👤 Following :* " + user.following + "\n") + ("*📦 Repos publics :* " + user.public_repos + "\n") + ("*🕰️ Créé le :* " + user.created_at.split("T")[0]);
     if (user.avatar_url) {

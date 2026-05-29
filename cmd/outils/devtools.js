@@ -1,13 +1,8 @@
 'use strict';
 
 const JavaScriptObfuscator = require('javascript-obfuscator');
-const {
-  registerCommand,
-  fs,
-  path,
-  spawn,
-  AdmZip,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { fs, path, spawn, AdmZip } = require('./deps');
 const { requireOwner, ownerReply } = require('../../lib/require-owner');
 
 const OWNER_DENIED = "❌ Réservé au propriétaire du bot.";

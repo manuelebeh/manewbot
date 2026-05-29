@@ -9,4 +9,4 @@ async function group_update(groupUpdate, sock) {
     console.error("Erreur lors de la mise à jour du groupe :", err);
   }
 }
-module.exports = group_update;
+module.exports = { group_update };

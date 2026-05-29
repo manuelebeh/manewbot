@@ -1,22 +1,22 @@
 'use strict';
 
-const { execSync } = require('child_process');
 const { delay, DisconnectReason } = require('@whiskeysockets/baileys');
 const { decodeJid } = require('../lib/jid');
 const pkg = require('../package.json');
 const config = require('../set');
 const { manage_env } = require('../lib/manage_env');
-const { installpg, reloadCommands } = require('../lib/plugin');
+const { reloadCommands } = require('../lib/plugin');
+const { installMissingDependencies } = require('../lib/install-missing-deps');
 const evt = require('../lib/commands');
 
-const NEWSLETTER_JID = '120363371282577847@newsletter';
+const { buildForwardContextInfo } = require('../lib/forward-context');
 
 let restartCount = 0;
 let wasOpen = false;
 
 function buildStatusBanner() {
   const nomBot = config.NOM_BOT || 'Manewbot';
-  const developpeur = config.NOM_OWNER || 'Manewbie';
+  const nomOwner = config.NOM_OWNER || 'Manewbie';
   const cmdCount = Array.isArray(evt.cmd) ? evt.cmd.length : 0;
 
   return (
@@ -37,7 +37,7 @@ function buildStatusBanner() {
     pkg.version +
     '\n' +
     '│ ߷ *Développeur*➜ ' +
-    developpeur +
+    nomOwner +
     '\n' +
     '╰──────────────⬣'
   );
@@ -54,54 +54,6 @@ function buildOnlineBox() {
     '│                  \n' +
     '╰─────────────────╯\n'
   );
-}
-
-async function installMissingDependencies() {
-  if (process.env.NODE_ENV === 'production') {
-    const rootPkg = require('../package.json');
-    const allDeps = { ...rootPkg.dependencies, ...rootPkg.devDependencies };
-    const missing = [];
-
-    for (const name of Object.keys(allDeps || {})) {
-      try {
-        require.resolve(name);
-      } catch {
-        missing.push(name);
-      }
-    }
-
-    if (missing.length) {
-      console.warn(
-        '⚠️ Dépendances manquantes (installation auto désactivée en production) : ' +
-          missing.join(', ')
-      );
-    }
-    return;
-  }
-
-  const rootPkg = require('../package.json');
-  const allDeps = { ...rootPkg.dependencies, ...rootPkg.devDependencies };
-  const missing = [];
-
-  for (const name of Object.keys(allDeps || {})) {
-    try {
-      require.resolve(name);
-    } catch {
-      missing.push(name + '@' + allDeps[name]);
-    }
-  }
-
-  if (!missing.length) return;
-
-  console.log(
-    '⚙️ Installation des dépendances manquantes : ' + missing.join(', ')
-  );
-  try {
-    execSync('npm install ' + missing.join(' '), { stdio: 'inherit' });
-    console.log('✅ Dépendances installées.');
-  } catch (err) {
-    console.error('❌ Erreur installation npm :', err.message);
-  }
 }
 
 async function connection_update(
@@ -122,7 +74,6 @@ async function connection_update(
       console.log("🔄 Synchronisation des variables d'environnement...");
       await manage_env();
       console.log('✅ Variables synchronisées.');
-      await installpg();
       await installMissingDependencies();
       await reloadCommands();
       await delay(1000);
@@ -133,14 +84,7 @@ async function connection_update(
         const nomBot = config.NOM_BOT || 'Manewbot';
         await sock.sendMessage(decodeJid(sock.user.id), {
           text: banner,
-          contextInfo: {
-            forwardingScore: 1,
-            isForwarded: true,
-            forwardedNewsletterMessageInfo: {
-              newsletterJid: NEWSLETTER_JID,
-              newsletterName: nomBot,
-            },
-          },
+          contextInfo: buildForwardContextInfo(),
         });
       }
 
@@ -172,4 +116,4 @@ async function connection_update(
   }
 }
 
-module.exports = connection_update;
+module.exports = { connection_update };

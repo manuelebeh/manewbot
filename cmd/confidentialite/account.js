@@ -1,6 +1,6 @@
 'use strict';
 
-const { registerCommand } = require('./_shared');
+const { registerCommand } = require('./deps');
 const config = require('../../set');
 
 registerCommand({

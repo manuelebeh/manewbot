@@ -46,4 +46,4 @@ async function getJid(participantId, groupJid, sock, retryCount = 0) {
     return null;
   }
 }
-module.exports = getJid;
+module.exports = { getJid };

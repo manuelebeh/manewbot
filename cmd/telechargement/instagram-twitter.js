@@ -1,12 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  igdl,
-  twitterdl,
-  axios,
-  resolveArgsWithLink,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { igdl, twitterdl, axios, resolveArgsWithLink } = require('./deps');
 
 registerCommand({
   nom_cmd: "igdl",

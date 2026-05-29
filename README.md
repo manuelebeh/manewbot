@@ -214,7 +214,7 @@ jobs:
       - run: npm run check:secrets
 ```
 
-Le workflow `.github/workflows/ci.yml` du dépôt exécute les tests unitaires et la vérification des secrets à chaque push.
+Le workflow `.github/workflows/ci.yml` exécute à chaque push : vérification des secrets, `check:syntax`, tests unitaires et ESLint (`--quiet`, erreurs uniquement).
 
 </details>
 
@@ -265,11 +265,11 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 
 **Groupes restreints** (`RESTRICTED_GROUPS`) : seuls l'owner, les sudo et les JID de `RESTRICTED_GROUP_ALLOWLIST` peuvent utiliser le bot et les handlers passifs dans ces groupes.
 
-**Tests locaux** : `npm test` · **CI** : `npm run check:secrets` + tests unitaires (voir `.github/workflows/ci.yml`).
+**Tests locaux** : `npm test` · **Qualité** : `npm run check:syntax` · `npm run lint` · **CI** : `check:secrets`, `check:syntax`, tests, ESLint (voir `.github/workflows/ci.yml`).
 
 ### Structure des commandes
 
-Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`, `cmd/owner.js`, etc.) :
+Chaque catégorie est un dossier avec un barrel `cmd/<catégorie>/index.js` (chargé par `lib/plugin.js`, plus de doublon `cmd/jeux.js` + `cmd/jeux/`) :
 
 | Dossier | Rôle |
 |---------|------|
@@ -277,9 +277,20 @@ Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`,
 | `cmd/groupe/` | Tagging, polls, welcome, antimodules, … |
 | `cmd/groupe/moderation/` | kick, kickall, promote, warn, … |
 | `cmd/groupe/settings/` | gcreate, gname, lock, link, ginfo, … |
-| `cmd/conversion/` | Stickers, média, ffmpeg |
-| `cmd/outils/` | Menus, capture, tempmail, devtools, … |
-| `cmd/jeux/` | Tic-tac-toe, quiz anime, dmots, wcg |
+| `cmd/conversion/` | `stickers/`, `image-edit/`, `ffmpeg/`, `video-quote/`, helpers |
+| `lib/dl/` | Scrapers YouTube, TikTok, Instagram, Facebook, Twitter, APK |
+| `lib/message-upsert/` | Helpers résolution messages / view-once |
+| `events/group_participants/` | Welcome/goodbye et alertes promote/demote |
+| `cmd/owner/ban/` | block, ban, onlyadmins, … |
+| `cmd/reaction/` | `captions.js` + enregistrement dynamique |
+| `cmd/<cat>/register.js` | `registerCommand` uniquement (léger) |
+| `cmd/<cat>/deps.js` ou `media.js` | Dépendances lourdes de la catégorie (conversion → `media.js`) |
+
+Chaque commande importe seulement ce dont elle a besoin, par ex. `require('../register')` + `require('../deps')`. Sous-dossiers spécialisés utilisent des modules nommés (`deps.js`, `textpro.js`, `audio-fx.js`, …).
+| `cmd/outils/` | capture, tempmail, devtools, … |
+| `cmd/outils/menus/` | description, theme, menu, allmenu |
+| `cmd/jeux/` | tictactoe, anime-quizz, dmots |
+| `cmd/jeux/wcg/` | Word Chain Game (helpers + game) |
 | `cmd/search/` | img, web, entertainment, shazam |
 | `cmd/telechargement/` | YouTube, TikTok, Instagram, APK, … |
 | `cmd/economie/` | wallet, banking, games, admin |
@@ -288,12 +299,12 @@ Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`,
 | `cmd/confidentialite/` | présence, bio, confidentialité WA |
 | `cmd/status/` | save, sendme, toggles status |
 | `cmd/systeme/` | setvar, checkupdate, update |
-| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) — `logovintage`, `logospace`, `logounderwater` (anciens `vintage`/`space`/`underwater` réservés à l’audio) |
+| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) — `logovintage`, `logospace`, `logounderwater` |
 | `cmd/reaction/` | Réactions GIF waifu.pics (~27 cmd) |
 | `cmd/image_edits/` | Effets image OVL (~24 cmd) |
 | `cmd/fx_audio/` | Filtres audio ffmpeg (~40 cmd) |
 
-Chaque fichier `cmd/<module>.js` à la racine ne fait que `require('./<module>/…')` (point d’entrée pour `lib/plugin.js`).
+`lib/style.js` charge `lib/style-apply.js` (fonctions) et `lib/style-maps.js` (jeux de caractères fancy).
 
 </details>
 
@@ -379,7 +390,7 @@ Si un token ou une clé a déjà été **commité** par le passé, le retirer du
 **Après toute modification de `.env`** : redémarrer le processus (`node bot.js` ou votre service systemd/PM2). Le rechargement des commandes au reconnect WhatsApp ne recharge pas `dotenv`.
 
 ```bash
-npm run check:secrets && npm test   # avant déploiement
+npm run check:secrets && npm run check:syntax && npm test && npm run lint   # avant déploiement
 ./scripts/backup-secrets.sh         # sauvegarde auth/ + .env chiffrée
 ```
 

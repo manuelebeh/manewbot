@@ -1,8 +1,6 @@
 'use strict';
 
-const {
-  registerCommand,
-} = require('./_shared');
+const { registerCommand } = require('./register');
 
 registerCommand({
   nom_cmd: "fake",

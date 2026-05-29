@@ -28,4 +28,4 @@ async function like_status(sock, msg, chatJid, botJid, senderJid) {
     console.error("Erreur dans like_status :", err);
   }
 }
-module.exports = like_status;
+module.exports = { like_status };

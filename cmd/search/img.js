@@ -1,11 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  axios,
-  config,
-  searchImages,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { axios, config, searchImages } = require('./deps');
 
 registerCommand({
   nom_cmd: "img",

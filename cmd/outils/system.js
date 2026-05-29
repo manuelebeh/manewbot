@@ -1,23 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-  cmd,
-  fs,
-  path,
-  os,
-  axios,
-  config,
-  translate,
-  prefixe,
-  WA_CONF,
-  TempMail,
-  spawn,
-  AdmZip,
-  pkg,
-  stylize,
-  contextInfo,
-} = require('./_shared');
+const { registerCommand, cmd } = require('./register');
+const { fs, path, os, axios, config, translate, prefixe, WA_CONF, TempMail, spawn, AdmZip, pkg, stylize, contextInfo } = require('./deps');
 
 registerCommand({
   nom_cmd: "system_status",
@@ -56,7 +40,7 @@ registerCommand({
   }
   const value13 = value3.map(tmp => {
     let tmp2 = 0;
-    for (type in tmp.times) {
+    for (const type in tmp.times) {
       tmp2 += tmp.times[type];
     }
     const value14 = (100 - tmp.times.idle / tmp2 * 100).toFixed(2);

@@ -1,8 +1,7 @@
 'use strict';
 
-const {
-  registerCommand, config, getAiBases, aiNotConfiguredMessage, axios, requirePrompt,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { config, getAiBases, aiNotConfiguredMessage, axios, requirePrompt } = require('./deps');
 
 registerCommand(
   {

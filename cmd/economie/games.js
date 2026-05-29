@@ -1,11 +1,8 @@
 'use strict';
 
-const {
-  registerCommand,
-  getInfosUtilisateur,
-  modifierSolde,
-  ECONOMIE,
-} = require('./_shared');
+const { registerCommand } = require('./register');
+const { getInfosUtilisateur, modifierSolde, ECONOMIE, config } = require('./deps');
+const { getCardPariImages } = require('../../lib/api-bases');
 
 registerCommand({
   nom_cmd: "vol",
@@ -93,12 +90,7 @@ registerCommand({
     return repondre("💸 Fonds insuffisants dans ton portefeuille.");
   }
   const correctDirection = directions[Math.floor(Math.random() * directions.length)];
-  const directionImages = {
-    haut: "https://files.catbox.moe/j0wmsd.jpg",
-    bas: "https://files.catbox.moe/qizuxk.jpg",
-    gauche: "https://files.catbox.moe/lj7xmc.jpg",
-    droite: "https://files.catbox.moe/dsfbhl.jpg"
-  };
+  const directionImages = getCardPariImages();
   await sock.sendMessage(chatJid, {
     image: {
       url: directionImages[correctDirection]

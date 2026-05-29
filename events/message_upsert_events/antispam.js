@@ -145,4 +145,4 @@ async function antispam(sock, chatJid, msg, senderJid, isGroup, isAdmin, isBotAd
     console.error("Erreur dans Antispam:", err);
   }
 }
-module.exports = antispam;
+module.exports = { antispam };

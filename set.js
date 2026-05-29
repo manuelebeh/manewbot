@@ -72,4 +72,44 @@ module.exports = {
     process.env.BOT_INFO_IMAGE_URL || 'https://files.catbox.moe/lojrxz.jpg',
   VIDEO_QUOTE_PLACEHOLDER_URL:
     process.env.VIDEO_QUOTE_PLACEHOLDER_URL || 'https://files.catbox.moe/8kvevz.jpg',
+  ECONOMY_PROFILE_FALLBACK_URL:
+    process.env.ECONOMY_PROFILE_FALLBACK_URL ||
+    'https://wallpapercave.com/uwp/uwp4820694.jpeg',
+  CARD_PARI_IMAGE_HAUT:
+    process.env.CARD_PARI_IMAGE_HAUT || 'https://files.catbox.moe/j0wmsd.jpg',
+  CARD_PARI_IMAGE_BAS:
+    process.env.CARD_PARI_IMAGE_BAS || 'https://files.catbox.moe/qizuxk.jpg',
+  CARD_PARI_IMAGE_GAUCHE:
+    process.env.CARD_PARI_IMAGE_GAUCHE || 'https://files.catbox.moe/lj7xmc.jpg',
+  CARD_PARI_IMAGE_DROITE:
+    process.env.CARD_PARI_IMAGE_DROITE || 'https://files.catbox.moe/dsfbhl.jpg',
+  GETMYFB_PROCESS_URL:
+    process.env.GETMYFB_PROCESS_URL || 'https://getmyfb.com/process',
+  SSSTIK_BASE_URL: process.env.SSSTIK_BASE_URL || 'https://ssstik.io',
+  DOWNLOADGRAM_BASE_URL:
+    process.env.DOWNLOADGRAM_BASE_URL || 'https://downloadgram.org',
+  DOWNLOADGRAM_API_URL:
+    process.env.DOWNLOADGRAM_API_URL || 'https://api.downloadgram.org/media',
+  TWITSAVE_BASE_URL: process.env.TWITSAVE_BASE_URL || 'https://twitsave.com',
+  APTOIDE_SEARCH_URL:
+    process.env.APTOIDE_SEARCH_URL || 'https://ws75.aptoide.com/api/7/apps/search',
+  OMDB_API_BASE: process.env.OMDB_API_BASE || 'https://www.omdbapi.com/',
+  TENOR_API_BASE: process.env.TENOR_API_BASE || 'https://tenor.googleapis.com/v2',
+  OPENWEATHER_API_BASE:
+    process.env.OPENWEATHER_API_BASE || 'https://api.openweathermap.org/data/2.5',
+  JIKAN_API_BASE: process.env.JIKAN_API_BASE || 'https://api.jikan.moe/v4',
+  JOKEAPI_BASE: process.env.JOKEAPI_BASE || 'https://v2.jokeapi.dev',
+  KAAMELOTT_API_BASE:
+    process.env.KAAMELOTT_API_BASE || 'https://kaamelott.chaudie.re/api',
+  WIKTIONARY_FR_BASE:
+    process.env.WIKTIONARY_FR_BASE || 'https://fr.wiktionary.org/wiki',
+  DUCKDUCKGO_BASE: process.env.DUCKDUCKGO_BASE || 'https://duckduckgo.com',
+  GOOGLE_CSE_BASE:
+    process.env.GOOGLE_CSE_BASE || 'https://www.googleapis.com/customsearch/v1',
+  GITHUB_API_BASE: process.env.GITHUB_API_BASE || 'https://api.github.com',
+  GITHUB_REPO_URL:
+    process.env.GITHUB_REPO_URL || 'https://github.com/manuelebeh/manewbot',
+  /** Canal WhatsApp pour métadonnées de forward (vide = désactivé) */
+  WHATSAPP_NEWSLETTER_JID: process.env.WHATSAPP_NEWSLETTER_JID || '',
+  WHATSAPP_NEWSLETTER_NAME: process.env.WHATSAPP_NEWSLETTER_NAME || '',
 };

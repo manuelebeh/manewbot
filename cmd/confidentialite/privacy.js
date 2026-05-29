@@ -2,7 +2,7 @@
 
 const {
   registerCommand, handlePrivacyCommand,
-} = require('./_shared');
+} = require('./deps');
 
 registerCommand({
   nom_cmd: "lastseen",

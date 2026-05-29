@@ -90,4 +90,4 @@ async function antidelete(sock, msg, senderJid, contentType, getMessage, chatJid
     console.error("❌ Une erreur est survenue dans antidelete :", err);
   }
 }
-module.exports = antidelete;
+module.exports = { antidelete };

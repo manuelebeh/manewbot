@@ -1,6 +1,6 @@
 'use strict';
 
-const { genererCommandeCanvacord } = require('./_shared');
+const { genererCommandeCanvacord } = require('./canvacord-registry');
 
 const effetsCanvacord = [
   "shit",

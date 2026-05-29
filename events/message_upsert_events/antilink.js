@@ -96,4 +96,4 @@ async function antilink(sock, chatJid, msg, messageText, isGroup, isAdmin, isBot
     console.error("❌ Erreur dans le système Antilink :", err);
   }
 }
-module.exports = antilink;
+module.exports = { antilink };

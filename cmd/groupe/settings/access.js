@@ -1,6 +1,6 @@
 'use strict';
 
-const { registerCommand } = require('./_shared');
+const { registerCommand } = require('../../../lib/commands');
 
 registerCommand({
   nom_cmd: "open",

@@ -11,9 +11,9 @@ const CMD_DIR = path.join(ROOT, 'cmd');
 describe('cmd-audit-fixes', () => {
   it('registers unique nom_cmd after loading all indexes', () => {
     const { cmd } = require('../lib/commands');
+    const { listCommandBootstrapFiles } = require('../lib/plugin');
     const before = cmd.length;
-    for (const file of fs.readdirSync(CMD_DIR).filter((n) => n.endsWith('.js'))) {
-      const filePath = path.join(CMD_DIR, file);
+    for (const filePath of listCommandBootstrapFiles(CMD_DIR)) {
       delete require.cache[require.resolve(filePath)];
       require(filePath);
     }
@@ -29,7 +29,20 @@ describe('cmd-audit-fixes', () => {
   it('setvar uses allowed env keys module', () => {
     const { isAllowedEnvKey } = require('../lib/env-keys');
     assert.equal(isAllowedEnvKey('MODE'), true);
+    assert.equal(isAllowedEnvKey('WHATSAPP_NEWSLETTER_JID'), true);
     assert.equal(isAllowedEnvKey('TELEGRAM_BOT_TOKEN'), false);
+  });
+
+  it('does not register removed community contact commands', () => {
+    const { cmd } = require('../lib/commands');
+    const names = new Set(cmd.map((c) => c.nom_cmd));
+    assert.equal(names.has('support'), false);
+    assert.equal(names.has('developpeur'), false);
+    assert.equal(names.has('pginstall'), false);
+    assert.equal(names.has('pglist'), false);
+    assert.equal(names.has('pgremove'), false);
+    assert.ok(names.has('owner'));
+    assert.ok(names.has('repo'));
   });
 
   it('clearCmdRequireCache allows submodule reload', () => {
@@ -39,7 +52,7 @@ describe('cmd-audit-fixes', () => {
     assert.ok(countAfterLoad > 50);
     cmd.length = 0;
     clearCmdRequireCache();
-    require(path.join(CMD_DIR, 'fun.js'));
+    require(path.join(CMD_DIR, 'fun', 'index.js'));
     assert.ok(cmd.length > 0, 'submodules should re-register after cache clear');
   });
 });

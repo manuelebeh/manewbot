@@ -13,4 +13,4 @@ async function lecture_status(sock, msg, chatJid) {
     }
   }
 }
-module.exports = lecture_status;
+module.exports = { lecture_status };

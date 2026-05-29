@@ -16,7 +16,6 @@ const { ECONOMIE } = require('./economie');
 const { Sudo } = require('./sudo');
 const { Connect } = require('./connect');
 const { ChatbotConf } = require('./chatbot');
-const { Plugin } = require('./plugin');
 const { BotCmd } = require('./public_private_cmd');
 const { StickCmds } = require('./stick_cmd');
 const { WA_CONF, WA_CONF2 } = require('./wa_conf');
@@ -45,7 +44,6 @@ const MODELS = [
   Sudo,
   Connect,
   ChatbotConf,
-  Plugin,
   BotCmd,
   StickCmds,
   Mention,
@@ -66,12 +64,6 @@ async function runMigrations() {
     }
   } catch {
     // Table may not exist yet on first run.
-  }
-
-  const legacyRows = await WA_CONF.findAll({ where: { mention: 'non' } });
-  for (const row of legacyRows) {
-    row.mention = '1';
-    await row.save();
   }
 }
 

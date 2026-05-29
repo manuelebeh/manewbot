@@ -23,5 +23,11 @@ jobs:
       - name: Check secrets not tracked
         run: npm run check:secrets
 
+      - name: Syntax check
+        run: npm run check:syntax
+
       - name: Unit tests
         run: npm test
+
+      - name: ESLint
+        run: npm run lint
