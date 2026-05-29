@@ -5,40 +5,40 @@ const {
 const {
   registerCommand
 } = require("../lib/commands");
-function addAudioEffectCommand(_0x22732d, _0x587fda) {
+function addAudioEffectCommand(commandName, ffmpegArgs) {
   registerCommand({
-    nom_cmd: _0x22732d,
+    nom_cmd: commandName,
     classe: "FX_Audio",
     react: "🎶",
-    desc: "Applique l'effet \"" + _0x22732d + "\" à un audio."
-  }, async (_0x538d95, _0x5bf0bc, {
-    ms: _0x25226a,
-    msg_Repondu: _0x1d6104,
-    repondre: _0x131e13
+    desc: "Applique l'effet \"" + commandName + "\" à un audio."
+  }, async (jid, bot, {
+    ms,
+    msg_Repondu,
+    repondre
   }) => {
-    if (!_0x1d6104?.audioMessage) {
-      return _0x131e13("Réponds à un message audio*");
+    if (!msg_Repondu?.audioMessage) {
+      return repondre("Réponds à un message audio*");
     }
     try {
-      const _0x5bd8d2 = await _0x5bf0bc.dl_save_media_ms(_0x1d6104.audioMessage);
-      const _0x3de6da = "output.mp3";
-      exec("ffmpeg -i " + _0x5bd8d2 + " " + _0x587fda + " " + _0x3de6da, async _0x225340 => {
-        fs.unlinkSync(_0x5bd8d2);
-        if (_0x225340) {
-          return _0x131e13("Erreur FFmpeg : " + _0x225340.message);
+      const inputPath = await bot.dl_save_media_ms(msg_Repondu.audioMessage);
+      const outputPath = "output.mp3";
+      exec("ffmpeg -i " + inputPath + " " + ffmpegArgs + " " + outputPath, async err => {
+        fs.unlinkSync(inputPath);
+        if (err) {
+          return repondre("Erreur FFmpeg : " + err.message);
         }
-        const _0x20aa19 = fs.readFileSync(_0x3de6da);
-        await _0x5bf0bc.sendMessage(_0x538d95, {
-          audio: _0x20aa19,
+        const audioBuffer = fs.readFileSync(outputPath);
+        await bot.sendMessage(jid, {
+          audio: audioBuffer,
           mimetype: "audio/mpeg"
         }, {
-          quoted: _0x25226a
+          quoted: ms
         });
-        fs.unlinkSync(_0x3de6da);
+        fs.unlinkSync(outputPath);
       });
-    } catch (_0x16c5d2) {
-      console.error("Erreur AudioFX :", _0x16c5d2);
-      _0x131e13("Une erreur est survenue lors du traitement.");
+    } catch (err) {
+      console.error("Erreur AudioFX :", err);
+      repondre("Une erreur est survenue lors du traitement.");
     }
   });
 }

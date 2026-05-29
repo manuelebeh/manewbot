@@ -1,44 +1,44 @@
 const {
   WA_CONF
 } = require("../../database/wa_conf");
-async function dl_status(_0x410d39, _0x91d9de, _0x41a1e9, _0x105e33) {
-  const _0x2f37bc = await WA_CONF.findOne({
+async function dl_status(sock, chatJid, msg, botJid) {
+  const config = await WA_CONF.findOne({
     where: {
       id: "1"
     }
   });
-  if (_0x2f37bc) {
-    if (_0x41a1e9.key.remoteJid === "status@broadcast" && _0x2f37bc.dl_status === "oui") {
+  if (config) {
+    if (msg.key.remoteJid === "status@broadcast" && config.dl_status === "oui") {
       try {
-        if (_0x41a1e9.message.extendedTextMessage) {
-          await _0x410d39.sendMessage(_0x105e33, {
-            text: _0x41a1e9.message.extendedTextMessage.text
+        if (msg.message.extendedTextMessage) {
+          await sock.sendMessage(botJid, {
+            text: msg.message.extendedTextMessage.text
           }, {
-            quoted: _0x41a1e9
+            quoted: msg
           });
-        } else if (_0x41a1e9.message.imageMessage) {
-          let _0x1a5846 = await _0x410d39.dl_save_media_ms(_0x41a1e9.message.imageMessage);
-          await _0x410d39.sendMessage(_0x105e33, {
+        } else if (msg.message.imageMessage) {
+          let mediaPath = await sock.dl_save_media_ms(msg.message.imageMessage);
+          await sock.sendMessage(botJid, {
             image: {
-              url: _0x1a5846
+              url: mediaPath
             },
-            caption: _0x41a1e9.message.imageMessage.caption
+            caption: msg.message.imageMessage.caption
           }, {
-            quoted: _0x41a1e9
+            quoted: msg
           });
-        } else if (_0x41a1e9.message.videoMessage) {
-          let _0x23928f = await _0x410d39.dl_save_media_ms(_0x41a1e9.message.videoMessage);
-          await _0x410d39.sendMessage(_0x105e33, {
+        } else if (msg.message.videoMessage) {
+          let mediaPath = await sock.dl_save_media_ms(msg.message.videoMessage);
+          await sock.sendMessage(botJid, {
             video: {
-              url: _0x23928f
+              url: mediaPath
             },
-            caption: _0x41a1e9.message.videoMessage.caption
+            caption: msg.message.videoMessage.caption
           }, {
-            quoted: _0x41a1e9
+            quoted: msg
           });
         }
-      } catch (_0x54cd0b) {
-        console.error("Erreur lors du traitement du message status:", _0x54cd0b);
+      } catch (err) {
+        console.error("Erreur lors du traitement du message status:", err);
       }
     }
   }

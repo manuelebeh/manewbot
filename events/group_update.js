@@ -1,12 +1,12 @@
 const {
   groupCache
 } = require("../lib/groupe_cache");
-async function group_update(_0x512d2b, _0x49480e) {
+async function group_update(groupUpdate, sock) {
   try {
-    const _0x5d0e9c = await _0x49480e.groupMetadata(_0x512d2b.id);
-    groupCache.set(_0x512d2b.id, _0x5d0e9c);
-  } catch (_0x8c68e8) {
-    console.error("Erreur lors de la mise à jour du groupe :", _0x8c68e8);
+    const metadata = await sock.groupMetadata(groupUpdate.id);
+    groupCache.set(groupUpdate.id, metadata);
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du groupe :", err);
   }
 }
 module.exports = group_update;

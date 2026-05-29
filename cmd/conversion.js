@@ -25,65 +25,65 @@ const {
 } = require("../database/rank");
 const os = require("os");
 let fusionCache = {};
-async function uploadToCatbox(_0x4e66d9) {
+async function uploadToCatbox(filePath) {
   try {
-    const _0x378060 = new FormData();
-    _0x378060.append("reqtype", "fileupload");
-    _0x378060.append("fileToUpload", fs.createReadStream(_0x4e66d9));
-    const _0x3af2c3 = await axios.post("https://catbox.moe/user/api.php", _0x378060, {
-      headers: _0x378060.getHeaders()
+    const formData = new FormData();
+    formData.append("reqtype", "fileupload");
+    formData.append("fileToUpload", fs.createReadStream(filePath));
+    const response = await axios.post("https://catbox.moe/user/api.php", formData, {
+      headers: formData.getHeaders()
     });
-    return _0x3af2c3.data;
-  } catch (_0x3c593b) {
-    console.error("Erreur lors de l'upload sur Catbox:", _0x3c593b);
+    return response.data;
+  } catch (err) {
+    console.error("Erreur lors de l'upload sur Catbox:", err);
     throw new Error("Une erreur est survenue lors de l'upload du fichier.");
   }
 }
-const alea = _0x8ad1e2 => "" + Math.floor(Math.random() * 10000) + _0x8ad1e2;
-const isSupportedFile = _0x218437 => {
-  const _0x5739e1 = [".jpg", ".jpeg", ".png", ".webp", ".mp4", ".gif"];
-  return _0x5739e1.some(_0xa4056e => _0x218437.endsWith(_0xa4056e));
+const alea = suffix => "" + Math.floor(Math.random() * 10000) + suffix;
+const isSupportedFile = filename => {
+  const extensions = [".jpg", ".jpeg", ".png", ".webp", ".mp4", ".gif"];
+  return extensions.some(ext => filename.endsWith(ext));
 };
 registerCommand({
   nom_cmd: "url",
   classe: "Conversion",
   react: "📤",
   desc: "Upload un fichier (image, vidéo, audio) sur Catbox et renvoie le lien"
-}, async (_0x2d0d8d, _0x49fda8, _0x3c5e5b) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x1ed775,
-    ms: _0x46abfc
-  } = _0x3c5e5b;
-  const _0x3f62db = _0x1ed775 || _0x46abfc.message;
-  if (!_0x3f62db) {
-    return _0x49fda8.sendMessage(_0x2d0d8d, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Veuillez mentionner un fichier (image, vidéo, audio ou document)."
     }, {
-      quoted: _0x46abfc
+      quoted: ms
     });
   }
-  const _0x21aaa0 = _0x3f62db.imageMessage || _0x3f62db.videoMessage || _0x3f62db.documentMessage || _0x3f62db.audioMessage;
-  if (!_0x21aaa0) {
-    return _0x49fda8.sendMessage(_0x2d0d8d, {
+  const sourceMessage32 = sourceMessage2.imageMessage || sourceMessage2.videoMessage || sourceMessage2.documentMessage || sourceMessage2.audioMessage;
+  if (!sourceMessage32) {
+    return sock.sendMessage(chatJid, {
       text: "Type de fichier non supporté. Veuillez mentionner une image, vidéo ou audio."
     }, {
-      quoted: _0x46abfc
+      quoted: ms
     });
   }
   try {
-    const _0x357411 = await _0x49fda8.dl_save_media_ms(_0x21aaa0);
-    const _0x2f3665 = await uploadToCatbox(_0x357411);
-    await _0x49fda8.sendMessage(_0x2d0d8d, {
-      text: _0x2f3665
+    const mediaPath2 = await sock.dl_save_media_ms(sourceMessage32);
+    const uploadUrl2 = await uploadToCatbox(mediaPath2);
+    await sock.sendMessage(chatJid, {
+      text: uploadUrl2
     }, {
-      quoted: _0x46abfc
+      quoted: ms
     });
-  } catch (_0x3734b2) {
-    console.error("Erreur lors de l'upload sur Catbox:", _0x3734b2);
-    await _0x49fda8.sendMessage(_0x2d0d8d, {
+  } catch (err) {
+    console.error("Erreur lors de l'upload sur Catbox:", err);
+    await sock.sendMessage(chatJid, {
       text: "Erreur lors de la création du lien Catbox."
     }, {
-      quoted: _0x46abfc
+      quoted: ms
     });
   }
 });
@@ -93,56 +93,56 @@ registerCommand({
   react: "✍️",
   desc: "Crée un sticker à partir d'une image, vidéo ou GIF",
   alias: ["s", "stick"]
-}, async (_0x388d9c, _0x1e3660, _0x289fab) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x1862f5,
-    arg: _0x255075,
-    ms: _0x523e0f
-  } = _0x289fab;
-  const _0x380038 = _0x1862f5 || _0x523e0f.message;
-  if (!_0x380038) {
-    return _0x1e3660.sendMessage(_0x388d9c, {
+    msg_Repondu,
+    arg,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à une image, vidéo ou GIF pour créer un sticker."
     }, {
-      quoted: _0x523e0f
+      quoted: ms
     });
   }
-  let _0x29e16b;
+  let value2;
   try {
-    const _0x5e5f4b = _0x380038.imageMessage || _0x380038.videoMessage;
-    if (!_0x5e5f4b) {
-      return _0x1e3660.sendMessage(_0x388d9c, {
+    const sourceMessage32 = sourceMessage2.imageMessage || sourceMessage2.videoMessage;
+    if (!sourceMessage32) {
+      return sock.sendMessage(chatJid, {
         text: "Veuillez répondre à une image, vidéo ou GIF valide."
       }, {
-        quoted: _0x523e0f
+        quoted: ms
       });
     }
-    _0x29e16b = await _0x1e3660.dl_save_media_ms(_0x5e5f4b);
-    if (!_0x29e16b) {
+    value2 = await sock.dl_save_media_ms(sourceMessage32);
+    if (!value2) {
       throw new Error("Impossible de télécharger le fichier.");
     }
-    const _0x353033 = fs.readFileSync(_0x29e16b);
-    const _0x469d4c = new Sticker(_0x353033, {
+    const fileBuffer2 = fs.readFileSync(value2);
+    const sticker2 = new Sticker(fileBuffer2, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.FULL,
-      quality: _0x380038.imageMessage ? 100 : 30
+      quality: sourceMessage2.imageMessage ? 100 : 30
     });
-    const _0x365c54 = Math.floor(Math.random() * 10000) + ".webp";
-    await _0x469d4c.toFile(_0x365c54);
-    await _0x1e3660.sendMessage(_0x388d9c, {
-      sticker: fs.readFileSync(_0x365c54)
+    const sourceMessage42 = Math.floor(Math.random() * 10000) + ".webp";
+    await sticker2.toFile(sourceMessage42);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(sourceMessage42)
     }, {
-      quoted: _0x523e0f
+      quoted: ms
     });
-    fs.unlinkSync(_0x29e16b);
-    fs.unlinkSync(_0x365c54);
-  } catch (_0x2a54f9) {
-    console.error("Erreur lors de la création du sticker:", _0x2a54f9);
-    await _0x1e3660.sendMessage(_0x388d9c, {
-      text: "Erreur lors de la création du sticker : " + _0x2a54f9.message
+    fs.unlinkSync(value2);
+    fs.unlinkSync(sourceMessage42);
+  } catch (err) {
+    console.error("Erreur lors de la création du sticker:", err);
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors de la création du sticker : " + err.message
     }, {
-      quoted: _0x523e0f
+      quoted: ms
     });
   }
 });
@@ -151,52 +151,52 @@ registerCommand({
   classe: "Conversion",
   react: "✂️",
   desc: "Crée un sticker croppé à partir d'une image ou vidéo"
-}, async (_0x3f9da7, _0x1045ee, _0x57c7c8) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x3bc4cc,
-    ms: _0x21f0a5
-  } = _0x57c7c8;
-  const _0xc5b04f = _0x3bc4cc || _0x21f0a5.message;
-  if (!_0xc5b04f) {
-    return _0x1045ee.sendMessage(_0x3f9da7, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à une image ou vidéo."
     }, {
-      quoted: _0x21f0a5
+      quoted: ms
     });
   }
-  let _0x40b19f;
+  let value2;
   try {
-    const _0x29429a = _0xc5b04f.imageMessage || _0xc5b04f.videoMessage;
-    if (!_0x29429a) {
-      return _0x1045ee.sendMessage(_0x3f9da7, {
+    const sourceMessage32 = sourceMessage2.imageMessage || sourceMessage2.videoMessage;
+    if (!sourceMessage32) {
+      return sock.sendMessage(chatJid, {
         text: "Veuillez répondre à une image ou vidéo valide."
       }, {
-        quoted: _0x21f0a5
+        quoted: ms
       });
     }
-    _0x40b19f = await _0x1045ee.dl_save_media_ms(_0x29429a);
-    const _0x144069 = fs.readFileSync(_0x40b19f);
-    const _0x2db9ff = new Sticker(_0x144069, {
+    value2 = await sock.dl_save_media_ms(sourceMessage32);
+    const fileBuffer2 = fs.readFileSync(value2);
+    const sticker2 = new Sticker(fileBuffer2, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.CROPPED,
-      quality: _0xc5b04f.imageMessage ? 100 : 30
+      quality: sourceMessage2.imageMessage ? 100 : 30
     });
-    const _0x360aad = Math.floor(Math.random() * 10000) + ".webp";
-    await _0x2db9ff.toFile(_0x360aad);
-    await _0x1045ee.sendMessage(_0x3f9da7, {
-      sticker: fs.readFileSync(_0x360aad)
+    const sourceMessage42 = Math.floor(Math.random() * 10000) + ".webp";
+    await sticker2.toFile(sourceMessage42);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(sourceMessage42)
     }, {
-      quoted: _0x21f0a5
+      quoted: ms
     });
-    fs.unlinkSync(_0x40b19f);
-    fs.unlinkSync(_0x360aad);
-  } catch (_0x4696a2) {
-    console.error("Erreur lors de la création du sticker :", _0x4696a2);
-    await _0x1045ee.sendMessage(_0x3f9da7, {
-      text: "Erreur lors de la création du sticker : " + _0x4696a2.message
+    fs.unlinkSync(value2);
+    fs.unlinkSync(sourceMessage42);
+  } catch (err) {
+    console.error("Erreur lors de la création du sticker :", err);
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors de la création du sticker : " + err.message
     }, {
-      quoted: _0x21f0a5
+      quoted: ms
     });
   }
 });
@@ -205,52 +205,52 @@ registerCommand({
   classe: "Conversion",
   react: "🔵",
   desc: "Crée un sticker circulaire à partir d'une image ou vidéo"
-}, async (_0x55d248, _0x216ed4, _0xa6819b) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0xc2e39f,
-    ms: _0x61168b
-  } = _0xa6819b;
-  const _0x3c1cdb = _0xc2e39f || _0x61168b.message;
-  if (!_0x3c1cdb) {
-    return _0x216ed4.sendMessage(_0x55d248, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à une image ou vidéo."
     }, {
-      quoted: _0x61168b
+      quoted: ms
     });
   }
-  let _0x580984;
+  let value2;
   try {
-    const _0xa48867 = _0x3c1cdb.imageMessage || _0x3c1cdb.videoMessage;
-    if (!_0xa48867) {
-      return _0x216ed4.sendMessage(_0x55d248, {
+    const sourceMessage32 = sourceMessage2.imageMessage || sourceMessage2.videoMessage;
+    if (!sourceMessage32) {
+      return sock.sendMessage(chatJid, {
         text: "Veuillez répondre à une image ou vidéo valide."
       }, {
-        quoted: _0x61168b
+        quoted: ms
       });
     }
-    _0x580984 = await _0x216ed4.dl_save_media_ms(_0xa48867);
-    const _0x148bfc = fs.readFileSync(_0x580984);
-    const _0x2b2559 = new Sticker(_0x148bfc, {
+    value2 = await sock.dl_save_media_ms(sourceMessage32);
+    const fileBuffer2 = fs.readFileSync(value2);
+    const sticker2 = new Sticker(fileBuffer2, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.CIRCLE,
-      quality: _0x3c1cdb.imageMessage ? 100 : 30
+      quality: sourceMessage2.imageMessage ? 100 : 30
     });
-    const _0x2fcb02 = Math.floor(Math.random() * 10000) + ".webp";
-    await _0x2b2559.toFile(_0x2fcb02);
-    await _0x216ed4.sendMessage(_0x55d248, {
-      sticker: fs.readFileSync(_0x2fcb02)
+    const sourceMessage42 = Math.floor(Math.random() * 10000) + ".webp";
+    await sticker2.toFile(sourceMessage42);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(sourceMessage42)
     }, {
-      quoted: _0x61168b
+      quoted: ms
     });
-    fs.unlinkSync(_0x580984);
-    fs.unlinkSync(_0x2fcb02);
-  } catch (_0x5bce8e) {
-    console.error("Erreur lors de la création du sticker :", _0x5bce8e);
-    await _0x216ed4.sendMessage(_0x55d248, {
-      text: "Erreur lors de la création du sticker : " + _0x5bce8e.message
+    fs.unlinkSync(value2);
+    fs.unlinkSync(sourceMessage42);
+  } catch (err) {
+    console.error("Erreur lors de la création du sticker :", err);
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors de la création du sticker : " + err.message
     }, {
-      quoted: _0x61168b
+      quoted: ms
     });
   }
 });
@@ -259,52 +259,52 @@ registerCommand({
   classe: "Conversion",
   react: "🔲",
   desc: "Crée un sticker avec des coins arrondis à partir d'une image ou vidéo"
-}, async (_0x18a99d, _0x1f5450, _0x163020) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x1584a1,
-    ms: _0x255769
-  } = _0x163020;
-  const _0x1b93a3 = _0x1584a1 || _0x255769.message;
-  if (!_0x1b93a3) {
-    return _0x1f5450.sendMessage(_0x18a99d, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à une image ou vidéo."
     }, {
-      quoted: _0x255769
+      quoted: ms
     });
   }
-  let _0x44db0c;
+  let value2;
   try {
-    const _0x42af5a = _0x1b93a3.imageMessage || _0x1b93a3.videoMessage;
-    if (!_0x42af5a) {
-      return _0x1f5450.sendMessage(_0x18a99d, {
+    const sourceMessage32 = sourceMessage2.imageMessage || sourceMessage2.videoMessage;
+    if (!sourceMessage32) {
+      return sock.sendMessage(chatJid, {
         text: "Veuillez répondre à une image ou vidéo valide."
       }, {
-        quoted: _0x255769
+        quoted: ms
       });
     }
-    _0x44db0c = await _0x1f5450.dl_save_media_ms(_0x42af5a);
-    const _0x439526 = fs.readFileSync(_0x44db0c);
-    const _0x59962d = new Sticker(_0x439526, {
+    value2 = await sock.dl_save_media_ms(sourceMessage32);
+    const fileBuffer2 = fs.readFileSync(value2);
+    const sticker2 = new Sticker(fileBuffer2, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.ROUNDED,
-      quality: _0x1b93a3.imageMessage ? 100 : 30
+      quality: sourceMessage2.imageMessage ? 100 : 30
     });
-    const _0x22976b = Math.floor(Math.random() * 10000) + ".webp";
-    await _0x59962d.toFile(_0x22976b);
-    await _0x1f5450.sendMessage(_0x18a99d, {
-      sticker: fs.readFileSync(_0x22976b)
+    const sourceMessage42 = Math.floor(Math.random() * 10000) + ".webp";
+    await sticker2.toFile(sourceMessage42);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(sourceMessage42)
     }, {
-      quoted: _0x255769
+      quoted: ms
     });
-    fs.unlinkSync(_0x44db0c);
-    fs.unlinkSync(_0x22976b);
-  } catch (_0x31d47b) {
-    console.error("Erreur lors de la création du sticker :", _0x31d47b);
-    await _0x1f5450.sendMessage(_0x18a99d, {
-      text: "Erreur lors de la création du sticker : " + _0x31d47b.message
+    fs.unlinkSync(value2);
+    fs.unlinkSync(sourceMessage42);
+  } catch (err) {
+    console.error("Erreur lors de la création du sticker :", err);
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors de la création du sticker : " + err.message
     }, {
-      quoted: _0x255769
+      quoted: ms
     });
   }
 });
@@ -313,42 +313,42 @@ registerCommand({
   classe: "Conversion",
   react: "✍️",
   desc: "Modifie le nom d'un sticker"
-}, async (_0x4d138b, _0x469671, _0x1f0fd2) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x1f9deb,
-    arg: _0x488e3f,
-    nom_Auteur_Message: _0x10d894,
-    ms: _0x168011
-  } = _0x1f0fd2;
-  if (!_0x1f9deb || !_0x1f9deb.stickerMessage) {
-    return _0x469671.sendMessage(_0x4d138b, {
+    msg_Repondu,
+    arg,
+    nom_Auteur_Message,
+    ms
+  } = ctx;
+  if (!msg_Repondu || !msg_Repondu.stickerMessage) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à un sticker."
     }, {
-      quoted: _0x168011
+      quoted: ms
     });
   }
   try {
-    const _0x286772 = await _0x469671.dl_save_media_ms(_0x1f9deb.stickerMessage);
-    const _0x4a9e0a = _0x1f9deb.stickerMessage.quality || 40;
-    const _0x2f4bfb = new Sticker(_0x286772, {
-      pack: _0x488e3f.join(" ") ? _0x488e3f.join(" ") : _0x10d894,
+    const mediaPath2 = await sock.dl_save_media_ms(msg_Repondu.stickerMessage);
+    const sourceMessage2 = msg_Repondu.stickerMessage.quality || 40;
+    const sticker2 = new Sticker(mediaPath2, {
+      pack: arg.join(" ") ? arg.join(" ") : nom_Auteur_Message,
       author: "",
       type: StickerTypes.FULL,
-      quality: _0x4a9e0a
+      quality: sourceMessage2
     });
-    const _0x20c956 = alea(".webp");
-    await _0x2f4bfb.toFile(_0x20c956);
-    await _0x469671.sendMessage(_0x4d138b, {
-      sticker: fs.readFileSync(_0x20c956)
+    const value2 = alea(".webp");
+    await sticker2.toFile(value2);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(value2)
     }, {
-      quoted: _0x168011
+      quoted: ms
     });
-    fs.unlinkSync(_0x20c956);
-  } catch (_0x448ed5) {
-    await _0x469671.sendMessage(_0x4d138b, {
-      text: "Erreur lors du renommage du sticker : " + _0x448ed5.message
+    fs.unlinkSync(value2);
+  } catch (err) {
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors du renommage du sticker : " + err.message
     }, {
-      quoted: _0x168011
+      quoted: ms
     });
   }
 });
@@ -358,31 +358,31 @@ registerCommand({
   react: "✍️",
   desc: "Convertit un sticker en image",
   alias: ["toimg", "photo"]
-}, async (_0x587a33, _0x76a9d6, _0x298bea) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x531086,
-    ms: _0x247638
-  } = _0x298bea;
-  if (!_0x531086 || !_0x531086.stickerMessage) {
-    return _0x76a9d6.sendMessage(_0x587a33, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  if (!msg_Repondu || !msg_Repondu.stickerMessage) {
+    return sock.sendMessage(chatJid, {
       text: "Répondez à un sticker."
     }, {
-      quoted: _0x247638
+      quoted: ms
     });
   }
   try {
-    const _0x2d16b8 = await _0x76a9d6.dl_save_media_ms(_0x531086.stickerMessage);
-    const _0x113904 = await sharp(_0x2d16b8).png().toBuffer();
-    await _0x76a9d6.sendMessage(_0x587a33, {
-      image: _0x113904
+    const mediaPath2 = await sock.dl_save_media_ms(msg_Repondu.stickerMessage);
+    const outputBuffer2 = await sharp(mediaPath2).png().toBuffer();
+    await sock.sendMessage(chatJid, {
+      image: outputBuffer2
     }, {
-      quoted: _0x247638
+      quoted: ms
     });
-  } catch (_0x1c0f6f) {
-    await _0x76a9d6.sendMessage(_0x587a33, {
-      text: "Erreur lors de la conversion en image : " + _0x1c0f6f.message
+  } catch (err) {
+    await sock.sendMessage(chatJid, {
+      text: "Erreur lors de la conversion en image : " + err.message
     }, {
-      quoted: _0x247638
+      quoted: ms
     });
   }
 });
@@ -391,167 +391,165 @@ registerCommand({
   classe: "Conversion",
   react: "✍️",
   desc: "Ajoute du texte à une image, vidéo ou sticker"
-}, async (_0x17bd63, _0x3feb24, _0x3e1592) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x25798a,
-    arg: _0x205b8e,
-    ms: _0x277cdf
-  } = _0x3e1592;
-  if (!_0x25798a || !_0x205b8e[0]) {
-    return _0x3feb24.sendMessage(_0x17bd63, {
+    msg_Repondu,
+    arg,
+    ms
+  } = ctx;
+  if (!msg_Repondu || !arg[0]) {
+    return sock.sendMessage(chatJid, {
       text: "Veuillez répondre à un fichier et fournir du texte."
     }, {
-      quoted: _0x277cdf
+      quoted: ms
     });
   }
-  const _0x14dfe4 = _0x25798a.imageMessage || _0x25798a.videoMessage || _0x25798a.stickerMessage;
-  if (!_0x14dfe4) {
-    return _0x3feb24.sendMessage(_0x17bd63, {
+  const sourceMessage2 = msg_Repondu.imageMessage || msg_Repondu.videoMessage || msg_Repondu.stickerMessage;
+  if (!sourceMessage2) {
+    return sock.sendMessage(chatJid, {
       text: "Type de fichier non supporté. Veuillez mentionner une image, vidéo ou sticker."
     }, {
-      quoted: _0x277cdf
+      quoted: ms
     });
   }
   try {
-    const _0x307995 = await _0x3feb24.dl_save_media_ms(_0x14dfe4);
-    const _0x59e4c4 = sharp(_0x307995);
+    const mediaPath2 = await sock.dl_save_media_ms(sourceMessage2);
+    const image2 = sharp(mediaPath2);
     const {
-      width: _0x3ff921,
-      height: _0x26e285
-    } = await _0x59e4c4.metadata();
-    const _0x261b25 = _0x205b8e.join(" ").toUpperCase();
-    let _0x5ca4c3 = Math.floor(_0x3ff921 / 10);
-    if (_0x5ca4c3 < 20) {
-      _0x5ca4c3 = 20;
+      width: width,
+      height: height
+    } = await image2.metadata();
+    const overlayText = arg.join(" ").toUpperCase();
+    let fontSize = Math.floor(width / 10);
+    if (fontSize < 20) {
+      fontSize = 20;
     }
-    const _0x4fec83 = _0x5ca4c3 * 1.2;
-    const _0x23f95d = _0x3ff921 * 0.8;
-    function _0x2d86f8(_0x87835a, _0x27abbc) {
-      const _0x3c5187 = _0x87835a.split(" ");
-      let _0x34e969 = [];
-      let _0x54cf0d = "";
-      _0x3c5187.forEach(_0x3f5efe => {
-        let _0x228511 = _0x54cf0d + _0x3f5efe + " ";
-        let _0x3dcf28 = _0x228511.length * (_0x5ca4c3 * 0.6);
-        if (_0x3dcf28 > _0x27abbc && _0x54cf0d !== "") {
-          _0x34e969.push(_0x54cf0d.trim());
-          _0x54cf0d = _0x3f5efe + " ";
+    const lineHeight = fontSize * 1.2;
+    const maxLineWidth = width * 0.8;
+    function wrapText(text, maxWidth) {
+      const words = text.split(" ");
+      let lines = [];
+      let currentLine = "";
+      words.forEach(word => {
+        let testLine = currentLine + word + " ";
+        let testWidth = testLine.length * (fontSize * 0.6);
+        if (testWidth > maxWidth && currentLine !== "") {
+          lines.push(currentLine.trim());
+          currentLine = word + " ";
         } else {
-          _0x54cf0d = _0x228511;
+          currentLine = testLine;
         }
       });
-      _0x34e969.push(_0x54cf0d.trim());
-      return _0x34e969;
+      lines.push(currentLine.trim());
+      return lines;
     }
-    const _0x176d84 = _0x2d86f8(_0x261b25, _0x23f95d);
-    const _0x4d13dc = _0x176d84.map((_0x5644c1, _0x3d650a) => "<text x=\"50%\" y=\"" + (_0x26e285 - (_0x176d84.length - _0x3d650a) * _0x4fec83) + "\" font-size=\"" + _0x5ca4c3 + "\" font-family=\"Arial\" fill=\"white\" text-anchor=\"middle\" stroke=\"black\" stroke-width=\"" + _0x5ca4c3 / 15 + "\">" + _0x5644c1 + "</text>").join("");
-    const _0x431b67 = "<svg width=\"" + _0x3ff921 + "\" height=\"" + _0x26e285 + "\">" + _0x4d13dc + "</svg>";
-    const _0x45c2cc = await _0x59e4c4.composite([{
-      input: Buffer.from(_0x431b67),
+    const textLines = wrapText(overlayText, maxLineWidth);
+    const svgLines = textLines.map((line, lineIndex) => "<text x=\"50%\" y=\"" + (height - (textLines.length - lineIndex) * lineHeight) + "\" font-size=\"" + fontSize + "\" font-family=\"Arial\" fill=\"white\" text-anchor=\"middle\" stroke=\"black\" stroke-width=\"" + fontSize / 15 + "\">" + line + "</text>").join("");
+    const svgOverlay = "<svg width=\"" + width + "\" height=\"" + height + "\">" + svgLines + "</svg>";
+    const outputBuffer = await image2.composite([{
+      input: Buffer.from(svgOverlay),
       top: 0,
       left: 0
     }]).toBuffer();
-    const _0x28ae6f = Math.floor(Math.random() * 10000) + ".webp";
-    await sharp(_0x45c2cc).webp().toFile(_0x28ae6f);
-    await _0x3feb24.sendMessage(_0x17bd63, {
-      sticker: fs.readFileSync(_0x28ae6f)
+    const webpPath = Math.floor(Math.random() * 10000) + ".webp";
+    await sharp(outputBuffer).webp().toFile(webpPath);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(webpPath)
     }, {
-      quoted: _0x277cdf
-    }, {
-      quoted: _0x277cdf
+      quoted: ms
     });
-    fs.unlinkSync(_0x28ae6f);
-    fs.unlinkSync(_0x307995);
-  } catch (_0x530c9c) {
-    await _0x3feb24.sendMessage(_0x17bd63, {
-      text: "Une erreur est survenue lors de l'ajout du texte : " + _0x530c9c.message
+    fs.unlinkSync(webpPath);
+    fs.unlinkSync(mediaPath2);
+  } catch (err) {
+    await sock.sendMessage(chatJid, {
+      text: "Une erreur est survenue lors de l'ajout du texte : " + err.message
     }, {
-      quoted: _0x277cdf
+      quoted: ms
     });
   }
 });
-const remini = async (_0x306111, _0x178fb3) => {
-  const _0x2c2ea2 = ["enhance", "recolor", "dehaze"];
-  const _0x5b7624 = _0x2c2ea2.includes(_0x178fb3) ? _0x178fb3 : _0x2c2ea2[0];
-  const _0xd45ab2 = "https://inferenceengine.vyro.ai/" + _0x5b7624;
-  const _0x2e8360 = new FormData();
-  _0x2e8360.append("model_version", 1);
-  const _0xc6fc4e = Buffer.isBuffer(_0x306111) ? _0x306111 : readFileSync(_0x306111);
-  _0x2e8360.append("image", _0xc6fc4e, {
+const remini = async (imageInput, mode) => {
+  const modes = ["enhance", "recolor", "dehaze"];
+  const selectedMode = modes.includes(mode) ? mode : modes[0];
+  const apiUrl = "https://inferenceengine.vyro.ai/" + selectedMode;
+  const formData = new FormData();
+  formData.append("model_version", 1);
+  const imageBuffer = Buffer.isBuffer(imageInput) ? imageInput : readFileSync(imageInput);
+  formData.append("image", imageBuffer, {
     filename: "enhance_image_body.jpg",
     contentType: "image/jpeg"
   });
-  const _0x48e017 = await axios.post(_0xd45ab2, _0x2e8360, {
+  const response = await axios.post(apiUrl, formData, {
     headers: {
-      ..._0x2e8360.getHeaders(),
+      ...formData.getHeaders(),
       "User-Agent": "okhttp/4.9.3",
       Connection: "Keep-Alive",
       "Accept-Encoding": "gzip"
     },
     responseType: "arraybuffer"
   });
-  return Buffer.from(_0x48e017.data);
+  return Buffer.from(response.data);
 };
 registerCommand({
   nom_cmd: "remini",
   classe: "Conversion",
   react: "🖼️",
   desc: "Amélioration de la qualité des images"
-}, async (_0x2d97f4, _0x528c48, _0x1211f5) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    msg_Repondu: _0x48c04a,
-    ms: _0x201acb
-  } = _0x1211f5;
-  const _0x536132 = _0x48c04a || _0x201acb.message;
-  if (!_0x536132?.imageMessage) {
-    return _0x528c48.sendMessage(_0x2d97f4, {
+    msg_Repondu,
+    ms
+  } = ctx;
+  const sourceMessage2 = msg_Repondu || ms.message;
+  if (!sourceMessage2?.imageMessage) {
+    return sock.sendMessage(chatJid, {
       text: "Veuillez répondre à une image pour améliorer sa qualité."
     }, {
-      quoted: _0x201acb
+      quoted: ms
     });
   }
   try {
-    const _0x5166f7 = await _0x528c48.dl_save_media_ms(_0x536132.imageMessage);
-    if (!_0x5166f7) {
-      return _0x528c48.sendMessage(_0x2d97f4, {
+    const mediaPath2 = await sock.dl_save_media_ms(sourceMessage2.imageMessage);
+    if (!mediaPath2) {
+      return sock.sendMessage(chatJid, {
         text: "Impossible de télécharger l'image. Réessayez."
       }, {
-        quoted: _0x201acb
+        quoted: ms
       });
     }
     try {
-      const _0x2335d6 = await uploadToCatbox(_0x5166f7);
-      const _0x23941c = await axios.get("https://www.itzky.xyz/api/remini?url=" + _0x2335d6);
-      await _0x528c48.sendMessage(_0x2d97f4, {
+      const uploadUrl2 = await uploadToCatbox(mediaPath2);
+      const response2 = await axios.get("https://www.itzky.xyz/api/remini?url=" + uploadUrl2);
+      await sock.sendMessage(chatJid, {
         image: {
-          url: _0x23941c.data.result
+          url: response2.data.result
         },
         caption: "```Powered by Manewbot```"
       }, {
-        quoted: _0x201acb
+        quoted: ms
       });
       return;
     } catch {}
     try {
-      const _0x57a5a0 = await remini(_0x5166f7, "enhance");
-      await _0x528c48.sendMessage(_0x2d97f4, {
-        image: _0x57a5a0,
+      const enhancedImage2 = await remini(mediaPath2, "enhance");
+      await sock.sendMessage(chatJid, {
+        image: enhancedImage2,
         caption: "```Powered by Manewbot```"
       }, {
-        quoted: _0x201acb
+        quoted: ms
       });
     } catch {
-      await _0x528c48.sendMessage(_0x2d97f4, {
+      await sock.sendMessage(chatJid, {
         text: "Une erreur est survenue pendant le traitement de l'image avec les deux services."
       }, {
-        quoted: _0x201acb
+        quoted: ms
       });
     }
   } catch {
-    return _0x528c48.sendMessage(_0x2d97f4, {
+    return sock.sendMessage(chatJid, {
       text: "Une erreur est survenue pendant le traitement de l'image."
     }, {
-      quoted: _0x201acb
+      quoted: ms
     });
   }
 });
@@ -560,55 +558,55 @@ registerCommand({
   classe: "Conversion",
   react: "🌟",
   desc: "Mixes deux emojis pour créer un sticker"
-}, async (_0x42fd14, _0xc2b243, _0xb17812) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    arg: _0x4d9266,
-    prefixe: _0x2a7e77,
-    ms: _0x2d7e40
-  } = _0xb17812;
-  if (!_0x4d9266 || _0x4d9266.length < 1) {
-    return _0xc2b243.sendMessage(_0x42fd14, {
-      text: "Example: " + _0x2a7e77 + "emix 😅;🤔"
+    arg,
+    prefixe,
+    ms
+  } = ctx;
+  if (!arg || arg.length < 1) {
+    return sock.sendMessage(chatJid, {
+      text: "Example: " + prefixe + "emix 😅;🤔"
     }, {
-      quoted: _0x2d7e40
+      quoted: ms
     });
   }
-  let [_0x5c07a2, _0x53a174] = _0x4d9266[0].split(";");
+  let [emoji1, emoji2] = arg[0].split(";");
   try {
-    let _0x45efbe = await axios.get("https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=" + encodeURIComponent(_0x5c07a2) + "_" + encodeURIComponent(_0x53a174));
-    let _0x4de6c5 = _0x45efbe.data;
-    if (!_0x4de6c5.results || _0x4de6c5.results.length === 0) {
-      return _0xc2b243.sendMessage(_0x42fd14, {
+    let response2 = await axios.get("https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=" + encodeURIComponent(emoji1) + "_" + encodeURIComponent(emoji2));
+    let data2 = response2.data;
+    if (!data2.results || data2.results.length === 0) {
+      return sock.sendMessage(chatJid, {
         text: "Aucun résultat trouvé pour ces emojis."
       }, {
-        quoted: _0x2d7e40
+        quoted: ms
       });
     }
-    for (let _0x3b5af2 of _0x4de6c5.results) {
-      const _0x4bc74d = await axios.get(_0x3b5af2.url, {
+    for (let value2 of data2.results) {
+      const value32 = await axios.get(value2.url, {
         responseType: "arraybuffer"
-      }).then(_0x648143 => _0x648143.data);
-      const _0x380c75 = new Sticker(_0x4bc74d, {
+      }).then(param2 => param2.data);
+      const sticker2 = new Sticker(value32, {
         pack: config.STICKER_PACK_NAME,
         author: config.STICKER_AUTHOR_NAME,
         type: StickerTypes.FULL,
         quality: 100
       });
-      const _0x39c8f5 = Math.floor(Math.random() * 10000) + ".webp";
-      await _0x380c75.toFile(_0x39c8f5);
-      await _0xc2b243.sendMessage(_0x42fd14, {
-        sticker: fs.readFileSync(_0x39c8f5)
+      const sourceMessage2 = Math.floor(Math.random() * 10000) + ".webp";
+      await sticker2.toFile(sourceMessage2);
+      await sock.sendMessage(chatJid, {
+        sticker: fs.readFileSync(sourceMessage2)
       }, {
-        quoted: _0x2d7e40
+        quoted: ms
       });
-      fs.unlinkSync(_0x39c8f5);
+      fs.unlinkSync(sourceMessage2);
     }
-  } catch (_0x21efd0) {
-    console.error("Erreur:", _0x21efd0);
-    return _0xc2b243.sendMessage(_0x42fd14, {
+  } catch (err) {
+    console.error("Erreur:", err);
+    return sock.sendMessage(chatJid, {
       text: "Une erreur est survenue lors de la recherche de l'image."
     }, {
-      quoted: _0x2d7e40
+      quoted: ms
     });
   }
 });
@@ -617,53 +615,53 @@ registerCommand({
   classe: "Conversion",
   react: "🔊",
   desc: "Convertit un texte en parole et renvoie l'audio."
-}, async (_0x8a7da5, _0x12b88b, _0x49df8f) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    arg: _0x449d85,
-    prefixe: _0x269161,
-    ms: _0x26995e
-  } = _0x49df8f;
-  if (!_0x449d85[0]) {
-    return _0x12b88b.sendMessage(_0x8a7da5, {
+    arg,
+    prefixe,
+    ms
+  } = ctx;
+  if (!arg[0]) {
+    return sock.sendMessage(chatJid, {
       text: "Entrez un texte à lire."
     }, {
-      quoted: _0x26995e
+      quoted: ms
     });
   }
-  let _0x12617c = "fr";
-  let _0x5311b6 = _0x449d85.join(" ");
-  if (_0x449d85[0].length === 2) {
-    _0x12617c = _0x449d85[0];
-    _0x5311b6 = _0x449d85.slice(1).join(" ");
+  let lang = "fr";
+  let speechText = arg.join(" ");
+  if (arg[0].length === 2) {
+    lang = arg[0];
+    speechText = arg.slice(1).join(" ");
   }
   try {
-    const _0x185356 = new gTTS(_0x5311b6, _0x12617c);
-    const _0x3e5ea4 = path.join(__dirname, "output.mp3");
-    _0x185356.save(_0x3e5ea4, function (_0x2be9c6, _0x5264f2) {
-      if (_0x2be9c6) {
-        return _0x12b88b.sendMessage(_0x8a7da5, {
+    const tts = new gTTS(speechText, lang);
+    const outputPath = path.join(__dirname, "output.mp3");
+    tts.save(outputPath, function (err) {
+      if (err) {
+        return sock.sendMessage(chatJid, {
           text: "Une erreur est survenue lors de la conversion en audio. Veuillez réessayer plus tard."
         }, {
-          quoted: _0x26995e
+          quoted: ms
         });
       }
-      const _0x5bbdaa = fs.readFileSync(_0x3e5ea4);
-      const _0x3bd4c8 = {
-        audio: _0x5bbdaa,
+      const audioBuffer = fs.readFileSync(outputPath);
+      const audioMessage = {
+        audio: audioBuffer,
         mimetype: "audio/mpeg",
         caption: "```Powered by Manewbot```"
       };
-      _0x12b88b.sendMessage(_0x8a7da5, _0x3bd4c8, {
-        quoted: _0x26995e
+      sock.sendMessage(chatJid, audioMessage, {
+        quoted: ms
       }).then(() => {
-        fs.unlinkSync(_0x3e5ea4);
+        fs.unlinkSync(outputPath);
       });
     });
-  } catch (_0x9906ad) {
-    return _0x12b88b.sendMessage(_0x8a7da5, {
+  } catch (err) {
+    return sock.sendMessage(chatJid, {
       text: "Une erreur est survenue lors de la conversion en audio. Veuillez réessayer plus tard."
     }, {
-      quoted: _0x26995e
+      quoted: ms
     });
   }
 });
@@ -672,36 +670,36 @@ registerCommand({
   classe: "Conversion",
   react: "📥",
   desc: "Transforme du texte en sticker animé"
-}, async (_0x3026ec, _0x3c2588, _0x24bee9) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    arg: _0x51482a,
-    repondre: _0x3fadb1,
-    nom_Auteur_Message: _0x488716,
-    ms: _0x185882
-  } = _0x24bee9;
-  if (!_0x51482a[0]) {
-    return _0x3fadb1("Veuillez fournir du texte");
+    arg,
+    repondre,
+    nom_Auteur_Message,
+    ms
+  } = ctx;
+  if (!arg[0]) {
+    return repondre("Veuillez fournir du texte");
   }
-  const _0x2e9460 = _0x51482a.join(" ");
+  const text2 = arg.join(" ");
   try {
-    const _0x5d4b26 = await axios.get("https://api-ovl.koyeb.app/attp?texte=" + encodeURIComponent(_0x2e9460), {
+    const response2 = await axios.get("https://api-ovl.koyeb.app/attp?texte=" + encodeURIComponent(text2), {
       responseType: "arraybuffer"
     });
-    const _0x2f0e80 = await new Sticker(_0x5d4b26.data, {
+    const outputBuffer2 = await new Sticker(response2.data, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.FULL,
       quality: 90,
       background: "transparent"
     }).toBuffer();
-    await _0x3c2588.sendMessage(_0x3026ec, {
-      sticker: _0x2f0e80
+    await sock.sendMessage(chatJid, {
+      sticker: outputBuffer2
     }, {
-      quoted: _0x185882
+      quoted: ms
     });
-  } catch (_0xc603e9) {
-    console.error(_0xc603e9);
-    _0x3fadb1("❌ Une erreur est survenue lors de la génération du sticker animé.");
+  } catch (err) {
+    console.error(err);
+    repondre("❌ Une erreur est survenue lors de la génération du sticker animé.");
   }
 });
 registerCommand({
@@ -709,70 +707,70 @@ registerCommand({
   classe: "Conversion",
   react: "📥",
   desc: "Transforme du texte en sticker"
-}, async (_0x2c238a, _0x16d286, _0x41bd0c) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    arg: _0x2f3949,
-    repondre: _0x204b9e,
-    nom_Auteur_Message: _0x3523ea,
-    ms: _0x101970
-  } = _0x41bd0c;
-  if (!_0x2f3949[0]) {
-    return _0x204b9e("Veuillez fournir du texte");
+    arg,
+    repondre,
+    nom_Auteur_Message,
+    ms
+  } = ctx;
+  if (!arg[0]) {
+    return repondre("Veuillez fournir du texte");
   }
-  const _0x4c417d = _0x2f3949.join(" ");
+  const text2 = arg.join(" ");
   try {
-    const _0x1d1a5c = await axios.get("https://api-ovl.koyeb.app/ttp?texte=" + encodeURIComponent(_0x4c417d), {
+    const response2 = await axios.get("https://api-ovl.koyeb.app/ttp?texte=" + encodeURIComponent(text2), {
       responseType: "arraybuffer"
     });
-    const _0x17c2c0 = await new Sticker(_0x1d1a5c.data, {
+    const outputBuffer2 = await new Sticker(response2.data, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.FULL,
       quality: 70,
       background: "transparent"
     }).toBuffer();
-    await _0x16d286.sendMessage(_0x2c238a, {
-      sticker: _0x17c2c0
+    await sock.sendMessage(chatJid, {
+      sticker: outputBuffer2
     }, {
-      quoted: _0x101970
+      quoted: ms
     });
-  } catch (_0x36abf3) {
-    console.error(_0x36abf3);
-    _0x204b9e("❌ Une erreur est survenue lors de la génération du sticker.");
+  } catch (err) {
+    console.error(err);
+    repondre("❌ Une erreur est survenue lors de la génération du sticker.");
   }
 });
 async function convertWebpToMp4({
-  file: _0x3ad355,
-  filename: _0x46feca,
-  url: _0x28c5d8
+  file: file,
+  filename: filename,
+  url: url
 }) {
   try {
-    if (!_0x3ad355 && !_0x28c5d8) {
+    if (!file && !url) {
       throw new Error("Un fichier ou une URL est requis.");
     }
-    if (_0x3ad355 && !_0x46feca) {
+    if (file && !filename) {
       throw new Error("Le nom du fichier est requis pour les fichiers envoyés.");
     }
-    const _0x50819c = new FormData();
-    if (_0x3ad355) {
-      _0x50819c.append("new-image", _0x3ad355, {
-        filename: _0x46feca
+    const formData2 = new FormData();
+    if (file) {
+      formData2.append("new-image", file, {
+        filename: filename
       });
     }
-    if (_0x28c5d8) {
-      _0x50819c.append("new-image-url", _0x28c5d8);
+    if (url) {
+      formData2.append("new-image-url", url);
     }
-    const _0x50cec3 = await axios.post("https://ezgif.com/webp-to-mp4", _0x50819c, {
-      headers: _0x50819c.getHeaders()
+    const response2 = await axios.post("https://ezgif.com/webp-to-mp4", formData2, {
+      headers: formData2.getHeaders()
     });
-    const _0x525611 = _0x50cec3?.request?.res?.responseUrl;
-    if (!_0x525611) {
+    const value2 = response2?.request?.res?.responseUrl;
+    if (!value2) {
       throw new Error("Redirection introuvable.");
     }
-    const _0x2db324 = _0x525611.replace(/\.html$/, "");
-    const _0x4b5e76 = _0x2db324.split("/").pop();
-    const _0x110ed0 = await axios.post(_0x2db324 + "?ajax=true", new URLSearchParams({
-      file: _0x4b5e76,
+    const value32 = value2.replace(/\.html$/, "");
+    const value42 = value32.split("/").pop();
+    const response32 = await axios.post(value32 + "?ajax=true", new URLSearchParams({
+      file: value42,
       background: "#ffffff",
       backgroundc: "#ffffff",
       repeat: "1",
@@ -782,16 +780,16 @@ async function convertWebpToMp4({
         "Content-Type": "application/x-www-form-urlencoded"
       }
     });
-    const _0x88ace8 = _0x110ed0.data.toString();
-    const _0x20bea9 = "\" controls><source src=\"";
-    const _0x5d2396 = "\" type=\"video/mp4\">Your browser";
-    const _0x3f53a2 = _0x88ace8.split(_0x20bea9)?.[1]?.split(_0x5d2396)?.[0];
-    if (!_0x3f53a2) {
+    const value52 = response32.data.toString();
+    const value62 = "\" controls><source src=\"";
+    const value72 = "\" type=\"video/mp4\">Your browser";
+    const value82 = value52.split(value62)?.[1]?.split(value72)?.[0];
+    if (!value82) {
       throw new Error("Conversion échouée.");
     }
-    return "https:" + _0x3f53a2.replace("https:", "");
-  } catch (_0x26246d) {
-    throw new Error("Erreur conversion WebP → MP4 : " + _0x26246d);
+    return "https:" + value82.replace("https:", "");
+  } catch (err) {
+    throw new Error("Erreur conversion WebP → MP4 : " + err);
   }
 }
 registerCommand({
@@ -800,38 +798,38 @@ registerCommand({
   react: "🎞️",
   desc: "Convertit un sticker en vidéo MP4",
   alias: ["stovid"]
-}, async (_0x27f642, _0x234632, _0x10e4c1) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    ms: _0x24425a,
-    repondre: _0x533fdb,
-    msg_Repondu: _0x4a6b79
-  } = _0x10e4c1;
+    ms,
+    repondre,
+    msg_Repondu
+  } = ctx;
   try {
-    if (!_0x4a6b79 || !_0x4a6b79.stickerMessage) {
-      return _0x234632.sendMessage(_0x27f642, {
+    if (!msg_Repondu || !msg_Repondu.stickerMessage) {
+      return sock.sendMessage(chatJid, {
         text: "Répondez à un sticker."
       }, {
-        quoted: _0x24425a
+        quoted: ms
       });
     }
-    const _0x9ac953 = await _0x234632.dl_save_media_ms(_0x4a6b79.stickerMessage);
-    const _0x2f8195 = fs.createReadStream(_0x9ac953);
-    const _0x42e740 = await convertWebpToMp4({
-      file: _0x2f8195,
+    const mediaPath2 = await sock.dl_save_media_ms(msg_Repondu.stickerMessage);
+    const value2 = fs.createReadStream(mediaPath2);
+    const mp4Url2 = await convertWebpToMp4({
+      file: value2,
       filename: "fichier.webp"
     });
-    await _0x234632.sendMessage(_0x27f642, {
+    await sock.sendMessage(chatJid, {
       video: {
-        url: _0x42e740
+        url: mp4Url2
       },
       caption: "```Powered by Manewbot```"
     }, {
-      quoted: _0x24425a
+      quoted: ms
     });
-    fs.unlinkSync(_0x9ac953);
-  } catch (_0x2eab3b) {
-    console.error(_0x2eab3b);
-    _0x533fdb("❌ Une erreur est survenue pendant la conversion.");
+    fs.unlinkSync(mediaPath2);
+  } catch (err) {
+    console.error(err);
+    repondre("❌ Une erreur est survenue pendant la conversion.");
   }
 });
 registerCommand({
@@ -840,76 +838,77 @@ registerCommand({
   react: "🖼️",
   desc: "Transforme un message cité en sticker stylisé.",
   alias: ["q"]
-}, async (_0x37e58f, _0x30736f, {
-  ms: _0x35eac2,
-  msg_Repondu: _0x492c82,
-  repondre: _0x34c222,
-  auteur_Msg_Repondu: _0x48023a
-}) => {
-  const _0xa1f017 = _0x492c82?.conversation || _0x492c82?.extendedTextMessage?.text;
-  if (!_0xa1f017) {
-    return _0x34c222("Veuillez répondre à un message texte.");
+}, async (chatJid, sock, ctx) => {
+  const {
+  ms,
+  msg_Repondu,
+  repondre,
+  auteur_Msg_Repondu
+} = ctx;
+  const sourceMessage2 = msg_Repondu?.conversation || msg_Repondu?.extendedTextMessage?.text;
+  if (!sourceMessage2) {
+    return repondre("Veuillez répondre à un message texte.");
   }
-  let _0x1ad609;
+  let value2;
   try {
-    _0x1ad609 = await _0x30736f.profilePictureUrl(_0x48023a, "image");
-  } catch (_0x2ee309) {
-    _0x1ad609 = "https://files.catbox.moe/8kvevz.jpg";
+    value2 = await sock.profilePictureUrl(auteur_Msg_Repondu, "image");
+  } catch (err) {
+    value2 = "https://files.catbox.moe/8kvevz.jpg";
   }
-  let _0x3276dc;
-  const _0x2e7704 = await Ranks.findOne({
+  let value32;
+  const rankRecord2 = await Ranks.findOne({
     where: {
-      id: _0x48023a
+      id: auteur_Msg_Repondu
     }
   });
-  if (_0x2e7704.name) {
-    _0x3276dc = _0x2e7704.name;
+  if (rankRecord2.name) {
+    value32 = rankRecord2.name;
   } else {
-    _0x3276dc = "Manewbot-USER";
+    value32 = "Manewbot-USER";
   }
-  const _0x5a6220 = ["#FFFFFF", "#000000", "#1f1f1f", "#e3e3e3"];
-  const _0x50ca7a = _0x5a6220[Math.floor(Math.random() * _0x5a6220.length)];
-  const _0x3c971a = {
+  const modes2 = ["#FFFFFF", "#000000", "#1f1f1f", "#e3e3e3"];
+  const value42 = modes2[Math.floor(Math.random() * modes2.length)];
+  const payload2 = {
     type: "quote",
     format: "png",
-    backgroundColor: _0x50ca7a,
+    backgroundColor: value42,
     width: 512,
     height: 512,
     scale: 3,
     messages: [{
       avatar: true,
       from: {
-        first_name: _0x3276dc,
+        first_name: value32,
         language_code: "fr",
-        name: _0x3276dc,
+        name: value32,
         photo: {
-          url: _0x1ad609
+          url: value2
         }
       },
-      text: _0xa1f017,
+      text: sourceMessage2,
       replyMessage: {}
     }]
   };
   try {
-    const _0x470952 = await axios.post("https://bot.lyo.su/quote/generate", _0x3c971a);
-    const _0x2eb23b = Buffer.from(_0x470952.data.result.image, "base64");
-    const _0x430460 = new Sticker(_0x2eb23b, {
+    const response2 = await axios.post("https://bot.lyo.su/quote/generate", payload2);
+    const value52 = Buffer.from(response2.data.result.image, "base64");
+    const sticker2 = new Sticker(value52, {
       pack: config.STICKER_PACK_NAME,
       author: config.STICKER_AUTHOR_NAME,
       type: StickerTypes.FULL,
       quality: 100
     });
-    const _0x15957a = "/tmp/quotely_" + Date.now() + ".webp";
-    await _0x430460.toFile(_0x15957a);
-    await _0x30736f.sendMessage(_0x37e58f, {
-      sticker: fs.readFileSync(_0x15957a)
+    const sourceMessage32 = "/tmp/quotely_" + Date.now() + ".webp";
+    await sticker2.toFile(sourceMessage32);
+    await sock.sendMessage(chatJid, {
+      sticker: fs.readFileSync(sourceMessage32)
     }, {
-      quoted: _0x35eac2
+      quoted: ms
     });
-    fs.unlinkSync(_0x15957a);
-  } catch (_0x170e3d) {
-    console.error("Erreur Quotely :", _0x170e3d.message || _0x170e3d);
-    return _0x34c222("Une erreur est survenue lors de la génération du sticker.");
+    fs.unlinkSync(sourceMessage32);
+  } catch (err2) {
+    console.error("Erreur Quotely :", err2.message || err2);
+    return repondre("Une erreur est survenue lors de la génération du sticker.");
   }
 });
 registerCommand({
@@ -917,64 +916,64 @@ registerCommand({
   classe: "Outils",
   react: "👀",
   desc: "envoie un message en vue unique dans la discussion"
-}, async (_0x1690f0, _0x283942, _0x5db66a) => {
+}, async (chatJid, sock, ctx) => {
   const {
-    ms: _0x2a7cd5,
-    msg_Repondu: _0x1132f8,
-    repondre: _0x1516a8
-  } = _0x5db66a;
-  if (!_0x1132f8) {
-    return _0x1516a8("Veuillez mentionner un message qui n'est pas en vue unique.");
+    ms,
+    msg_Repondu,
+    repondre
+  } = ctx;
+  if (!msg_Repondu) {
+    return repondre("Veuillez mentionner un message qui n'est pas en vue unique.");
   }
-  let _0x237c28 = Object.keys(_0x1132f8).find(_0x2559d3 => _0x2559d3.startsWith("viewOnceMessage"));
-  let _0x89bc8f = _0x1132f8;
-  if (_0x237c28) {
-    _0x89bc8f = _0x1132f8[_0x237c28].message;
+  let urlToken2 = Object.keys(msg_Repondu).find(param2 => param2.startsWith("viewOnceMessage"));
+  let value2 = msg_Repondu;
+  if (urlToken2) {
+    value2 = msg_Repondu[urlToken2].message;
   }
-  if (_0x89bc8f) {
-    if (_0x89bc8f.imageMessage && _0x89bc8f.imageMessage.viewOnce == true || _0x89bc8f.videoMessage && _0x89bc8f.videoMessage.viewOnce == true || _0x89bc8f.audioMessage && _0x89bc8f.audioMessage.viewOnce == true) {
-      return _0x1516a8("Ce message est un message en vue unique.");
+  if (value2) {
+    if (value2.imageMessage && value2.imageMessage.viewOnce == true || value2.videoMessage && value2.videoMessage.viewOnce == true || value2.audioMessage && value2.audioMessage.viewOnce == true) {
+      return repondre("Ce message est un message en vue unique.");
     }
   }
   try {
-    let _0x56aaa3;
-    let _0x1af055 = {
-      quoted: _0x2a7cd5
+    let value32;
+    let payload2 = {
+      quoted: ms
     };
-    if (_0x89bc8f.imageMessage) {
-      _0x56aaa3 = await _0x283942.dl_save_media_ms(_0x89bc8f.imageMessage);
-      await _0x283942.sendMessage(_0x1690f0, {
+    if (value2.imageMessage) {
+      value32 = await sock.dl_save_media_ms(value2.imageMessage);
+      await sock.sendMessage(chatJid, {
         image: {
-          url: _0x56aaa3
+          url: value32
         },
         viewOnce: true,
-        caption: _0x89bc8f.imageMessage.caption || ""
-      }, _0x1af055);
-    } else if (_0x89bc8f.videoMessage) {
-      _0x56aaa3 = await _0x283942.dl_save_media_ms(_0x89bc8f.videoMessage);
-      await _0x283942.sendMessage(_0x1690f0, {
+        caption: value2.imageMessage.caption || ""
+      }, payload2);
+    } else if (value2.videoMessage) {
+      value32 = await sock.dl_save_media_ms(value2.videoMessage);
+      await sock.sendMessage(chatJid, {
         video: {
-          url: _0x56aaa3
+          url: value32
         },
         viewOnce: true,
-        caption: _0x89bc8f.videoMessage.caption || ""
-      }, _0x1af055);
-    } else if (_0x89bc8f.audioMessage) {
-      _0x56aaa3 = await _0x283942.dl_save_media_ms(_0x89bc8f.audioMessage);
-      await _0x283942.sendMessage(_0x1690f0, {
+        caption: value2.videoMessage.caption || ""
+      }, payload2);
+    } else if (value2.audioMessage) {
+      value32 = await sock.dl_save_media_ms(value2.audioMessage);
+      await sock.sendMessage(chatJid, {
         audio: {
-          url: _0x56aaa3
+          url: value32
         },
         viewOnce: true,
         mimetype: "audio/mp4",
         ptt: false
-      }, _0x1af055);
+      }, payload2);
     } else {
-      return _0x1516a8("Ce type de message en vue unique n'est pas pris en charge.");
+      return repondre("Ce type de message en vue unique n'est pas pris en charge.");
     }
-  } catch (_0x12c801) {
-    console.error("Erreur lors de l'envoi du message en vue unique :", _0x12c801.message || _0x12c801);
-    return _0x1516a8("Une erreur est survenue lors du traitement du message.");
+  } catch (err) {
+    console.error("Erreur lors de l'envoi du message en vue unique :", err.message || err);
+    return repondre("Une erreur est survenue lors du traitement du message.");
   }
 });
 registerCommand({
@@ -982,44 +981,45 @@ registerCommand({
   classe: "Conversion",
   react: "🎧",
   desc: "Convertit une vidéo en audio"
-}, async (_0x13c924, _0x24cb68, {
-  msg_Repondu: _0x167269,
-  ms: _0x1d6aeb
-}) => {
-  if (!_0x167269 || !_0x167269.videoMessage) {
-    return _0x24cb68.sendMessage(_0x13c924, {
+}, async (chatJid, sock, ctx) => {
+  const {
+  msg_Repondu,
+  ms
+} = ctx;
+  if (!msg_Repondu || !msg_Repondu.videoMessage) {
+    return sock.sendMessage(chatJid, {
       text: "❌ Répondez à une *vidéo*."
     }, {
-      quoted: _0x1d6aeb
+      quoted: ms
     });
   }
   try {
-    const _0x152279 = await _0x24cb68.dl_save_media_ms(_0x167269.videoMessage);
-    const _0xffb304 = path.join(os.tmpdir(), "aud_" + Date.now() + ".mp3");
-    await new Promise((_0x504283, _0x3f4dce) => {
-      const _0x4b5fe4 = spawn("ffmpeg", ["-i", _0x152279, "-vn", "-acodec", "libmp3lame", "-q:a", "4", _0xffb304]);
-      _0x4b5fe4.stderr.on("data", () => {});
-      _0x4b5fe4.on("close", _0x950ef => {
-        if (_0x950ef === 0) {
-          _0x504283();
+    const mediaPath = await sock.dl_save_media_ms(msg_Repondu.videoMessage);
+    const outputPath = path.join(os.tmpdir(), "aud_" + Date.now() + ".mp3");
+    await new Promise((resolve, reject) => {
+      const ffmpegProcess = spawn("ffmpeg", ["-i", mediaPath, "-vn", "-acodec", "libmp3lame", "-q:a", "4", outputPath]);
+      ffmpegProcess.stderr.on("data", () => {});
+      ffmpegProcess.on("close", code => {
+        if (code === 0) {
+          resolve();
         } else {
-          _0x3f4dce(new Error("ffmpeg exited with code " + _0x950ef));
+          reject(new Error("ffmpeg exited with code " + code));
         }
       });
     });
-    await _0x24cb68.sendMessage(_0x13c924, {
-      audio: fs.readFileSync(_0xffb304),
+    await sock.sendMessage(chatJid, {
+      audio: fs.readFileSync(outputPath),
       mimetype: "audio/mpeg"
     }, {
-      quoted: _0x1d6aeb
+      quoted: ms
     });
-    fs.unlinkSync(_0x152279);
-    fs.unlinkSync(_0xffb304);
-  } catch (_0xf60ed0) {
-    await _0x24cb68.sendMessage(_0x13c924, {
-      text: "❌ Erreur de conversion : " + _0xf60ed0.message
+    fs.unlinkSync(mediaPath);
+    fs.unlinkSync(outputPath);
+  } catch (err) {
+    await sock.sendMessage(chatJid, {
+      text: "❌ Erreur de conversion : " + err.message
     }, {
-      quoted: _0x1d6aeb
+      quoted: ms
     });
   }
 });
@@ -1028,46 +1028,47 @@ registerCommand({
   classe: "Conversion",
   react: "🎬",
   desc: "Convertit un audio en vidéo animée"
-}, async (_0x26251d, _0x2a922a, {
-  msg_Repondu: _0x3f71f7,
-  ms: _0x27d1a2
-}) => {
-  if (!_0x3f71f7 || !_0x3f71f7.audioMessage) {
-    return _0x2a922a.sendMessage(_0x26251d, {
+}, async (chatJid, sock, ctx) => {
+  const {
+  msg_Repondu,
+  ms
+} = ctx;
+  if (!msg_Repondu || !msg_Repondu.audioMessage) {
+    return sock.sendMessage(chatJid, {
       text: "❌ Répondez à un *audio*."
     }, {
-      quoted: _0x27d1a2
+      quoted: ms
     });
   }
   try {
-    const _0x590c8d = await _0x2a922a.dl_save_media_ms(_0x3f71f7.audioMessage);
-    const _0xf6b054 = parseFloat(execSync("ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 \"" + _0x590c8d + "\"").toString().trim());
-    const _0x25471a = path.basename(_0x590c8d, path.extname(_0x590c8d));
-    const _0x16dc26 = path.dirname(_0x590c8d);
-    const _0x3507a1 = path.join(_0x16dc26, _0x25471a + ".mp4");
-    await new Promise((_0x3196d9, _0x356b76) => {
-      const _0x11d75a = spawn("ffmpeg", ["-y", "-i", _0x590c8d, "-f", "lavfi", "-i", "color=c=black:s=640x360:d=" + _0xf6b054, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", _0x3507a1]);
-      _0x11d75a.stderr.on("data", () => {});
-      _0x11d75a.on("close", _0x3969ca => {
-        if (_0x3969ca === 0) {
-          _0x3196d9();
+    const mediaPath = await sock.dl_save_media_ms(msg_Repondu.audioMessage);
+    const duration = parseFloat(execSync("ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 \"" + mediaPath + "\"").toString().trim());
+    const baseName = path.basename(mediaPath, path.extname(mediaPath));
+    const dirName = path.dirname(mediaPath);
+    const outputPath = path.join(dirName, baseName + ".mp4");
+    await new Promise((resolve, reject) => {
+      const ffmpegProcess = spawn("ffmpeg", ["-y", "-i", mediaPath, "-f", "lavfi", "-i", "color=c=black:s=640x360:d=" + duration, "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", outputPath]);
+      ffmpegProcess.stderr.on("data", () => {});
+      ffmpegProcess.on("close", code => {
+        if (code === 0) {
+          resolve();
         } else {
-          _0x356b76(new Error("ffmpeg exited with code " + _0x3969ca));
+          reject(new Error("ffmpeg exited with code " + code));
         }
       });
     });
-    await _0x2a922a.sendMessage(_0x26251d, {
-      video: fs.readFileSync(_0x3507a1)
+    await sock.sendMessage(chatJid, {
+      video: fs.readFileSync(outputPath)
     }, {
-      quoted: _0x27d1a2
+      quoted: ms
     });
-    fs.unlinkSync(_0x590c8d);
-    fs.unlinkSync(_0x3507a1);
-  } catch (_0x8b0461) {
-    await _0x2a922a.sendMessage(_0x26251d, {
-      text: "❌ Erreur de conversion en vidéo : " + _0x8b0461.message
+    fs.unlinkSync(mediaPath);
+    fs.unlinkSync(outputPath);
+  } catch (err) {
+    await sock.sendMessage(chatJid, {
+      text: "❌ Erreur de conversion en vidéo : " + err.message
     }, {
-      quoted: _0x27d1a2
+      quoted: ms
     });
   }
 });
@@ -1076,105 +1077,106 @@ registerCommand({
   classe: "Conversion",
   react: "🎬",
   desc: "Fusionne un audio et une vidéo"
-}, async (_0x186422, _0x2e9590, {
-  msg_Repondu: _0x26a175,
-  ms: _0x2d5dd5,
-  auteur_Message: _0x399251,
-  arg: _0x319745
-}) => {
-  const _0xc83fbe = _0x399251;
-  fusionCache[_0xc83fbe] = fusionCache[_0xc83fbe] || {};
-  if (_0x319745[0]?.toLowerCase() === "result") {
-    if (!fusionCache[_0xc83fbe].audioPath || !fusionCache[_0xc83fbe].videoPath) {
-      return _0x2e9590.sendMessage(_0x186422, {
+}, async (chatJid, sock, ctx) => {
+  const {
+  msg_Repondu,
+  ms,
+  auteur_Message,
+  arg
+} = ctx;
+  const senderKey = auteur_Message;
+  fusionCache[senderKey] = fusionCache[senderKey] || {};
+  if (arg[0]?.toLowerCase() === "result") {
+    if (!fusionCache[senderKey].audioPath || !fusionCache[senderKey].videoPath) {
+      return sock.sendMessage(chatJid, {
         text: "❌ Audio ou vidéo manquant."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
     const {
-      audioPath: _0x162361,
-      videoPath: _0x396cb2
-    } = fusionCache[_0xc83fbe];
-    const _0x2b27f3 = path.join(path.dirname(_0x396cb2), "fusion_" + Date.now() + ".mp4");
+      audioPath: audioPath,
+      videoPath: videoPath
+    } = fusionCache[senderKey];
+    const outputPath = path.join(path.dirname(videoPath), "fusion_" + Date.now() + ".mp4");
     try {
-      await new Promise((_0x429ed8, _0xa9a372) => {
-        const _0x5dea36 = spawn("ffmpeg", ["-y", "-i", _0x396cb2, "-i", _0x162361, "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", _0x2b27f3]);
-        _0x5dea36.on("close", _0x8e33d5 => {
-          if (_0x8e33d5 === 0) {
-            _0x429ed8();
+      await new Promise((resolve, reject) => {
+        const ffmpegProcess = spawn("ffmpeg", ["-y", "-i", videoPath, "-i", audioPath, "-map", "0:v", "-map", "1:a", "-c:v", "copy", "-c:a", "aac", outputPath]);
+        ffmpegProcess.on("close", code => {
+          if (code === 0) {
+            resolve();
           } else {
-            _0xa9a372(new Error("ffmpeg " + _0x8e33d5));
+            reject(new Error("ffmpeg " + code));
           }
         });
       });
-      await _0x2e9590.sendMessage(_0x186422, {
-        video: fs.readFileSync(_0x2b27f3)
+      await sock.sendMessage(chatJid, {
+        video: fs.readFileSync(outputPath)
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
-      fs.unlinkSync(_0x162361);
-      fs.unlinkSync(_0x396cb2);
-      fs.unlinkSync(_0x2b27f3);
-      delete fusionCache[_0xc83fbe];
+      fs.unlinkSync(audioPath);
+      fs.unlinkSync(videoPath);
+      fs.unlinkSync(outputPath);
+      delete fusionCache[senderKey];
       return;
-    } catch (_0x17c6f2) {
-      return _0x2e9590.sendMessage(_0x186422, {
+    } catch (err) {
+      return sock.sendMessage(chatJid, {
         text: "❌ Erreur lors de la fusion."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
   }
-  if (_0x26a175?.audioMessage) {
-    if (fusionCache[_0xc83fbe].audioPath) {
-      return _0x2e9590.sendMessage(_0x186422, {
+  if (msg_Repondu?.audioMessage) {
+    if (fusionCache[senderKey].audioPath) {
+      return sock.sendMessage(chatJid, {
         text: "⚠️ Audio déjà enregistré. Envoyez une vidéo ou tapez *fusion result*."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
-    const _0x399fbe = await _0x2e9590.dl_save_media_ms(_0x26a175.audioMessage);
-    fusionCache[_0xc83fbe].audioPath = _0x399fbe;
-    if (fusionCache[_0xc83fbe].videoPath) {
-      return _0x2e9590.sendMessage(_0x186422, {
+    const audioPath = await sock.dl_save_media_ms(msg_Repondu.audioMessage);
+    fusionCache[senderKey].audioPath = audioPath;
+    if (fusionCache[senderKey].videoPath) {
+      return sock.sendMessage(chatJid, {
         text: "✅ Audio ajouté. Tapez *fusion result* pour obtenir la vidéo."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
-    return _0x2e9590.sendMessage(_0x186422, {
+    return sock.sendMessage(chatJid, {
       text: "✅ Audio enregistré. Répondez maintenant à une vidéo."
     }, {
-      quoted: _0x2d5dd5
+      quoted: ms
     });
   }
-  if (_0x26a175?.videoMessage) {
-    if (fusionCache[_0xc83fbe].videoPath) {
-      return _0x2e9590.sendMessage(_0x186422, {
+  if (msg_Repondu?.videoMessage) {
+    if (fusionCache[senderKey].videoPath) {
+      return sock.sendMessage(chatJid, {
         text: "⚠️ Vidéo déjà enregistrée. Envoyez un audio ou tapez *fusion result*."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
-    const _0x4c59d4 = await _0x2e9590.dl_save_media_ms(_0x26a175.videoMessage);
-    fusionCache[_0xc83fbe].videoPath = _0x4c59d4;
-    if (fusionCache[_0xc83fbe].audioPath) {
-      return _0x2e9590.sendMessage(_0x186422, {
+    const videoPath = await sock.dl_save_media_ms(msg_Repondu.videoMessage);
+    fusionCache[senderKey].videoPath = videoPath;
+    if (fusionCache[senderKey].audioPath) {
+      return sock.sendMessage(chatJid, {
         text: "✅ Vidéo ajoutée. Tapez *fusion result* pour obtenir le résultat."
       }, {
-        quoted: _0x2d5dd5
+        quoted: ms
       });
     }
-    return _0x2e9590.sendMessage(_0x186422, {
+    return sock.sendMessage(chatJid, {
       text: "✅ Vidéo enregistrée. Répondez maintenant à un audio."
     }, {
-      quoted: _0x2d5dd5
+      quoted: ms
     });
   }
-  return _0x2e9590.sendMessage(_0x186422, {
+  return sock.sendMessage(chatJid, {
     text: "❌ Répondez à un *audio* ou une *vidéo*."
   }, {
-    quoted: _0x2d5dd5
+    quoted: ms
   });
 });

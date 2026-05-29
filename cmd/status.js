@@ -10,56 +10,56 @@ registerCommand({
   classe: "Status",
   react: "💾",
   desc: "Télécharge un statut WhatsApp"
-}, async (_0x310314, _0x482454, _0x23f909) => {
+}, async (jid, bot, ctx) => {
   const {
-    ms: _0x4c4fc2,
-    msg_Repondu: _0x944416,
-    repondre: _0x53e178,
-    quote: _0x5ddbf2,
-    id_Bot: _0x1d3ff4
-  } = _0x23f909;
+    ms,
+    msg_Repondu,
+    repondre,
+    quote,
+    id_Bot
+  } = ctx;
   try {
-    if (!_0x944416 || !_0x5ddbf2?.remoteJid || _0x5ddbf2.remoteJid !== "status@broadcast") {
-      return _0x53e178("Merci de répondre à un statut WhatsApp.");
+    if (!msg_Repondu || !quote?.remoteJid || quote.remoteJid !== "status@broadcast") {
+      return repondre("Merci de répondre à un statut WhatsApp.");
     }
-    let _0x6db476;
-    let _0x332bb7 = {
-      quoted: _0x4c4fc2
+    let mediaPath;
+    let sendOptions = {
+      quoted: ms
     };
-    if (_0x944416.extendedTextMessage) {
-      await _0x482454.sendMessage(_0x1d3ff4, {
-        text: _0x944416.extendedTextMessage.text
-      }, _0x332bb7);
-    } else if (_0x944416.imageMessage) {
-      _0x6db476 = await _0x482454.dl_save_media_ms(_0x944416.imageMessage);
-      await _0x482454.sendMessage(_0x1d3ff4, {
+    if (msg_Repondu.extendedTextMessage) {
+      await bot.sendMessage(id_Bot, {
+        text: msg_Repondu.extendedTextMessage.text
+      }, sendOptions);
+    } else if (msg_Repondu.imageMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.imageMessage);
+      await bot.sendMessage(id_Bot, {
         image: {
-          url: _0x6db476
+          url: mediaPath
         },
-        caption: _0x944416.imageMessage.caption
-      }, _0x332bb7);
-    } else if (_0x944416.videoMessage) {
-      _0x6db476 = await _0x482454.dl_save_media_ms(_0x944416.videoMessage);
-      await _0x482454.sendMessage(_0x1d3ff4, {
+        caption: msg_Repondu.imageMessage.caption
+      }, sendOptions);
+    } else if (msg_Repondu.videoMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.videoMessage);
+      await bot.sendMessage(id_Bot, {
         video: {
-          url: _0x6db476
+          url: mediaPath
         },
-        caption: _0x944416.videoMessage.caption
-      }, _0x332bb7);
-    } else if (_0x944416.audioMessage) {
-      _0x6db476 = await _0x482454.dl_save_media_ms(_0x944416.audioMessage);
-      await _0x482454.sendMessage(_0x1d3ff4, {
+        caption: msg_Repondu.videoMessage.caption
+      }, sendOptions);
+    } else if (msg_Repondu.audioMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.audioMessage);
+      await bot.sendMessage(id_Bot, {
         audio: {
-          url: _0x6db476
+          url: mediaPath
         },
         mimetype: "audio/mp4",
         ptt: false
-      }, _0x332bb7);
+      }, sendOptions);
     } else {
-      return _0x53e178("Ce type de statut n'est pas pris en charge.");
+      return repondre("Ce type de statut n'est pas pris en charge.");
     }
-  } catch (_0x5cb250) {
-    console.error("Erreur lors du téléchargement du statut :", _0x5cb250);
+  } catch (err) {
+    console.error("Erreur lors du téléchargement du statut :", err);
   }
 });
 registerCommand({
@@ -67,57 +67,57 @@ registerCommand({
   classe: "Status",
   react: "📤",
   desc: "Renvoie un statut mentionné par l'utilisateur"
-}, async (_0x118853, _0x524d92, _0xd3326f) => {
+}, async (jid, bot, ctx) => {
   const {
-    ms: _0x3e8e9c,
-    msg_Repondu: _0x1e8737,
-    repondre: _0x55c90f,
-    quote: _0x312815
-  } = _0xd3326f;
+    ms,
+    msg_Repondu,
+    repondre,
+    quote
+  } = ctx;
   try {
-    if (!_0x1e8737 || !_0x312815?.remoteJid || _0x312815.remoteJid !== "status@broadcast") {
-      return _0x55c90f("❌ Réponds à un statut WhatsApp pour l'envoyer ici.");
+    if (!msg_Repondu || !quote?.remoteJid || quote.remoteJid !== "status@broadcast") {
+      return repondre("❌ Réponds à un statut WhatsApp pour l'envoyer ici.");
     }
-    let _0x3737bb;
-    const _0x1c53d0 = {
-      quoted: _0x3e8e9c
+    let mediaPath;
+    const sendOptions = {
+      quoted: ms
     };
-    if (_0x1e8737.extendedTextMessage) {
-      const _0x3be525 = _0x1e8737.extendedTextMessage.text;
-      await _0x524d92.sendMessage(_0x118853, {
-        text: _0x3be525
-      }, _0x1c53d0);
-    } else if (_0x1e8737.imageMessage) {
-      _0x3737bb = await _0x524d92.dl_save_media_ms(_0x1e8737.imageMessage);
-      await _0x524d92.sendMessage(_0x118853, {
+    if (msg_Repondu.extendedTextMessage) {
+      const statusText = msg_Repondu.extendedTextMessage.text;
+      await bot.sendMessage(jid, {
+        text: statusText
+      }, sendOptions);
+    } else if (msg_Repondu.imageMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.imageMessage);
+      await bot.sendMessage(jid, {
         image: {
-          url: _0x3737bb
+          url: mediaPath
         },
-        caption: _0x1e8737.imageMessage.caption || ""
-      }, _0x1c53d0);
-    } else if (_0x1e8737.videoMessage) {
-      _0x3737bb = await _0x524d92.dl_save_media_ms(_0x1e8737.videoMessage);
-      await _0x524d92.sendMessage(_0x118853, {
+        caption: msg_Repondu.imageMessage.caption || ""
+      }, sendOptions);
+    } else if (msg_Repondu.videoMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.videoMessage);
+      await bot.sendMessage(jid, {
         video: {
-          url: _0x3737bb
+          url: mediaPath
         },
-        caption: _0x1e8737.videoMessage.caption || ""
-      }, _0x1c53d0);
-    } else if (_0x1e8737.audioMessage) {
-      _0x3737bb = await _0x524d92.dl_save_media_ms(_0x1e8737.audioMessage);
-      await _0x524d92.sendMessage(_0x118853, {
+        caption: msg_Repondu.videoMessage.caption || ""
+      }, sendOptions);
+    } else if (msg_Repondu.audioMessage) {
+      mediaPath = await bot.dl_save_media_ms(msg_Repondu.audioMessage);
+      await bot.sendMessage(jid, {
         audio: {
-          url: _0x3737bb
+          url: mediaPath
         },
         mimetype: "audio/mp4",
         ptt: false
-      }, _0x1c53d0);
+      }, sendOptions);
     } else {
-      return _0x55c90f("❌ Ce type de statut n'est pas pris en charge.");
+      return repondre("❌ Ce type de statut n'est pas pris en charge.");
     }
-  } catch (_0x2a06bb) {
-    console.error("Erreur lors du renvoi du statut :", _0x2a06bb.message || _0x2a06bb);
-    return _0x55c90f("❌ Une erreur est survenue pendant le traitement.");
+  } catch (err) {
+    console.error("Erreur lors du renvoi du statut :", err.message || err);
+    return repondre("❌ Une erreur est survenue pendant le traitement.");
   }
 });
 registerCommand({
@@ -125,19 +125,19 @@ registerCommand({
   classe: "Status",
   react: "📖",
   desc: "Active ou désactive la lecture auto des status"
-}, async (_0x55d6c2, _0xe89314, _0x4cb558) => {
+}, async (jid, bot, ctx) => {
   const {
-    ms: _0x2b1205,
-    repondre: _0xe7b584,
-    arg: _0x2502ce,
-    isSudo: _0x1a2808
-  } = _0x4cb558;
+    ms,
+    repondre,
+    arg,
+    isSudo
+  } = ctx;
   try {
-    if (!_0x1a2808) {
-      return _0xe7b584("Seuls les utilisateurs sudo peuvent utiliser cette commande");
+    if (!isSudo) {
+      return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande");
     }
-    const _0x3a0ffc = _0x2502ce[0]?.toLowerCase();
-    const [_0x2964a3] = await WA_CONF.findOrCreate({
+    const mode = arg[0]?.toLowerCase();
+    const [waConf] = await WA_CONF.findOrCreate({
       where: {
         id: "1"
       },
@@ -146,20 +146,20 @@ registerCommand({
         lecture_status: "non"
       }
     });
-    if (_0x3a0ffc === "off") {
-      _0x2964a3.lecture_status = "non";
-      await _0x2964a3.save();
-      return _0xe7b584("La lecture du statut est maintenant désactivée.");
+    if (mode === "off") {
+      waConf.lecture_status = "non";
+      await waConf.save();
+      return repondre("La lecture du statut est maintenant désactivée.");
     }
-    if (_0x3a0ffc === "on") {
-      _0x2964a3.lecture_status = "oui";
-      await _0x2964a3.save();
-      return _0xe7b584("La lecture du statut est maintenant activée.");
+    if (mode === "on") {
+      waConf.lecture_status = "oui";
+      await waConf.save();
+      return repondre("La lecture du statut est maintenant activée.");
     }
-    return _0xe7b584("Utilisation :\nlecture_status on: Activer la lecture du statut\nlecture_status off: Désactiver la lecture du statut");
-  } catch (_0x23f19e) {
-    console.error("Erreur lors de la configuration de lecture_status :", _0x23f19e);
-    _0xe7b584("Une erreur s'est produite lors de l'exécution de la commande.");
+    return repondre("Utilisation :\nlecture_status on: Activer la lecture du statut\nlecture_status off: Désactiver la lecture du statut");
+  } catch (err) {
+    console.error("Erreur lors de la configuration de lecture_status :", err);
+    repondre("Une erreur s'est produite lors de l'exécution de la commande.");
   }
 });
 registerCommand({
@@ -167,19 +167,19 @@ registerCommand({
   classe: "Status",
   react: "📥",
   desc: "Active ou désactive le téléchargement auto des status"
-}, async (_0x43a9ea, _0x50e819, _0x1f52cd) => {
+}, async (jid, bot, ctx) => {
   const {
-    ms: _0x15db0d,
-    repondre: _0x2db246,
-    arg: _0x503b92,
-    isSudo: _0x1d5cc0
-  } = _0x1f52cd;
+    ms,
+    repondre,
+    arg,
+    isSudo
+  } = ctx;
   try {
-    if (!_0x1d5cc0) {
-      return _0x2db246("Seuls les utilisateurs sudo peuvent utiliser cette commande");
+    if (!isSudo) {
+      return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande");
     }
-    const _0xeb53fd = _0x503b92[0]?.toLowerCase();
-    const [_0x466317] = await WA_CONF.findOrCreate({
+    const mode = arg[0]?.toLowerCase();
+    const [waConf] = await WA_CONF.findOrCreate({
       where: {
         id: "1"
       },
@@ -188,20 +188,20 @@ registerCommand({
         dl_status: "non"
       }
     });
-    if (_0xeb53fd === "off") {
-      _0x466317.dl_status = "non";
-      await _0x466317.save();
-      return _0x2db246("Le téléchargement du statut est maintenant désactivé.");
+    if (mode === "off") {
+      waConf.dl_status = "non";
+      await waConf.save();
+      return repondre("Le téléchargement du statut est maintenant désactivé.");
     }
-    if (_0xeb53fd === "on") {
-      _0x466317.dl_status = "oui";
-      await _0x466317.save();
-      return _0x2db246("Le téléchargement du statut est maintenant activé.");
+    if (mode === "on") {
+      waConf.dl_status = "oui";
+      await waConf.save();
+      return repondre("Le téléchargement du statut est maintenant activé.");
     }
-    return _0x2db246("Utilisation :\ndl_status on: Activer le téléchargement du statut\ndl_status off: Désactiver le téléchargement du statut");
-  } catch (_0x4b3d7d) {
-    console.error("Erreur lors de la configuration de dl_status :", _0x4b3d7d);
-    _0x2db246("Une erreur s'est produite lors de l'exécution de la commande.");
+    return repondre("Utilisation :\ndl_status on: Activer le téléchargement du statut\ndl_status off: Désactiver le téléchargement du statut");
+  } catch (err) {
+    console.error("Erreur lors de la configuration de dl_status :", err);
+    repondre("Une erreur s'est produite lors de l'exécution de la commande.");
   }
 });
 registerCommand({
@@ -209,19 +209,19 @@ registerCommand({
   classe: "Status",
   react: "👍",
   desc: "Active ou désactive les likes automatiques sur les statuts"
-}, async (_0x2b160d, _0x2ebd67, _0xe9e13a) => {
+}, async (jid, bot, ctx) => {
   const {
-    ms: _0x19368f,
-    repondre: _0x5dca2d,
-    arg: _0xa8a710,
-    isSudo: _0x3f0f2f
-  } = _0xe9e13a;
+    ms,
+    repondre,
+    arg,
+    isSudo
+  } = ctx;
   try {
-    if (!_0x3f0f2f) {
-      return _0x5dca2d("❌ Seuls les utilisateurs *sudo* peuvent utiliser cette commande.");
+    if (!isSudo) {
+      return repondre("❌ Seuls les utilisateurs *sudo* peuvent utiliser cette commande.");
     }
-    const _0x2fe332 = _0xa8a710[0]?.toLowerCase();
-    const [_0x36cc6a] = await WA_CONF.findOrCreate({
+    const mode = arg[0]?.toLowerCase();
+    const [waConf] = await WA_CONF.findOrCreate({
       where: {
         id: "1"
       },
@@ -230,26 +230,26 @@ registerCommand({
         like_status: "non"
       }
     });
-    const _0x2d4bbc = () => {
-      return _0x5dca2d("🔧 *Paramètres des Likes Auto sur Statuts :*\n\n" + ("• *" + config.PREFIXE + "likestatus <emojie>* : Active avec <emojie>\n") + ("• *" + config.PREFIXE + "likestatus off* : Désactive les likes automatiques\n\n") + ("📌 *Exemple :* " + config.PREFIXE + "likestatus 🤣\n") + ("📊 Statut actuel : *" + (_0x36cc6a.like_status === "non" ? "Désactivé" : "Activé (" + _0x36cc6a.like_status + ")") + "*"));
+    const showUsage = () => {
+      return repondre("🔧 *Paramètres des Likes Auto sur Statuts :*\n\n" + ("• *" + config.PREFIXE + "likestatus <emojie>* : Active avec <emojie>\n") + ("• *" + config.PREFIXE + "likestatus off* : Désactive les likes automatiques\n\n") + ("📌 *Exemple :* " + config.PREFIXE + "likestatus 🤣\n") + ("📊 Statut actuel : *" + (waConf.like_status === "non" ? "Désactivé" : "Activé (" + waConf.like_status + ")") + "*"));
     };
-    if (!_0x2fe332 || _0x2fe332 === "") {
-      return _0x2d4bbc();
+    if (!mode || mode === "") {
+      return showUsage();
     }
-    if (_0x2fe332 === "off") {
-      _0x36cc6a.like_status = "non";
-      await _0x36cc6a.save();
-      return _0x5dca2d("👍 Les likes automatiques ont été *désactivés*.");
+    if (mode === "off") {
+      waConf.like_status = "non";
+      await waConf.save();
+      return repondre("👍 Les likes automatiques ont été *désactivés*.");
     }
-    const _0x379cfa = /^(?:\p{Emoji}(?:\p{Emoji_Modifier}?|\uFE0F)?(?:\u200D\p{Emoji})*)$/u;
-    if (!_0x379cfa.test(_0x2fe332)) {
-      return _0x2d4bbc();
+    const emojiRegex = /^(?:\p{Emoji}(?:\p{Emoji_Modifier}?|\uFE0F)?(?:\u200D\p{Emoji})*)$/u;
+    if (!emojiRegex.test(mode)) {
+      return showUsage();
     }
-    _0x36cc6a.like_status = _0x2fe332;
-    await _0x36cc6a.save();
-    return _0x5dca2d("✅ Les likes automatiques sont maintenant activés avec l'emoji " + _0x2fe332);
-  } catch (_0x1e97c6) {
-    console.error("❌ Erreur dans likestatus :", _0x1e97c6);
-    return _0x5dca2d("❌ Une erreur s'est produite lors de la configuration.");
+    waConf.like_status = mode;
+    await waConf.save();
+    return repondre("✅ Les likes automatiques sont maintenant activés avec l'emoji " + mode);
+  } catch (err) {
+    console.error("❌ Erreur dans likestatus :", err);
+    return repondre("❌ Une erreur s'est produite lors de la configuration.");
   }
 });

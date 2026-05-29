@@ -54,46 +54,46 @@ const WarnConfig = sequelize.define("WarnConfig", {
   await Warn.sync();
   await WarnConfig.sync();
 })();
-async function delWarn(_0xad99f3) {
+async function delWarn(userId) {
   return await Warn.destroy({
     where: {
-      userId: _0xad99f3
+      userId: userId
     }
   });
 }
 async function getLimit() {
-  const _0x42d41b = await WarnConfig.findOne();
-  if (_0x42d41b) {
-    return _0x42d41b.limit;
+  const configRow = await WarnConfig.findOne();
+  if (configRow) {
+    return configRow.limit;
   } else {
     return 3;
   }
 }
-async function setLimit(_0x373377) {
-  const _0x614ba9 = await WarnConfig.findOne();
-  if (_0x614ba9) {
-    _0x614ba9.limit = _0x373377;
-    await _0x614ba9.save();
+async function setLimit(limit) {
+  const configRow = await WarnConfig.findOne();
+  if (configRow) {
+    configRow.limit = limit;
+    await configRow.save();
   } else {
     await WarnConfig.create({
-      limit: _0x373377
+      limit: limit
     });
   }
 }
-async function setWarn(_0x30d8fa) {
-  const [_0x1acd8c, _0x4b3c0b] = await Warn.findOrCreate({
+async function setWarn(userId) {
+  const [warnRow, created] = await Warn.findOrCreate({
     where: {
-      userId: _0x30d8fa
+      userId: userId
     },
     defaults: {
       count: 1
     }
   });
-  if (!_0x4b3c0b) {
-    _0x1acd8c.count += 1;
-    await _0x1acd8c.save();
+  if (!created) {
+    warnRow.count += 1;
+    await warnRow.save();
   }
-  return _0x1acd8c;
+  return warnRow;
 }
 module.exports = {
   delWarn: delWarn,

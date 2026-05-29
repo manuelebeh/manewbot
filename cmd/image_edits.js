@@ -4,61 +4,61 @@ const {
 const axios = require("axios");
 const FormData = require("form-data");
 const effetsCanvacord = ["shit", "wasted", "wanted", "trigger", "trash", "rip", "sepia", "rainbow", "hitler", "invert1", "jail", "affect", "beautiful", "blur", "circle1", "facepalm", "greyscale", "jokeoverhead", "delete_image", "darkness", "colorfy", "threshold", "pixelate"];
-function genererCommandeCanvacord(_0x3dfaf8) {
+function genererCommandeCanvacord(effectName) {
   registerCommand({
-    nom_cmd: _0x3dfaf8,
+    nom_cmd: effectName,
     classe: "Image_Edits",
     react: "🎨",
-    desc: "Applique l'effet " + _0x3dfaf8 + " via l'API"
-  }, async (_0x437128, _0x1f75fd, _0x37dd3b) => {
+    desc: "Applique l'effet " + effectName + " via l'API"
+  }, async (jid, bot, ctx) => {
     const {
-      arg: _0x344b19,
-      ms: _0x33b37e,
-      getJid: _0x56e2de,
-      auteur_Msg_Repondu: _0x15b6c4,
-      msg_Repondu: _0x42bf92,
-      auteur_Message: _0x4b3f77
-    } = _0x37dd3b;
+      arg,
+      ms,
+      getJid,
+      auteur_Msg_Repondu,
+      msg_Repondu,
+      auteur_Message
+    } = ctx;
     try {
-      const _0x4e6be3 = _0x42bf92 || _0x33b37e.message;
-      let _0xc8f713;
-      let _0x4786c7 = false;
-      if (_0x4e6be3?.imageMessage) {
-        const _0xc6cbab = await _0x1f75fd.dl_save_media_ms(_0x4e6be3.imageMessage);
-        _0xc8f713 = _0xc6cbab;
-        _0x4786c7 = true;
-      } else if (_0x344b19[0]?.startsWith("http")) {
-        _0xc8f713 = _0x344b19[0];
+      const sourceMessage = msg_Repondu || ms.message;
+      let imageSource;
+      let isLocalFile = false;
+      if (sourceMessage?.imageMessage) {
+        const localPath = await bot.dl_save_media_ms(sourceMessage.imageMessage);
+        imageSource = localPath;
+        isLocalFile = true;
+      } else if (arg[0]?.startsWith("http")) {
+        imageSource = arg[0];
       } else {
-        const _0x1265bf = _0x15b6c4 || _0x344b19[0]?.includes("@") && _0x344b19[0].replace("@", "") + "@lid" || _0x4b3f77;
-        const _0x197176 = await _0x56e2de(_0x1265bf, _0x437128, _0x1f75fd);
+        const targetUser = auteur_Msg_Repondu || arg[0]?.includes("@") && arg[0].replace("@", "") + "@lid" || auteur_Message;
+        const resolvedJid = await getJid(targetUser, jid, bot);
         try {
-          _0xc8f713 = await _0x1f75fd.profilePictureUrl(_0x197176, "image");
+          imageSource = await bot.profilePictureUrl(resolvedJid, "image");
         } catch {
-          _0xc8f713 = "https://files.catbox.moe/ulwqtr.jpg";
+          imageSource = "https://files.catbox.moe/ulwqtr.jpg";
         }
       }
-      let _0x16d7d4;
-      if (_0x4786c7) {
-        const _0x309569 = new FormData();
-        _0x309569.append("file", require("fs").createReadStream(_0xc8f713));
-        _0x16d7d4 = await axios.post("https://api-ovl.koyeb.app/img-effect/" + _0x3dfaf8, _0x309569, {
-          headers: _0x309569.getHeaders(),
+      let response;
+      if (isLocalFile) {
+        const form = new FormData();
+        form.append("file", require("fs").createReadStream(imageSource));
+        response = await axios.post("https://api-ovl.koyeb.app/img-effect/" + effectName, form, {
+          headers: form.getHeaders(),
           responseType: "arraybuffer"
         });
       } else {
-        _0x16d7d4 = await axios.get("https://api-ovl.koyeb.app/img-effect/" + _0x3dfaf8 + "?url=" + encodeURIComponent(_0xc8f713), {
+        response = await axios.get("https://api-ovl.koyeb.app/img-effect/" + effectName + "?url=" + encodeURIComponent(imageSource), {
           responseType: "arraybuffer"
         });
       }
-      await _0x1f75fd.sendMessage(_0x437128, {
-        image: Buffer.from(_0x16d7d4.data)
+      await bot.sendMessage(jid, {
+        image: Buffer.from(response.data)
       }, {
-        quoted: _0x33b37e
+        quoted: ms
       });
-    } catch (_0x5c6122) {
-      console.error("Erreur avec la commande \"" + _0x3dfaf8 + "\":", _0x5c6122);
+    } catch (err) {
+      console.error("Erreur avec la commande \"" + effectName + "\":", err);
     }
   });
 }
-effetsCanvacord.forEach(_0x3477f7 => genererCommandeCanvacord(_0x3477f7));
+effetsCanvacord.forEach(effect => genererCommandeCanvacord(effect));

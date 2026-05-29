@@ -1,28 +1,28 @@
 const {
   WA_CONF2
 } = require("../database/wa_conf");
-async function call(_0x29273a, _0x593469) {
+async function call(sock, callEvents) {
   try {
-    const _0x3982f2 = _0x593469[0];
-    const _0x4fcb2b = _0x3982f2?.from;
-    const _0x1d232a = _0x3982f2?.id;
-    if (!_0x4fcb2b || !_0x1d232a) {
+    const callEvent = callEvents[0];
+    const callerJid = callEvent?.from;
+    const callId = callEvent?.id;
+    if (!callerJid || !callId) {
       return;
     }
-    const _0x4cc847 = await WA_CONF2.findOne({
+    const waConfig = await WA_CONF2.findOne({
       where: {
         id: "1"
       }
     });
-    if (!_0x4cc847 || _0x4cc847.anticall !== "oui") {
+    if (!waConfig || waConfig.anticall !== "oui") {
       return;
     }
-    await _0x29273a.sendMessage(_0x4fcb2b, {
+    await sock.sendMessage(callerJid, {
       text: "❌ Les appels ne sont pas autorisés sur ce numéro !"
     });
-    await _0x29273a.rejectCall(_0x1d232a, _0x4fcb2b);
-  } catch (_0xaf6dc6) {
-    console.error("Erreur lors du traitement de l’appel :", _0xaf6dc6);
+    await sock.rejectCall(callId, callerJid);
+  } catch (err) {
+    console.error("Erreur lors du traitement de l’appel :", err);
   }
 }
 module.exports = call;

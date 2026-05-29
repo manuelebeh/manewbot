@@ -42,35 +42,35 @@ const BotCmd = sequelize.define("BotCmd", {
 (async () => {
   await BotCmd.sync();
 })();
-async function set_cmd(_0x540231, _0xa51e94 = "public") {
-  if (!_0x540231 || !_0xa51e94) {
+async function set_cmd(cmdName, cmdType = "public") {
+  if (!cmdName || !cmdType) {
     throw new Error("Données manquantes");
   }
   await BotCmd.upsert({
-    nom_cmd: _0x540231,
-    type: _0xa51e94
+    nom_cmd: cmdName,
+    type: cmdType
   });
 }
-async function del_cmd(_0x57ac19, _0x4ba1f5) {
+async function del_cmd(cmdName, cmdType) {
   return await BotCmd.destroy({
     where: {
-      nom_cmd: _0x57ac19,
-      type: _0x4ba1f5
+      nom_cmd: cmdName,
+      type: cmdType
     }
   });
 }
-async function list_cmd(_0x1b28a5) {
+async function list_cmd(cmdType) {
   return await BotCmd.findAll({
     where: {
-      type: _0x1b28a5
+      type: cmdType
     }
   });
 }
-async function get_cmd(_0x1705cd, _0x1d8c3b) {
+async function get_cmd(cmdName, cmdType) {
   return await BotCmd.findOne({
     where: {
-      nom_cmd: _0x1705cd,
-      type: _0x1d8c3b
+      nom_cmd: cmdName,
+      type: cmdType
     }
   });
 }

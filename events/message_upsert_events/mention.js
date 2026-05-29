@@ -2,71 +2,71 @@ const {
   getMention
 } = require("../../database/mention");
 const getJid = require("./cache_jid");
-async function mention(_0xc7f4a9, _0x5f4418, _0x2c860a, _0x33ce4f, _0x39432b, _0x3a8ae1, _0x1a48da, _0x3dce86) {
+async function mention(sock, chatJid, msg, contentType, isGroup, botJid, repondre, resolvedMentions) {
   try {
-    if (_0x3dce86 && _0x3dce86.includes(_0x3a8ae1)) {
-      if (_0x39432b) {
-        const _0xece1fa = await getMention();
-        if (_0xece1fa && _0xece1fa.mode === "oui") {
+    if (resolvedMentions && resolvedMentions.includes(botJid)) {
+      if (isGroup) {
+        const mentionConfig = await getMention();
+        if (mentionConfig && mentionConfig.mode === "oui") {
           const {
-            url: _0xa1ff44,
-            text: _0x990499,
-            type: _0x468287
-          } = _0xece1fa;
-          if ((!_0xa1ff44 || _0xa1ff44 === "") && (!_0x990499 || _0x990499 === "")) {
-            _0x1a48da("Mention activée mais aucun contenu défini.");
+            url: mediaUrl,
+            text: captionText,
+            type: mediaType
+          } = mentionConfig;
+          if ((!mediaUrl || mediaUrl === "") && (!captionText || captionText === "")) {
+            repondre("Mention activée mais aucun contenu défini.");
             return;
           }
-          switch (_0x468287) {
+          switch (mediaType) {
             case "audio":
-              if (!_0xa1ff44) {
-                return _0x1a48da(_0x990499 || "Aucun contenu audio défini.");
+              if (!mediaUrl) {
+                return repondre(captionText || "Aucun contenu audio défini.");
               }
-              _0xc7f4a9.sendMessage(_0x5f4418, {
+              sock.sendMessage(chatJid, {
                 audio: {
-                  url: _0xa1ff44
+                  url: mediaUrl
                 },
                 mimetype: "audio/mpeg"
               }, {
-                quoted: _0x2c860a
+                quoted: msg
               });
               break;
             case "image":
-              if (!_0xa1ff44) {
-                return _0x1a48da(_0x990499 || "Aucun contenu image défini.");
+              if (!mediaUrl) {
+                return repondre(captionText || "Aucun contenu image défini.");
               }
-              _0xc7f4a9.sendMessage(_0x5f4418, {
+              sock.sendMessage(chatJid, {
                 image: {
-                  url: _0xa1ff44
+                  url: mediaUrl
                 },
-                caption: _0x990499 || undefined
+                caption: captionText || undefined
               }, {
-                quoted: _0x2c860a
+                quoted: msg
               });
               break;
             case "video":
-              if (!_0xa1ff44) {
-                return _0x1a48da(_0x990499 || "Aucun contenu vidéo défini.");
+              if (!mediaUrl) {
+                return repondre(captionText || "Aucun contenu vidéo défini.");
               }
-              _0xc7f4a9.sendMessage(_0x5f4418, {
+              sock.sendMessage(chatJid, {
                 video: {
-                  url: _0xa1ff44
+                  url: mediaUrl
                 },
-                caption: _0x990499 || undefined
+                caption: captionText || undefined
               }, {
-                quoted: _0x2c860a
+                quoted: msg
               });
               break;
             case "texte":
-              return _0x1a48da(_0x990499 || "Aucun message texte défini.");
+              return repondre(captionText || "Aucun message texte défini.");
             default:
-              _0x1a48da("Le type de média est inconnu ou non pris en charge.");
+              repondre("Le type de média est inconnu ou non pris en charge.");
           }
         }
       }
     }
-  } catch (_0x4db77b) {
-    console.error("Erreur dans mention:", _0x4db77b);
+  } catch (err) {
+    console.error("Erreur dans mention:", err);
   }
 }
 module.exports = mention;
