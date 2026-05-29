@@ -1,6 +1,6 @@
 const {
   getMention
-} = require("../../DataBase/mention");
+} = require("../../database/mention");
 const getJid = require("./cache_jid");
 async function mention(_0xc7f4a9, _0x5f4418, _0x2c860a, _0x33ce4f, _0x39432b, _0x3a8ae1, _0x1a48da, _0x3dce86) {
   try {

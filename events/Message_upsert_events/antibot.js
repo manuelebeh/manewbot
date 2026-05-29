@@ -1,7 +1,7 @@
 const {
   Antibot,
   AntibotWarnings
-} = require("../../DataBase/antibot");
+} = require("../../database/antibot");
 async function antibot(_0x3e17a7, _0x23563b, _0x3db788, _0x3696a5, _0x430b17, _0x37546f, _0x2d9bba) {
   try {
     const _0x44f4ba = _0x3db788.key.id.startsWith("BAES") || _0x3db788.key.id.startsWith("BAE5") || _0x3db788.key.id.startsWith("EVO") || _0x3db788.key.id.startsWith("3EB0");

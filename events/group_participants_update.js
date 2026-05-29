@@ -1,7 +1,7 @@
 const {
   GroupSettings,
   Events2
-} = require("../DataBase/events");
+} = require("../database/events");
 const {
   jidDecode
 } = require("@whiskeysockets/baileys");

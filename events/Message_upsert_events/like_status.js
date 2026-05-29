@@ -1,6 +1,6 @@
 const {
   WA_CONF
-} = require("../../DataBase/wa_conf");
+} = require("../../database/wa_conf");
 async function like_status(_0x3e1fe5, _0x2548f9, _0x4edabd, _0x4e162f, _0x489c1e) {
   try {
     const _0x1824d4 = await WA_CONF.findOne({

@@ -12,7 +12,7 @@ const fs = require("fs");
 const path = require("path");
 const {
   WA_CONF
-} = require("../DataBase/wa_conf");
+} = require("../database/wa_conf");
 const {
   TempMail
 } = require("tempmail.lol");

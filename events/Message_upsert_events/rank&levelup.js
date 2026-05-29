@@ -1,16 +1,16 @@
 const {
   levels,
   calculateLevel
-} = require("../../DataBase/levels");
+} = require("../../database/levels");
 const {
   Ranks,
   Levelup
-} = require("../../DataBase/rank");
+} = require("../../database/rank");
 const {
   changerPseudo,
   ajouterUtilisateur,
   getInfosUtilisateur
-} = require("../../DataBase/economie");
+} = require("../../database/economie");
 async function rankAndLevelUp(_0x24475e, _0x3fa81b, _0x2a3b31, _0x24cc9d, _0x255bfc) {
   if (!_0x2a3b31 || !_0x24cc9d) {
     return;

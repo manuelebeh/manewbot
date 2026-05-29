@@ -1,6 +1,6 @@
 const {
   WA_CONF
-} = require("../../DataBase/wa_conf");
+} = require("../../database/wa_conf");
 async function presence(_0x51f30c, _0x4e7c8a) {
   const _0x4cb6bd = await WA_CONF.findOne({
     where: {

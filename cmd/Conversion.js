@@ -22,7 +22,7 @@ const {
 const sharp = require("sharp");
 const {
   Ranks
-} = require("../DataBase/rank");
+} = require("../database/rank");
 const os = require("os");
 let fusionCache = {};
 async function uploadToCatbox(_0x4e66d9) {

@@ -1,6 +1,6 @@
 const {
   WA_CONF2
-} = require("../DataBase/wa_conf");
+} = require("../database/wa_conf");
 async function call(_0x29273a, _0x593469) {
   try {
     const _0x3982f2 = _0x593469[0];

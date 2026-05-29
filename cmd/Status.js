@@ -3,7 +3,7 @@ const {
 } = require("../lib/commands");
 const {
   WA_CONF
-} = require("../DataBase/wa_conf");
+} = require("../database/wa_conf");
 const config = require("../set");
 registerCommand({
   nom_cmd: "save",

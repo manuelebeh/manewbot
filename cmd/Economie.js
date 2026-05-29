@@ -8,7 +8,7 @@ const {
   mettreAJourCapaciteBanque,
   ECONOMIE,
   TopBanque
-} = require("../DataBase/economie");
+} = require("../database/economie");
 const crypto = require("crypto");
 function generateUserId(_0xc3143) {
   const _0x45e2b1 = crypto.createHash("md5").update(_0xc3143).digest("hex");
