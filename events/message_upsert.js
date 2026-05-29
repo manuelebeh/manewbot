@@ -45,6 +45,9 @@ const {
   resolveCommandReactEnabled
 } = require("../lib/env-toggle");
 const {
+  logIncomingMessage
+} = require("../lib/bot-log");
+const {
   runCommand: executeCommand
 } = require("../lib/run-command");
 const {
@@ -183,27 +186,16 @@ async function message_upsert(upsert, sock) {
     };
     const sourceLabel = isGroup ? "👥 " + groupName : "💬 Privé";
     const quotedInfo = getQuotedMessageInfo(quotedMessage);
-    const logLines = [
-      "",
-      "━━━━━━━[ BOT-LOG ]━━━━━━",
-      "👤 Auteur  : " + pushName + " (" + senderJid + ")",
-      "🏷️ Source  : " + sourceLabel,
-      "📩 Type    : " + contentType + (viewOnce ? " 👁️ (vue unique)" : "")
-    ];
-    if (viewOnce) {
-      logLines.push("👁️ Info    : Vue unique reçue");
-    }
-    if (messageText && messageText.trim() !== "") {
-      logLines.push("📝 Texte   : " + messageText);
-    } else if (viewOnce) {
-      logLines.push("📎 Média   : contenu vue unique (" + contentType + ")");
-    }
-    if (quotedInfo) {
-      const quotedAuthor = quotedAuthorJid ? "@" + quotedAuthorJid.split("@")[0] : "inconnu";
-      logLines.push("↩️ Réponse  : à " + quotedInfo.type + (quotedInfo.viewOnce ? " 👁️ (vue unique)" : "") + " de " + quotedAuthor);
-    }
-    logLines.push("━━━━━━━━━━━━━━━━━━━━━━━", "");
-    console.log(logLines.join("\n"));
+    logIncomingMessage({
+      pushName,
+      senderJid,
+      sourceLabel,
+      contentType,
+      viewOnce,
+      messageText,
+      quotedInfo,
+      quotedAuthorJid,
+    });
     const owerlap = {
       verif_Groupe: isGroup,
       mbre_membre: participants,

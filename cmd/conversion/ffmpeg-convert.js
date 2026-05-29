@@ -11,7 +11,6 @@ const {
   config,
   Sticker,
   StickerTypes,
-  execSync,
   spawn,
   gTTS,
   sharp,
@@ -23,6 +22,9 @@ const {
   remini,
   convertWebpToMp4,
 } = require('./_shared');
+const {
+  probeMediaDuration
+} = require('../../lib/ffmpeg');
 
 registerCommand({
   nom_cmd: "toaudio",
@@ -90,7 +92,7 @@ registerCommand({
   }
   try {
     const mediaPath = await sock.dl_save_media_ms(msg_Repondu.audioMessage);
-    const duration = parseFloat(execSync("ffprobe -v error -show_entries format=duration -of default=nk=1:nw=1 \"" + mediaPath + "\"").toString().trim());
+    const duration = await probeMediaDuration(mediaPath);
     const baseName = path.basename(mediaPath, path.extname(mediaPath));
     const dirName = path.dirname(mediaPath);
     const outputPath = path.join(dirName, baseName + ".mp4");
