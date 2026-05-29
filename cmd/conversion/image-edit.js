@@ -22,6 +22,7 @@ const {
   remini,
   convertWebpToMp4,
 } = require('./_shared');
+const { validateRemoteMediaUrl } = require('../../lib/url-safety');
 const {
   getServiceUrls,
   serviceNotConfiguredMessage
@@ -182,9 +183,13 @@ registerCommand({
       try {
         const uploadUrl2 = await uploadToCatbox(mediaPath2);
         const response2 = await axios.get(services.remini + "/api/remini?url=" + encodeURIComponent(uploadUrl2));
+        const mediaCheck = validateRemoteMediaUrl(response2.data?.result);
+        if (!mediaCheck.ok) {
+          throw new Error(mediaCheck.reason);
+        }
         await sock.sendMessage(chatJid, {
           image: {
-            url: response2.data.result
+            url: mediaCheck.href
           },
           caption: "```Powered by Manewbot```"
         }, {

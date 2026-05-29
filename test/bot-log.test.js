@@ -25,7 +25,7 @@ describe('bot-log', () => {
     assert.equal(resolveMessageLogMode(), 'off');
 
     delete process.env.NODE_ENV;
-    assert.equal(resolveMessageLogMode(), 'full');
+    assert.equal(resolveMessageLogMode(), 'minimal');
   });
 
   it('logIncomingMessage respects off mode', () => {

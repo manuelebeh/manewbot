@@ -94,6 +94,9 @@ registerCommand(
   },
   async (chatJid, sock, ctx) => {
     const { repondre, ms, arg } = ctx;
+    if (!requireOwner(ctx, () => ownerReply(sock, chatJid, ms, OWNER_DENIED))) {
+      return;
+    }
     try {
       if (!arg[0]) {
         return repondre("Veuillez préciser 'on' ou 'off'.");

@@ -64,14 +64,14 @@ async function envoyerWelcomeGoodbye(groupId, memberJid, messageType, eventSetti
     try {
       mediaUrl = await sock.profilePictureUrl(memberJid, "image");
     } catch {
-      mediaUrl = "https://files.catbox.moe/82g8ey.jpg";
+      mediaUrl = config.WELCOME_IMAGE_URL;
     }
     mediaType = "image";
   } else if (includeGroupPic) {
     try {
       mediaUrl = await sock.profilePictureUrl(groupId, "image");
     } catch {
-      mediaUrl = "https://files.catbox.moe/82g8ey.jpg";
+      mediaUrl = config.WELCOME_IMAGE_URL;
     }
     mediaType = "image";
   }
@@ -178,7 +178,7 @@ async function group_participants_update(participantUpdate, sock) {
               contextInfo: contextInfo
             });
           } else if (promoteAlert == "oui") {
-            let profilePicUrl = "https://files.catbox.moe/82g8ey.jpg";
+            let profilePicUrl = config.WELCOME_IMAGE_URL;
             try {
               profilePicUrl = await sock.profilePictureUrl(memberJid, "image");
             } catch {}
@@ -204,7 +204,7 @@ async function group_participants_update(participantUpdate, sock) {
               contextInfo: contextInfo
             });
           } else if (demoteAlert == "oui") {
-            let profilePicUrl = "https://files.catbox.moe/82g8ey.jpg";
+            let profilePicUrl = config.WELCOME_IMAGE_URL;
             try {
               profilePicUrl = await sock.profilePictureUrl(memberJid, "image");
             } catch {}

@@ -258,7 +258,7 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 
 | Rôle | Configuration | Droits |
 |------|----------------|--------|
-| **Owner** | `NUMERO_OWNER` dans `.env` | Commandes système (`setvar`, `update`), config sensible, immunité totale |
+| **Owner** | `NUMERO_OWNER` dans `.env` | Commandes `classe: Owner` (bloquées au routeur si non-owner), `setvar`, `update`, config sensible, immunité totale |
 | **Sudo** | Commande `setsudo` (table DB) | Staff : commandes en mode privé/public, modération groupe ; seul l'owner peut kick/ban un sudo |
 | **Admin WA** | Admin du groupe WhatsApp | Commandes groupe selon `verif_Admin` |
 | **Membre** | — | Selon `MODE`, bans, listes public/private |
@@ -288,7 +288,7 @@ Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`,
 | `cmd/confidentialite/` | présence, bio, confidentialité WA |
 | `cmd/status/` | save, sendme, toggles status |
 | `cmd/systeme/` | setvar, checkupdate, update |
-| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) |
+| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) — `logovintage`, `logospace`, `logounderwater` (anciens `vintage`/`space`/`underwater` réservés à l’audio) |
 | `cmd/reaction/` | Réactions GIF waifu.pics (~27 cmd) |
 | `cmd/image_edits/` | Effets image OVL (~24 cmd) |
 | `cmd/fx_audio/` | Filtres audio ffmpeg (~40 cmd) |
@@ -359,6 +359,22 @@ Protégez aussi `auth/` (déjà dans `.gitignore`) : permissions restrictives, s
 | `ENABLE_HEALTH_CHECK` | `false` sur VPS sauf besoin local (sonde sur `127.0.0.1`) |
 | Clés API / `*_API_BASE` | Renseigner dans `.env` (voir `.env.example`) — commandes concernées désactivées si vide |
 | `TELEGRAM_BOT_TOKEN` | Requis pour `tgs` (owner) — **ne jamais committer** ; révoquer sur BotFather si fuite |
+| `CHATBOT_API_BASE` | URL GET du chatbot (`?user_id=&text=`) — vide = aucun appel externe |
+| `WAIFU_PICS_API_BASE`, `EPHOTO360_BASE`, `CATBOX_UPLOAD_URL`, … | Voir `.env.example` (URLs médias surchargeables) |
+
+### Historique Git et secrets
+
+Si un token ou une clé a déjà été **commité** par le passé, le retirer du code actuel ne suffit pas : il reste dans l’historique Git.
+
+1. Révoquer / régénérer la clé chez le fournisseur (Telegram BotFather, Google Cloud, etc.).
+2. Nettoyer l’historique avec [git-filter-repo](https://github.com/newren/git-filter-repo) ou BFG, puis `git push --force` (coordination équipe requise).
+3. Vérifier : `npm run check:secrets` et `git log -p -- .env` (ne doit rien montrer de sensible).
+
+### Commandes sensibles (rappel)
+
+- `vv` / `vv2` / `capture` : owner/sudo (`isStaff`) uniquement.
+- `fetch_sc` : owner + URLs publiques validées (pas de SSRF vers réseau privé).
+- `update` : `git stash` puis `pull --ff-only` (plus de `reset --hard`).
 
 **Après toute modification de `.env`** : redémarrer le processus (`node bot.js` ou votre service systemd/PM2). Le rechargement des commandes au reconnect WhatsApp ne recharge pas `dotenv`.
 

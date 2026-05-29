@@ -10,6 +10,8 @@ const git = simpleGit();
 const ENV_FILE = path.join(process.cwd(), '.env');
 const CONFIG_ENV_FILE = path.join(process.cwd(), 'config_env.json');
 const { formatConfigValue } = require('../../lib/config-display');
+const { isAllowedEnvKey } = require('../../lib/env-keys');
+const { writeConfigEnv } = require('../../lib/manage_env');
 
 function formatDateGMTFr(dateInput) {
   const date = new Date(dateInput);
@@ -39,4 +41,6 @@ module.exports = {
   CONFIG_ENV_FILE,
   formatConfigValue,
   formatDateGMTFr,
+  isAllowedEnvKey,
+  writeConfigEnv,
 };

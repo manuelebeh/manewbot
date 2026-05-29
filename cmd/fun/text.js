@@ -113,11 +113,17 @@ registerCommand({
   try {
     const {
       data: couples
-    } = await axios.get("https://raw.githubusercontent.com/iamriz7/kopel_/main/kopel.json");
+    } = await axios.get(config.GITHUB_KOPEL_JSON_URL);
     const couple = couples[Math.floor(Math.random() * couples.length)];
+    const { validateRemoteMediaUrl } = require('../../lib/url-safety');
+    const femaleCheck = validateRemoteMediaUrl(couple.female);
+    const maleCheck = validateRemoteMediaUrl(couple.male);
+    if (!femaleCheck.ok || !maleCheck.ok) {
+      return sock.sendMessage(chatJid, { text: 'Image couple invalide.' }, { quoted: ctx.ms });
+    }
     await sock.sendMessage(chatJid, {
       image: {
-        url: couple.female
+        url: femaleCheck.href
       },
       caption: "❤️ *Pour Madame 💁🏻‍♀️*"
     }, {
@@ -125,7 +131,7 @@ registerCommand({
     });
     await sock.sendMessage(chatJid, {
       image: {
-        url: couple.male
+        url: maleCheck.href
       },
       caption: "❤️ *Pour Monsieur 💁🏻‍♂️*"
     }, {

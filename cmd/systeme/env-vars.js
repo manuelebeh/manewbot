@@ -1,7 +1,16 @@
 'use strict';
 
 const {
-  registerCommand, config, updateEnvFile, fs, path, ENV_FILE, CONFIG_ENV_FILE, formatConfigValue,
+  registerCommand,
+  config,
+  updateEnvFile,
+  fs,
+  path,
+  ENV_FILE,
+  CONFIG_ENV_FILE,
+  formatConfigValue,
+  isAllowedEnvKey,
+  writeConfigEnv,
 } = require('./_shared');
 
 registerCommand({
@@ -20,7 +29,7 @@ registerCommand({
   try {
     let [key, ...rest] = arg;
     key = key?.toUpperCase();
-    if (!require("../lib/env-keys").isAllowedEnvKey(key)) {
+    if (!isAllowedEnvKey(key)) {
       return repondre("⛔ Variable non autorisée.");
     }
     if (!key || rest.length === 0 || rest[0] !== "=") {
@@ -30,7 +39,7 @@ registerCommand({
     updateEnvFile(ENV_FILE, key, value);
     let configEnv = fs.existsSync(CONFIG_ENV_FILE) ? JSON.parse(fs.readFileSync(CONFIG_ENV_FILE, "utf8")) : {};
     configEnv[key] = value;
-    require("../lib/manage_env").writeConfigEnv(configEnv);
+    writeConfigEnv(configEnv);
     config[key] = value;
     repondre("Variable mise à jour : " + key + " = " + formatConfigValue(key, value));
   } catch (err) {
@@ -53,7 +62,7 @@ registerCommand({
   }
   try {
     const key = arg[0]?.toUpperCase();
-    if (!require("../lib/env-keys").isAllowedEnvKey(key)) {
+    if (!isAllowedEnvKey(key)) {
       return repondre("⛔ Variable non autorisée.");
     }
     if (!key) {
@@ -62,7 +71,7 @@ registerCommand({
     updateEnvFile(ENV_FILE, key, null);
     let configEnv = fs.existsSync(CONFIG_ENV_FILE) ? JSON.parse(fs.readFileSync(CONFIG_ENV_FILE, "utf8")) : {};
     delete configEnv[key];
-    require("../lib/manage_env").writeConfigEnv(configEnv);
+    writeConfigEnv(configEnv);
     delete config[key];
     repondre("Variable supprimée : " + key);
   } catch (err) {
