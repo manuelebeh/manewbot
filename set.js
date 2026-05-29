@@ -13,11 +13,9 @@ module.exports = {
   STICKER_AUTHOR_NAME: process.env.STICKER_AUTHOR_NAME || '',
   DATABASE: process.env.DATABASE,
   NOM_BOT: process.env.NOM_BOT || 'Manewbot',
-  /** Comma-separated international numbers (no +), e.g. 226...,221... */
-  DEV_NUMBERS: process.env.DEV_NUMBERS || '',
   /** Comma-separated group JIDs (@g.us) with limited bot access */
   RESTRICTED_GROUPS: process.env.RESTRICTED_GROUPS || '',
-  /** Extra numbers/JIDs allowed in restricted groups (besides devs) */
+  /** Extra numbers/JIDs allowed in restricted groups (besides owner/sudo) */
   RESTRICTED_GROUP_ALLOWLIST: process.env.RESTRICTED_GROUP_ALLOWLIST || '',
   /** Comma-separated group JIDs where autoreact is disabled */
   BLOCKED_AUTOREACT_GROUPS: process.env.BLOCKED_AUTOREACT_GROUPS || '',

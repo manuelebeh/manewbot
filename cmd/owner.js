@@ -78,17 +78,25 @@ registerCommand({
     verif_Admin,
     verif_Bot_Admin,
     verif_Groupe,
-    dev_num,
-    dev_id,
+    isOwner,
+    isSudo,
+    ownerJid,
+    sudoJids,
+    privilegedJids,
     repondre,
-    id_Bot,
-    isSudo
+    id_Bot
   } = ctx;
   if (!msg_Repondu) {
     return repondre("Veuillez répondre à un message pour le supprimer.");
   }
-  if (dev_num.includes(auteur_Msg_Repondu) && !dev_id) {
-    return repondre("Vous ne pouvez pas supprimer le message d'un développeur.");
+  if (ownerJid && auteur_Msg_Repondu === ownerJid && !isOwner) {
+    return repondre("Vous ne pouvez pas supprimer le message du propriétaire du bot.");
+  }
+  if (sudoJids.includes(auteur_Msg_Repondu) && !isOwner) {
+    return repondre("Seul le propriétaire du bot peut supprimer le message d'un utilisateur sudo.");
+  }
+  if (privilegedJids.includes(auteur_Msg_Repondu) && !isOwner && !isSudo) {
+    return repondre("Vous ne pouvez pas supprimer le message d'un utilisateur privilégié.");
   }
   if (verif_Groupe) {
     if (!verif_Admin) {
@@ -97,8 +105,8 @@ registerCommand({
     if (!verif_Bot_Admin) {
       return repondre("Je dois être administrateur pour effectuer cette action.");
     }
-  } else if (!isSudo) {
-    return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande en privé.");
+  } else if (!isOwner && !isSudo) {
+    return repondre("Seuls le propriétaire ou un utilisateur sudo peuvent utiliser cette commande en privé.");
   }
   try {
     const options = {
@@ -128,10 +136,10 @@ registerCommand({
   const {
     repondre,
     ms,
-    isSudo
+    isOwner
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return repondre("🔒 Vous n'avez pas le droit d'exécuter cette commande.");
     }
     await sock.chatModify({
@@ -156,12 +164,12 @@ registerCommand({
   const {
     repondre,
     verif_Groupe,
-    isSudo
+    isOwner
   } = ctx;
   if (verif_Groupe) {
     return repondre("Veuillez vous diriger dans l'inbox de la personne à bloquer.");
   }
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -181,12 +189,12 @@ registerCommand({
   const {
     verif_Groupe,
     repondre,
-    isSudo
+    isOwner
   } = ctx;
   if (verif_Groupe) {
     return repondre("Veuillez vous diriger dans l'inbox de la personne à bloquer.");
   }
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -209,11 +217,12 @@ registerCommand({
     arg,
     getJid,
     auteur_Msg_Repondu,
-    isSudo,
-    dev_num
+    isOwner,
+    ownerJid,
+    sudoJids
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(ms_org, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -225,9 +234,9 @@ registerCommand({
     if (!value2) {
       return repondre("Mentionnez un utilisateur valide à bannir.");
     }
-    if (dev_num.includes(value2)) {
+    if (ownerJid && value2 === ownerJid) {
       return sock.sendMessage(chatJid, {
-        text: "Vous ne pouvez pas bannir un développeur."
+        text: "Vous ne pouvez pas bannir le propriétaire du bot."
       }, {
         quoted: ms
       });
@@ -309,9 +318,9 @@ registerCommand({
     repondre,
     ms,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -371,9 +380,9 @@ registerCommand({
     repondre,
     ms,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -433,9 +442,9 @@ registerCommand({
     repondre,
     ms,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -496,11 +505,11 @@ registerCommand({
     arg,
     getJid,
     auteur_Msg_Repondu,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(ms_org, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -542,11 +551,11 @@ registerCommand({
     repondre,
     arg,
     verif_Groupe,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(ms_org, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -587,11 +596,11 @@ registerCommand({
     repondre,
     arg,
     verif_Groupe,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(ms_org, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -630,13 +639,13 @@ registerCommand({
     arg,
     verif_Groupe,
     ms,
-    isSudo
+    isOwner
   } = ctx;
   try {
     if (!verif_Groupe) {
       return repondre("❌ Cette commande ne fonctionne que dans un groupe.");
     }
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(chatJid, {
         text: "⛔ Vous n'avez pas l'autorisation d'exécuter cette commande."
       }, {
@@ -688,10 +697,11 @@ registerCommand({
     arg,
     getJid,
     auteur_Msg_Repondu,
-    isSudo,
+    isOwner,
+    ownerJid,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -702,6 +712,9 @@ registerCommand({
   const value2 = await getJid(value, chatJid, sock);
   if (!value2) {
     return repondre("Veuillez mentionner un utilisateur valide pour l'ajouter à la liste sudo.");
+  }
+  if (ownerJid && value2 === ownerJid) {
+    return repondre("Le propriétaire du bot a déjà tous les droits ; inutile de l'ajouter en sudo.");
   }
   try {
     const [tmp] = await Sudo.findOrCreate({
@@ -739,10 +752,10 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas la permission d'exécuter cette commande."
     }, {
@@ -778,10 +791,11 @@ registerCommand({
     getJid,
     arg,
     auteur_Msg_Repondu,
-    isSudo,
+    isOwner,
+    ownerJid,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -792,6 +806,9 @@ registerCommand({
   const value2 = await getJid(value, chatJid, sock);
   if (!value2) {
     return repondre("Veuillez mentionner un utilisateur");
+  }
+  if (ownerJid && value2 === ownerJid) {
+    return repondre("Le propriétaire du bot ne peut pas être retiré de la liste sudo.");
   }
   try {
     const deletedCount = await Sudo.destroy({
@@ -827,10 +844,10 @@ registerCommand({
   const {
     repondre,
     arg,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "❌ Vous n'avez pas le droit d'exécuter cette commande."
     });
@@ -887,11 +904,11 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     arg,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
   const value = arg[0];
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas le droit d'exécuter cette commande."
     }, {
@@ -1008,10 +1025,10 @@ registerCommand({
     ms,
     repondre,
     arg,
-    isSudo
+    isOwner
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return repondre("🔒 Cette commande est réservée aux utilisateurs sudo.");
     }
     const value = arg[0]?.toLowerCase();
@@ -1078,12 +1095,12 @@ registerCommand({
   const {
     repondre,
     auteur_Msg_Repondu,
-    isSudo,
+    isOwner,
     msg_Repondu,
     arg,
     getJid
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande");
   }
   let value = auteur_Msg_Repondu || arg[0]?.includes("@") && arg[0].replace("@", "") + "@lid";
@@ -1102,9 +1119,9 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     ms,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Vous n'avez pas la permission d'utiliser cette commande."
     }, {
@@ -1129,11 +1146,11 @@ registerCommand({
     const {
       arg,
       ms,
-      isSudo,
+      isOwner,
       repondre,
       auteur_Message
     } = ctx;
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(chatJid, {
         text: "🚫 Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -1172,9 +1189,9 @@ registerCommand({
   try {
     const {
       ms,
-      isSudo
+      isOwner
     } = ctx;
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(chatJid, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -1212,9 +1229,9 @@ registerCommand({
     const {
       arg,
       ms,
-      isSudo
+      isOwner
     } = ctx;
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(chatJid, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -1259,9 +1276,9 @@ registerCommand({
     ms,
     repondre,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Seuls les utilisateurs sudo peuvent utiliser cette commande.");
   }
   try {
@@ -1309,9 +1326,9 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande.");
   }
   try {
@@ -1330,10 +1347,10 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo
+    isOwner
   } = ctx;
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande.");
     }
     const value = await getMention();
@@ -1408,9 +1425,9 @@ registerCommand({
     repondre,
     msg_Repondu,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Pas autorisé.");
   }
   const value = arg[0];
@@ -1439,9 +1456,9 @@ registerCommand({
   const {
     repondre,
     arg,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Pas autorisé.");
   }
   const value = arg[0];
@@ -1460,9 +1477,9 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Pas autorisé.");
   }
   const value = await get_stick_cmd();
@@ -1487,9 +1504,9 @@ registerCommand({
   const {
     arg,
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = arg[0];
@@ -1512,9 +1529,9 @@ registerCommand({
   const {
     arg,
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = arg[0];
@@ -1536,9 +1553,9 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = await list_cmd("public");
@@ -1557,9 +1574,9 @@ registerCommand({
   const {
     arg,
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = arg[0];
@@ -1582,9 +1599,9 @@ registerCommand({
   const {
     arg,
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = arg[0];
@@ -1606,9 +1623,9 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     repondre,
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("❌ Vous n'avez pas la permission d'exécuter cette commande.");
   }
   const value = await list_cmd("private");
@@ -1629,10 +1646,10 @@ registerCommand({
     repondre,
     arg,
     verif_Groupe,
-    isSudo
+    isOwner
   } = ctx;
   const value = arg[0]?.toLowerCase();
-  if (!isSudo) {
+  if (!isOwner) {
     repondre("❌ Pas autorisé.");
     return;
   }

@@ -20,6 +20,9 @@ const {
 } = require("../database/events");
 const fs = require("fs");
 const {
+  canModerateTarget
+} = require("../lib/parse-env-lists");
+const {
   setWarn,
   delWarn,
   getLimit,
@@ -318,7 +321,9 @@ registerCommand({
     verif_Admin,
     verif_Bot_Admin,
     isSudo,
-    dev_num,
+    isOwner,
+    ownerJid,
+    sudoJids,
     ms
   } = ctx;
   if (!verif_Groupe) {
@@ -354,10 +359,11 @@ registerCommand({
         quoted: ms
       });
     }
-    if (dev_num.includes(value4)) {
+    if (!canModerateTarget(isOwner, value4, ownerJid, sudoJids)) {
       return sock.sendMessage(chatJid, {
-        text: "Vous ne pouvez pas exclure un développeur."
-      }, {
+        text: ownerJid && value4 === ownerJid
+          ? "Impossible d'exclure le propriétaire du bot."
+          : "Seul le propriétaire du bot peut exclure un utilisateur sudo.",
         quoted: ms
       });
     }
@@ -398,7 +404,9 @@ registerCommand({
     ms,
     auteur_Message,
     verif_Bot_Admin,
-    dev_num,
+    isOwner,
+    ownerJid,
+    sudoJids,
     id_Bot,
     getJid
   } = ctx;
@@ -414,7 +422,8 @@ registerCommand({
   if (!value2) {
     value2 = value[0]?.jid;
   }
-  if (![value2, id_Bot, ...dev_num].includes(auteur_Message)) {
+  const kickallAllowed = [value2, id_Bot, ownerJid].filter(Boolean);
+  if (!kickallAllowed.includes(auteur_Message) && !isOwner) {
     return sock.sendMessage(chatJid, {
       text: "Seul le créateur du groupe ou le propriétaire du bot peut utiliser cette commande."
     }, {
@@ -440,7 +449,9 @@ registerCommand({
       quoted: ms
     });
   }
-  const value3 = value.filter(tmp2 => !tmp2.admin && !dev_num.includes(tmp2.jid)).map(tmp3 => tmp3.jid);
+  const value3 = value.filter(tmp2 =>
+    !tmp2.admin && canModerateTarget(isOwner, tmp2.jid, ownerJid, sudoJids)
+  ).map(tmp3 => tmp3.jid);
   if (value3.length === 0) {
     return sock.sendMessage(chatJid, {
       text: "Aucun membre non administrateur à exclure."
@@ -463,7 +474,7 @@ registerCommand({
     const value4 = (replyMsg?.message?.conversation || replyMsg?.message?.extendedTextMessage?.text || "").trim().toLowerCase();
     const value5 = replyMsg?.key?.participant || replyMsg?.key?.remoteJid;
     const value6 = await getJid(value5, chatJid, sock);
-    if (value4 === "stop" && [value2, id_Bot, ...dev_num].includes(value6)) {
+    if (value4 === "stop" && (kickallAllowed.includes(value6) || isOwner)) {
       false2 = true;
       await sock.sendMessage(chatJid, {
         text: "⛔ Kickall annulé !"
@@ -497,7 +508,9 @@ registerCommand({
     verif_Groupe,
     verif_Bot_Admin,
     infos_Groupe,
-    dev_num,
+    isOwner,
+    ownerJid,
+    sudoJids,
     ms,
     auteur_Message,
     id_Bot
@@ -514,9 +527,10 @@ registerCommand({
   if (!value2) {
     value2 = value[0]?.jid;
   }
-  if (![value2, id_Bot, ...dev_num].includes(auteur_Message)) {
+  const kickallAllowed = [value2, id_Bot, ownerJid].filter(Boolean);
+  if (!kickallAllowed.includes(auteur_Message) && !isOwner) {
     return sock.sendMessage(chatJid, {
-      text: "❌ Seul le superadmin, le créateur du groupe, le créateur du bot ou un dev peut utiliser cette commande."
+      text: "❌ Seul le superadmin ou le propriétaire du bot peut utiliser cette commande."
     }, {
       quoted: ms
     });
@@ -539,7 +553,9 @@ registerCommand({
       quoted: ms
     });
   }
-  const value3 = value.filter(tmp2 => !tmp2.admin && !dev_num.includes(tmp2.jid)).map(tmp3 => tmp3.jid);
+  const value3 = value.filter(tmp2 =>
+    !tmp2.admin && canModerateTarget(isOwner, tmp2.jid, ownerJid, sudoJids)
+  ).map(tmp3 => tmp3.jid);
   if (value3.length === 0) {
     return sock.sendMessage(chatJid, {
       text: "✅ Aucun membre non administrateur à exclure."
@@ -573,7 +589,9 @@ registerCommand({
     verif_Bot_Admin,
     infos_Groupe,
     arg,
-    dev_num,
+    isOwner,
+    ownerJid,
+    sudoJids,
     ms,
     auteur_Message,
     id_Bot
@@ -590,9 +608,10 @@ registerCommand({
   if (!value2) {
     value2 = value[0]?.jid;
   }
-  if (![value2, id_Bot, ...dev_num].includes(auteur_Message)) {
+  const kickallAllowed = [value2, id_Bot, ownerJid].filter(Boolean);
+  if (!kickallAllowed.includes(auteur_Message) && !isOwner) {
     return sock.sendMessage(chatJid, {
-      text: "❌ Seul le superadmin, le créateur du groupe, le créateur du bot ou un dev peut utiliser cette commande."
+      text: "❌ Seul le superadmin ou le propriétaire du bot peut utiliser cette commande."
     }, {
       quoted: ms
     });
@@ -624,7 +643,9 @@ registerCommand({
     });
   }
   const value3 = arg[0];
-  const value4 = value.filter(tmp2 => tmp2.jid.startsWith(value3) && !tmp2.admin && !dev_num.includes(tmp2.jid)).map(tmp3 => tmp3.jid);
+  const value4 = value.filter(tmp2 =>
+    tmp2.jid.startsWith(value3) && !tmp2.admin && canModerateTarget(isOwner, tmp2.jid, ownerJid, sudoJids)
+  ).map(tmp3 => tmp3.jid);
   if (value4.length === 0) {
     return sock.sendMessage(chatJid, {
       text: "Aucun membre non admin avec l'indicatif " + value3 + "."
@@ -741,9 +762,10 @@ registerCommand({
     infos_Groupe,
     verif_Admin,
     isSudo,
+    isOwner,
+    ownerJid,
     verif_Bot_Admin,
-    dev_num,
-    dev_id,
+    sudoJids,
     ms
   } = ctx;
   if (!verif_Groupe) {
@@ -784,10 +806,11 @@ registerCommand({
         quoted: ms
       });
     }
-    if (dev_num.includes(value4)) {
+    if (!canModerateTarget(isOwner, value4, ownerJid, sudoJids)) {
       return sock.sendMessage(chatJid, {
-        text: "Vous ne pouvez pas rétrograder un développeur."
-      }, {
+        text: ownerJid && value4 === ownerJid
+          ? "Impossible de rétrograder le propriétaire du bot."
+          : "Seul le propriétaire du bot peut rétrograder un utilisateur sudo.",
         quoted: ms
       });
     }
@@ -823,12 +846,12 @@ registerCommand({
 }, async (chatJid, sock, ctx) => {
   const {
     arg,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
-      text: "❌ Vous n'avez pas les permissions pour créer un groupe."
+      text: "❌ Seul le propriétaire du bot peut créer un groupe."
     }, {
       quoted: ms
     });
@@ -1082,11 +1105,11 @@ registerCommand({
   desc: "Commande pour quitter un groupe"
 }, async (chatJid, sock, ctx) => {
   const {
-    isSudo
+    isOwner
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
-      text: "Vous n'avez pas les permissions requises pour quitter ce groupe."
+      text: "Seul le propriétaire du bot peut quitter un groupe."
     }, {
       quoted: ctx.ms
     });
@@ -1174,13 +1197,13 @@ registerCommand({
   desc: "Permet de rejoindre un groupe via un lien d'invitation"
 }, async (chatJid, sock, ctx) => {
   const {
-    isSudo,
+    isOwner,
     arg,
     ms
   } = ctx;
-  if (!isSudo) {
+  if (!isOwner) {
     return sock.sendMessage(chatJid, {
-      text: "Vous n'avez pas les permissions requises pour rejoindre un groupe."
+      text: "Seul le propriétaire du bot peut rejoindre un groupe."
     }, {
       quoted: ms
     });
@@ -1419,7 +1442,9 @@ registerCommand({
     verif_Admin,
     verif_Bot_Admin,
     isSudo,
-    dev_num,
+    isOwner,
+    ownerJid,
+    sudoJids,
     ms,
     auteur_Message,
     auteur_Msg_Repondu,
@@ -1469,8 +1494,10 @@ registerCommand({
   if (value2.includes(value6)) {
     return repondre("Impossible d'avertir un administrateur.");
   }
-  if (dev_num.includes(value6)) {
-    return repondre("Impossible d'avertir un développeur.");
+  if (!canModerateTarget(isOwner, value6, ownerJid, sudoJids)) {
+    return repondre(ownerJid && value6 === ownerJid
+      ? "Impossible d'avertir le propriétaire du bot."
+      : "Seul le propriétaire du bot peut avertir un utilisateur sudo.");
   }
   const value7 = await getLimit();
   const value8 = await setWarn(value6);
@@ -1505,7 +1532,7 @@ registerCommand({
   const {
     verif_Groupe,
     infos_Groupe,
-    isSudo,
+    isOwner,
     ms
   } = ctx;
   try {
@@ -1516,9 +1543,9 @@ registerCommand({
         quoted: ms
       });
     }
-    if (!isSudo) {
+    if (!isOwner) {
       return sock.sendMessage(chatJid, {
-        text: "Vous n'avez pas les permissions requises pour utiliser cette commande."
+        text: "Seul le propriétaire du bot peut utiliser cette commande."
       }, {
         quoted: ms
       });

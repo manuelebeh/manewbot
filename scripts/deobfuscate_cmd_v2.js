@@ -18,7 +18,7 @@ const HANDLER_PARAMS = ['chatJid', 'sock', 'ctx'];
 const CONTEXT_KEYS = new Set([
   'arg', 'ms', 'repondre', 'msg_Repondu', 'auteur_Msg_Repondu', 'auteur_Message',
   'nom_Auteur_Message', 'getJid', 'quote', 'id_Bot', 'mtype', 'groupe_Admin',
-  'isSudo', 'dev_id', 'verif_Admin', 'verif_Sudo', 'verif_Owner', 'isGroup',
+  'isOwner', 'isSudo', 'isStaff', 'sudoJids', 'privilegedJids', 'ownerJid', 'verif_Admin', 'verif_Sudo', 'verif_Owner', 'isGroup',
   'isAdmin', 'isBotAdmin', 'prefixe', 'body', 'pushName', 'mention',
   'verif_Groupe', 'mbre_membre', 'infos_Groupe', 'verif_Admin',
 ]);
