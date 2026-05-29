@@ -194,7 +194,7 @@ registerCommand({
   repondre: _0x575a94,
   auteur_Message: _0x559579,
   verif_Groupe: _0x5a3d0e,
-  prenium_id: _0x37fdc4,
+  isSudo: _0x37fdc4,
   getJid: _0x55a58b
 }) => {
   if (!_0x5a3d0e) {
@@ -316,7 +316,7 @@ registerCommand({
 }, async (_0x3a939f, _0x42f13f, {
   repondre: _0x56ef2a,
   auteur_Message: _0x9a4334,
-  prenium_id: _0x20727d,
+  isSudo: _0x20727d,
   getJid: _0x14ea36
 }) => {
   const _0x487722 = new Map();
@@ -567,7 +567,7 @@ registerCommand({
 }, async (_0x605ab0, _0x2b1ae2, {
   repondre: _0x77221c,
   auteur_Message: _0x217e93,
-  prenium_id: _0x5d1b86,
+  isSudo: _0x5d1b86,
   getJid: _0x5072d5
 }) => {
   const _0x5e3795 = new Map();

@@ -21,7 +21,7 @@ registerCommand({
   desc: "Définit ou modifie une variable d'environnement. Usage: setvar KEY = value"
 }, async (_0xca395c, _0x102f4f, {
   repondre: _0x223b3d,
-  prenium_id: _0x45dc51,
+  isSudo: _0x45dc51,
   arg: _0x5278f2
 }) => {
   if (!_0x45dc51) {
@@ -55,7 +55,7 @@ registerCommand({
   desc: "Supprime une variable d'environnement. Usage: delvar KEY"
 }, async (_0x19a080, _0x43a0cd, {
   repondre: _0x1ebcea,
-  prenium_id: _0x5361ac,
+  isSudo: _0x5361ac,
   arg: _0xd6294
 }) => {
   if (!_0x5361ac) {
@@ -88,7 +88,7 @@ registerCommand({
 }, async (_0x9f1c81, _0x15b156, {
   repondre: _0x3bad25,
   arg: _0x159b13,
-  prenium_id: _0x2485ec
+  isSudo: _0x2485ec
 }) => {
   if (!_0x2485ec) {
     return _0x3bad25("Vous n'avez pas le droit d'exécuter cette commande.");
@@ -136,7 +136,7 @@ registerCommand({
   desc: "Vérifie les mises à jour disponibles du bot."
 }, async (_0x85bfe9, _0x1bbf3, {
   repondre: _0x3a6ece,
-  prenium_id: _0x493451
+  isSudo: _0x493451
 }) => {
   try {
     if (!_0x493451) {
@@ -181,7 +181,7 @@ registerCommand({
   alias: ["maj"]
 }, async (_0x206e00, _0x270f19, {
   repondre: _0x531754,
-  prenium_id: _0x46e791,
+  isSudo: _0x46e791,
   ms: _0x29c831
 }) => {
   try {

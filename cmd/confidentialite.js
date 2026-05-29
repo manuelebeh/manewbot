@@ -14,11 +14,11 @@ registerCommand({
     ms: _0x36111e,
     repondre: _0x1e39d6,
     arg: _0x1be4bd,
-    prenium_id: _0x5f2c90
+    isSudo: _0x5f2c90
   } = _0xccfb34;
   try {
     if (!_0x5f2c90) {
-      return _0x1e39d6("Seuls les utilisateurs prenium peuvent utiliser cette commande");
+      return _0x1e39d6("Seuls les utilisateurs sudo peuvent utiliser cette commande");
     }
     const _0x142270 = _0x1be4bd[0]?.toLowerCase();
     const _0x5dad3b = ["off", "enligne", "enregistre", "ecrit"];
@@ -62,7 +62,7 @@ registerCommand({
   desc: "Obtenir vos paramètres de confidentialité"
 }, async (_0x47ee0a, _0x37ed04, {
   repondre: _0xbf1862,
-  prenium_id: _0x3e6aea,
+  isSudo: _0x3e6aea,
   ms: _0x12b063
 }) => {
   if (!_0x3e6aea) {
@@ -105,7 +105,7 @@ registerCommand({
   desc: "Modifier votre statut de profil"
 }, async (_0x1fd6a0, _0x81b8e4, {
   repondre: _0x5f4888,
-  prenium_id: _0x2fc31b,
+  isSudo: _0x2fc31b,
   arg: _0x320292
 }) => {
   if (!_0x2fc31b) {
@@ -196,7 +196,7 @@ async function handlePrivacyCommand({
   bot: _0x572e4b,
   repondre: _0x3311ca,
   arg: _0x16cf44,
-  prenium_id: _0x55998a,
+  isSudo: _0x55998a,
   updateFunction: _0x3954f5,
   label: _0x552d68
 }) {
@@ -242,7 +242,7 @@ registerCommand({
     bot: _0x1d23b1,
     repondre: _0x34605c.repondre,
     arg: _0x34605c.arg,
-    prenium_id: _0x34605c.prenium_id,
+    isSudo: _0x34605c.isSudo,
     updateFunction: _0x1d23b1.updateLastSeenPrivacy,
     label: "dernière vue"
   });
@@ -258,7 +258,7 @@ registerCommand({
     bot: _0x3f2297,
     repondre: _0x1496cd.repondre,
     arg: _0x1496cd.arg,
-    prenium_id: _0x1496cd.prenium_id,
+    isSudo: _0x1496cd.isSudo,
     updateFunction: _0x3f2297.updateOnlinePrivacy,
     label: "en ligne"
   });
@@ -274,7 +274,7 @@ registerCommand({
     bot: _0xb13022,
     repondre: _0x31f10e.repondre,
     arg: _0x31f10e.arg,
-    prenium_id: _0x31f10e.prenium_id,
+    isSudo: _0x31f10e.isSudo,
     updateFunction: _0xb13022.updateProfilePicturePrivacy,
     label: "photo de profil"
   });
@@ -290,7 +290,7 @@ registerCommand({
     bot: _0x46e8b0,
     repondre: _0x2781ca.repondre,
     arg: _0x2781ca.arg,
-    prenium_id: _0x2781ca.prenium_id,
+    isSudo: _0x2781ca.isSudo,
     updateFunction: _0x46e8b0.updateStatusPrivacy,
     label: "statut"
   });
@@ -306,7 +306,7 @@ registerCommand({
     bot: _0x1c5a2d,
     repondre: _0x45751b.repondre,
     arg: _0x45751b.arg,
-    prenium_id: _0x45751b.prenium_id,
+    isSudo: _0x45751b.isSudo,
     updateFunction: _0x1c5a2d.updateReadReceiptsPrivacy,
     label: "confirmation de lecture"
   });
@@ -322,7 +322,7 @@ registerCommand({
     bot: _0x46513b,
     repondre: _0x4a4afb.repondre,
     arg: _0x4a4afb.arg,
-    prenium_id: _0x4a4afb.prenium_id,
+    isSudo: _0x4a4afb.isSudo,
     updateFunction: _0x46513b.updateGroupsAddPrivacy,
     label: "ajout en groupe"
   });

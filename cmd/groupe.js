@@ -317,7 +317,7 @@ registerCommand({
     infos_Groupe: _0x4df440,
     verif_Admin: _0x1c28a9,
     verif_Bot_Admin: _0x523334,
-    prenium_id: _0x211bea,
+    isSudo: _0x211bea,
     dev_num: _0x419b6b,
     ms: _0x519af5
   } = _0xa7443a;
@@ -659,7 +659,7 @@ registerCommand({
     getJid: _0x4419cc,
     infos_Groupe: _0x402448,
     verif_Admin: _0x248d15,
-    prenium_id: _0x1d3686,
+    isSudo: _0x1d3686,
     verif_Bot_Admin: _0x49a84a,
     ms: _0x390e05
   } = _0x104d16;
@@ -740,7 +740,7 @@ registerCommand({
     arg: _0x685db3,
     infos_Groupe: _0x1edebb,
     verif_Admin: _0x53f965,
-    prenium_id: _0x2713d9,
+    isSudo: _0x2713d9,
     verif_Bot_Admin: _0x3b8f2a,
     dev_num: _0x2a6f95,
     dev_id: _0xd07607,
@@ -822,7 +822,7 @@ registerCommand({
   desc: "Crée un groupe avec juste toi comme membre."
 }, async (_0x23d5c2, _0x417567, {
   arg: _0x5ddeb7,
-  prenium_id: _0xed52d,
+  isSudo: _0xed52d,
   ms: _0x46a4b5
 }) => {
   if (!_0xed52d) {
@@ -1081,7 +1081,7 @@ registerCommand({
   desc: "Commande pour quitter un groupe"
 }, async (_0x6525e9, _0x4721b4, _0x4d2aef) => {
   const {
-    prenium_id: _0x5699a6
+    isSudo: _0x5699a6
   } = _0x4d2aef;
   if (!_0x5699a6) {
     return _0x4721b4.sendMessage(_0x6525e9, {
@@ -1173,7 +1173,7 @@ registerCommand({
   desc: "Permet de rejoindre un groupe via un lien d'invitation"
 }, async (_0x4638e9, _0x1688c3, _0x24f28f) => {
   const {
-    prenium_id: _0x4e5647,
+    isSudo: _0x4e5647,
     arg: _0x3b96dd,
     ms: _0xb9f427
   } = _0x24f28f;
@@ -1203,7 +1203,7 @@ registerCommand({
 async function gererDemandesIndividuellement(_0x3116bf, _0xdd8961, _0xe2c1c7, _0x569c47) {
   const {
     verif_Admin: _0x211444,
-    prenium_id: _0x16ba11,
+    isSudo: _0x16ba11,
     verif_Bot_Admin: _0x500934,
     verif_Groupe: _0x3c3cbf,
     ms: _0x2fe389
@@ -1314,7 +1314,7 @@ registerCommand({
     verif_Groupe: _0x55a9aa,
     msg_Repondu: _0x177e31,
     verif_Admin: _0xb27e9e,
-    prenium_id: _0xb4de8c,
+    isSudo: _0xb4de8c,
     verif_Bot_Admin: _0x4b94e7,
     ms: _0x15f350
   } = _0x59ecd0;
@@ -1370,7 +1370,7 @@ registerCommand({
   const {
     verif_Groupe: _0x8f29a2,
     verif_Admin: _0x59bb4d,
-    prenium_id: _0x17edfc,
+    isSudo: _0x17edfc,
     verif_Bot_Admin: _0xae964c,
     ms: _0x149ded
   } = _0x1ba005;
@@ -1417,7 +1417,7 @@ registerCommand({
     arg: _0x202bac,
     verif_Admin: _0x38ff48,
     verif_Bot_Admin: _0x1661ed,
-    prenium_id: _0x5bfcc7,
+    isSudo: _0x5bfcc7,
     dev_num: _0xc7b519,
     ms: _0x420561,
     auteur_Message: _0x12849e,
@@ -1504,7 +1504,7 @@ registerCommand({
   const {
     verif_Groupe: _0x1087e7,
     infos_Groupe: _0x490458,
-    prenium_id: _0x3d24ea,
+    isSudo: _0x3d24ea,
     ms: _0x32044d
   } = _0x5ab952;
   try {

@@ -77,7 +77,7 @@ registerCommand({
     dev_id: _0x3fd55b,
     repondre: _0x919ad3,
     id_Bot: _0x1cbe7b,
-    prenium_id: _0x532d0b
+    isSudo: _0x532d0b
   } = _0x3c7225;
   if (!_0x23a5ba) {
     return _0x919ad3("Veuillez répondre à un message pour le supprimer.");
@@ -93,7 +93,7 @@ registerCommand({
       return _0x919ad3("Je dois être administrateur pour effectuer cette action.");
     }
   } else if (!_0x532d0b) {
-    return _0x919ad3("Seuls les utilisateurs premium peuvent utiliser cette commande en privé.");
+    return _0x919ad3("Seuls les utilisateurs sudo peuvent utiliser cette commande en privé.");
   }
   try {
     const _0x31a76b = {
@@ -123,7 +123,7 @@ registerCommand({
   const {
     repondre: _0x57dfce,
     ms: _0x9f6899,
-    prenium_id: _0x4af01a
+    isSudo: _0x4af01a
   } = _0x10c20d;
   try {
     if (!_0x4af01a) {
@@ -151,7 +151,7 @@ registerCommand({
   const {
     repondre: _0x2a282f,
     verif_Groupe: _0x44d1a3,
-    prenium_id: _0x2936bd
+    isSudo: _0x2936bd
   } = _0x2c37e2;
   if (_0x44d1a3) {
     return _0x2a282f("Veuillez vous diriger dans l'inbox de la personne à bloquer.");
@@ -176,7 +176,7 @@ registerCommand({
   const {
     verif_Groupe: _0x4a2636,
     repondre: _0x2cfdd9,
-    prenium_id: _0x28f67d
+    isSudo: _0x28f67d
   } = _0x5cf304;
   if (_0x4a2636) {
     return _0x2cfdd9("Veuillez vous diriger dans l'inbox de la personne à bloquer.");
@@ -204,7 +204,7 @@ registerCommand({
     arg: _0x4ac158,
     getJid: _0x1d0892,
     auteur_Msg_Repondu: _0x45fb7f,
-    prenium_id: _0x2e3f17,
+    isSudo: _0x2e3f17,
     dev_num: _0x23644d
   } = _0x5965b3;
   try {
@@ -304,7 +304,7 @@ registerCommand({
     repondre: _0x272c81,
     ms: _0x502444,
     arg: _0x53040f,
-    prenium_id: _0x449f4a
+    isSudo: _0x449f4a
   } = _0x540825;
   if (!_0x449f4a) {
     return _0x120325.sendMessage(_0xb9120, {
@@ -366,7 +366,7 @@ registerCommand({
     repondre: _0x24432a,
     ms: _0x3fc69c,
     arg: _0x56ebc2,
-    prenium_id: _0x1d8820
+    isSudo: _0x1d8820
   } = _0x51d60c;
   if (!_0x1d8820) {
     return _0x3da3b2.sendMessage(_0x113c52, {
@@ -428,7 +428,7 @@ registerCommand({
     repondre: _0x37353d,
     ms: _0xc6fcf5,
     arg: _0x405d4d,
-    prenium_id: _0x434f80
+    isSudo: _0x434f80
   } = _0x26f23d;
   if (!_0x434f80) {
     return _0x3c9740.sendMessage(_0x175b45, {
@@ -491,7 +491,7 @@ registerCommand({
     arg: _0x3536e0,
     getJid: _0x20ea83,
     auteur_Msg_Repondu: _0x41c83a,
-    prenium_id: _0x315464,
+    isSudo: _0x315464,
     ms: _0x5d1357
   } = _0x50c60d;
   try {
@@ -537,7 +537,7 @@ registerCommand({
     repondre: _0x44553c,
     arg: _0x2856f9,
     verif_Groupe: _0x1e8ba4,
-    prenium_id: _0x20eb3e,
+    isSudo: _0x20eb3e,
     ms: _0x4e5c38
   } = _0x15981d;
   try {
@@ -583,7 +583,7 @@ registerCommand({
     repondre: _0x2c9bc2,
     arg: _0x1e80a7,
     verif_Groupe: _0x3379ce,
-    prenium_id: _0x105b49,
+    isSudo: _0x105b49,
     ms: _0x2ef26f
   } = _0x2f2ff6;
   try {
@@ -627,7 +627,7 @@ registerCommand({
     arg: _0x12fd6b,
     verif_Groupe: _0x22bb40,
     ms: _0x284729,
-    prenium_id: _0x42348a
+    isSudo: _0x42348a
   } = _0x4c2ab3;
   try {
     if (!_0x22bb40) {
@@ -679,14 +679,14 @@ registerCommand({
   nom_cmd: "setsudo",
   classe: "Owner",
   react: "🔒",
-  desc: "Ajoute un utilisateur dans la liste des utilisateurs premium."
+  desc: "Ajoute un utilisateur dans la liste des utilisateurs sudo."
 }, async (_0x33d070, _0x1fd0ff, _0x3d1815) => {
   const {
     repondre: _0x49e07a,
     arg: _0x3e998e,
     getJid: _0x205f72,
     auteur_Msg_Repondu: _0x4dfd23,
-    prenium_id: _0x378f7b,
+    isSudo: _0x378f7b,
     ms: _0x112e10
   } = _0x3d1815;
   if (!_0x378f7b) {
@@ -699,7 +699,7 @@ registerCommand({
   const _0x44ef59 = _0x4dfd23 || _0x3e998e[0]?.includes("@") && _0x3e998e[0].replace("@", "") + "@lid";
   const _0x3974ad = await _0x205f72(_0x44ef59, _0x33d070, _0x1fd0ff);
   if (!_0x3974ad) {
-    return _0x49e07a("Veuillez mentionner un utilisateur valide pour l'ajouter en premium.");
+    return _0x49e07a("Veuillez mentionner un utilisateur valide pour l'ajouter à la liste sudo.");
   }
   try {
     const [_0x300f9b] = await Sudo.findOrCreate({
@@ -712,32 +712,32 @@ registerCommand({
     });
     if (!_0x300f9b._options.isNewRecord) {
       return _0x1fd0ff.sendMessage(_0x33d070, {
-        text: "L'utilisateur @" + _0x3974ad.split("@")[0] + " est déjà un utilisateur premium.",
+        text: "L'utilisateur @" + _0x3974ad.split("@")[0] + " est déjà un utilisateur sudo.",
         mentions: [_0x3974ad]
       }, {
         quoted: _0x112e10
       });
     }
     return _0x1fd0ff.sendMessage(_0x33d070, {
-      text: "Utilisateur @" + _0x3974ad.split("@")[0] + " ajouté avec succès en tant qu'utilisateur premium.",
+      text: "Utilisateur @" + _0x3974ad.split("@")[0] + " ajouté avec succès en tant qu'utilisateur sudo.",
       mentions: [_0x3974ad]
     }, {
       quoted: _0x112e10
     });
   } catch (_0x37023d) {
     console.error("Erreur lors de l'exécution de la commande setsudo :", _0x37023d);
-    return _0x49e07a("Une erreur est survenue lors de l'ajout de l'utilisateur en premium.");
+    return _0x49e07a("Une erreur est survenue lors de l'ajout de l'utilisateur sudo.");
   }
 });
 registerCommand({
   nom_cmd: "sudolist",
   classe: "Owner",
   react: "📋",
-  desc: "Affiche la liste des utilisateurs premium."
+  desc: "Affiche la liste des utilisateurs sudo."
 }, async (_0x473836, _0x18cacc, _0x37c8d1) => {
   const {
     repondre: _0xa39776,
-    prenium_id: _0x59e377,
+    isSudo: _0x59e377,
     ms: _0x3186ba
   } = _0x37c8d1;
   if (!_0x59e377) {
@@ -750,10 +750,10 @@ registerCommand({
   try {
     const _0x49cad1 = await Sudo.findAll();
     if (!_0x49cad1.length) {
-      return _0xa39776("Aucun utilisateur premium n'est actuellement enregistré.");
+      return _0xa39776("Aucun utilisateur sudo n'est actuellement enregistré.");
     }
     const _0x1558d3 = _0x49cad1.map((_0x3902ec, _0xf59b0b) => "🔹 *" + (_0xf59b0b + 1) + ".* @" + _0x3902ec.id.split("@")[0]).join("\n");
-    const _0x578ab9 = "✨ *Liste des utilisateurs Premium* ✨\n\n*Total*: " + _0x49cad1.length + "\n\n" + _0x1558d3;
+    const _0x578ab9 = "✨ *Liste des utilisateurs sudo* ✨\n\n*Total*: " + _0x49cad1.length + "\n\n" + _0x1558d3;
     return _0x18cacc.sendMessage(_0x473836, {
       text: _0x578ab9,
       mentions: _0x49cad1.map(_0xae3491 => _0xae3491.id)
@@ -762,21 +762,21 @@ registerCommand({
     });
   } catch (_0x5a02d1) {
     console.error("Erreur lors de l'exécution de la commande sudolist :", _0x5a02d1);
-    return _0xa39776("Une erreur est survenue lors de l'affichage de la liste des utilisateurs premium.");
+    return _0xa39776("Une erreur est survenue lors de l'affichage de la liste des utilisateurs sudo.");
   }
 });
 registerCommand({
   nom_cmd: "delsudo",
   classe: "Owner",
   react: "❌",
-  desc: "Supprime un utilisateur de la liste des utilisateurs premium."
+  desc: "Supprime un utilisateur de la liste des utilisateurs sudo."
 }, async (_0x3bbdef, _0x14c084, _0x2e0699) => {
   const {
     repondre: _0x2826f8,
     getJid: _0x161715,
     arg: _0x22d455,
     auteur_Msg_Repondu: _0x1289d0,
-    prenium_id: _0x31ebdb,
+    isSudo: _0x31ebdb,
     ms: _0x5bc9ce
   } = _0x2e0699;
   if (!_0x31ebdb) {
@@ -799,21 +799,21 @@ registerCommand({
     });
     if (_0x30ba64 === 0) {
       return _0x14c084.sendMessage(_0x3bbdef, {
-        text: "L'utilisateur @" + _0x426164.split("@")[0] + " n'est pas un utilisateur premium.",
+        text: "L'utilisateur @" + _0x426164.split("@")[0] + " n'est pas un utilisateur sudo.",
         mentions: [_0x426164]
       }, {
         quoted: _0x5bc9ce
       });
     }
     return _0x14c084.sendMessage(_0x3bbdef, {
-      text: "Utilisateur @" + _0x426164.split("@")[0] + " supprimé avec succès de la liste premium.",
+      text: "Utilisateur @" + _0x426164.split("@")[0] + " supprimé avec succès de la liste sudo.",
       mentions: [_0x426164]
     }, {
       quoted: _0x5bc9ce
     });
   } catch (_0x264141) {
     console.error("Erreur lors de l'exécution de la commande delsudo :", _0x264141);
-    return _0x2826f8("Une erreur est survenue lors de la suppression de l'utilisateur de la liste premium.");
+    return _0x2826f8("Une erreur est survenue lors de la suppression de l'utilisateur de la liste sudo.");
   }
 });
 registerCommand({
@@ -825,7 +825,7 @@ registerCommand({
   const {
     repondre: _0xb5b74d,
     arg: _0xcf7a03,
-    prenium_id: _0x3080a2,
+    isSudo: _0x3080a2,
     ms: _0x4c25a0
   } = _0x48f1d2;
   if (!_0x3080a2) {
@@ -885,7 +885,7 @@ registerCommand({
 }, async (_0x173516, _0x38a83e, _0x11bba1) => {
   const {
     arg: _0x2187f,
-    prenium_id: _0x81d6a2,
+    isSudo: _0x81d6a2,
     ms: _0x5037bc
   } = _0x11bba1;
   const _0x42870a = _0x2187f[0];
@@ -1006,11 +1006,11 @@ registerCommand({
     ms: _0x58a983,
     repondre: _0x5bcc73,
     arg: _0x1df635,
-    prenium_id: _0x1700a8
+    isSudo: _0x1700a8
   } = _0x4bdef9;
   try {
     if (!_0x1700a8) {
-      return _0x5bcc73("🔒 Cette commande est réservée aux utilisateurs premium.");
+      return _0x5bcc73("🔒 Cette commande est réservée aux utilisateurs sudo.");
     }
     const _0x26f880 = _0x1df635[0]?.toLowerCase();
     const _0x41d812 = _0x1df635[1]?.toLowerCase();
@@ -1076,13 +1076,13 @@ registerCommand({
   const {
     repondre: _0x3af74,
     auteur_Msg_Repondu: _0x50950a,
-    prenium_id: _0x48463d,
+    isSudo: _0x48463d,
     msg_Repondu: _0x3f1976,
     arg: _0x1285ea,
     getJid: _0x55e0b6
   } = _0x4221c4;
   if (!_0x48463d) {
-    return _0x3af74("Seuls les utilisateurs prenium peuvent utiliser cette commande");
+    return _0x3af74("Seuls les utilisateurs sudo peuvent utiliser cette commande");
   }
   let _0x29131d = _0x50950a || _0x1285ea[0]?.includes("@") && _0x1285ea[0].replace("@", "") + "@lid";
   let _0x3f3463;
@@ -1100,7 +1100,7 @@ registerCommand({
 }, async (_0x29d16a, _0x7b4c50, _0x5e835b) => {
   const {
     ms: _0x1bf223,
-    prenium_id: _0xad6041
+    isSudo: _0xad6041
   } = _0x5e835b;
   if (!_0xad6041) {
     return _0x7b4c50.sendMessage(_0x29d16a, {
@@ -1127,7 +1127,7 @@ registerCommand({
     const {
       arg: _0x4a2d0a,
       ms: _0x5cfd1d,
-      prenium_id: _0x3f82e7,
+      isSudo: _0x3f82e7,
       repondre: _0x1db258,
       auteur_Message: _0x35ca51
     } = _0x127e16;
@@ -1170,7 +1170,7 @@ registerCommand({
   try {
     const {
       ms: _0x51ae32,
-      prenium_id: _0x4362f0
+      isSudo: _0x4362f0
     } = _0x10042d;
     if (!_0x4362f0) {
       return _0x1b544c.sendMessage(_0x2d6283, {
@@ -1210,7 +1210,7 @@ registerCommand({
     const {
       arg: _0x59c2ff,
       ms: _0x2d0d33,
-      prenium_id: _0x41b178
+      isSudo: _0x41b178
     } = _0x573bf6;
     if (!_0x41b178) {
       return _0x5f2df0.sendMessage(_0x4b1fd7, {
@@ -1257,10 +1257,10 @@ registerCommand({
     ms: _0x37ee5a,
     repondre: _0x6a6a28,
     arg: _0x5a7118,
-    prenium_id: _0x12b12e
+    isSudo: _0x12b12e
   } = _0x38b420;
   if (!_0x12b12e) {
-    return _0x6a6a28("❌ Seuls les utilisateurs premium peuvent utiliser cette commande.");
+    return _0x6a6a28("❌ Seuls les utilisateurs sudo peuvent utiliser cette commande.");
   }
   try {
     const _0x4b23e6 = _0x5a7118.join(" ");
@@ -1307,10 +1307,10 @@ registerCommand({
 }, async (_0x267f14, _0x1ab929, _0x593163) => {
   const {
     repondre: _0x39dc90,
-    prenium_id: _0x240dd9
+    isSudo: _0x240dd9
   } = _0x593163;
   if (!_0x240dd9) {
-    return _0x39dc90("Seuls les utilisateurs premium peuvent utiliser cette commande.");
+    return _0x39dc90("Seuls les utilisateurs sudo peuvent utiliser cette commande.");
   }
   try {
     await delMention();
@@ -1328,11 +1328,11 @@ registerCommand({
 }, async (_0x24508e, _0x26c34b, _0x1568ac) => {
   const {
     repondre: _0x12e8ed,
-    prenium_id: _0xac9001
+    isSudo: _0xac9001
   } = _0x1568ac;
   try {
     if (!_0xac9001) {
-      return _0x12e8ed("Seuls les utilisateurs premium peuvent utiliser cette commande.");
+      return _0x12e8ed("Seuls les utilisateurs sudo peuvent utiliser cette commande.");
     }
     const _0x1c1dd3 = await getMention();
     if (!_0x1c1dd3 || _0x1c1dd3.mode === "non") {
@@ -1405,7 +1405,7 @@ registerCommand({
   repondre: _0x18ad8f,
   msg_Repondu: _0x393bc9,
   arg: _0xaea9d0,
-  prenium_id: _0x3893f0
+  isSudo: _0x3893f0
 }) => {
   if (!_0x3893f0) {
     return _0x18ad8f("Pas autorisé.");
@@ -1435,7 +1435,7 @@ registerCommand({
 }, async (_0x43b7dc, _0x2125c6, {
   repondre: _0x3a3ed4,
   arg: _0x53ff87,
-  prenium_id: _0x266f34
+  isSudo: _0x266f34
 }) => {
   if (!_0x266f34) {
     return _0x3a3ed4("Pas autorisé.");
@@ -1455,7 +1455,7 @@ registerCommand({
   desc: "Liste des commandes stickers"
 }, async (_0x58c63a, _0x196dec, {
   repondre: _0x48b9f7,
-  prenium_id: _0x276fc1
+  isSudo: _0x276fc1
 }) => {
   if (!_0x276fc1) {
     return _0x48b9f7("Pas autorisé.");
@@ -1481,7 +1481,7 @@ registerCommand({
 }, async (_0x5c2edd, _0x39892a, {
   arg: _0x468057,
   repondre: _0xc7d689,
-  prenium_id: _0x3a6f4d
+  isSudo: _0x3a6f4d
 }) => {
   if (!_0x3a6f4d) {
     return _0xc7d689("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1505,7 +1505,7 @@ registerCommand({
 }, async (_0xd63ebe, _0xd5a150, {
   arg: _0xae208d,
   repondre: _0x57f695,
-  prenium_id: _0x261481
+  isSudo: _0x261481
 }) => {
   if (!_0x261481) {
     return _0x57f695("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1528,7 +1528,7 @@ registerCommand({
   desc: "Liste les commandes publiques utilisablent quand le bot est en mode privé"
 }, async (_0x1e94a5, _0x159fa8, {
   repondre: _0x3b4e4d,
-  prenium_id: _0x59ff5b
+  isSudo: _0x59ff5b
 }) => {
   if (!_0x59ff5b) {
     return _0x3b4e4d("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1544,11 +1544,11 @@ registerCommand({
   nom_cmd: "setprivate_cmd",
   classe: "Owner",
   react: "🔒",
-  desc: "Ajoute une commande privée utilisable par les utilisateurs premiums quand le bot est en mode public"
+  desc: "Ajoute une commande privée utilisable par les utilisateurs sudos quand le bot est en mode public"
 }, async (_0x1feedf, _0x215c11, {
   arg: _0x241318,
   repondre: _0x47adce,
-  prenium_id: _0x176554
+  isSudo: _0x176554
 }) => {
   if (!_0x176554) {
     return _0x47adce("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1572,7 +1572,7 @@ registerCommand({
 }, async (_0x5f1a6f, _0x212561, {
   arg: _0x4891dd,
   repondre: _0x5db6dd,
-  prenium_id: _0x5ec92a
+  isSudo: _0x5ec92a
 }) => {
   if (!_0x5ec92a) {
     return _0x5db6dd("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1592,10 +1592,10 @@ registerCommand({
   nom_cmd: "listprivate_cmd",
   classe: "Owner",
   react: "📃",
-  desc: "Liste les commandes privées utilisablent par les utilisateurs premiums quand le bot est en mode public"
+  desc: "Liste les commandes privées utilisablent par les utilisateurs sudos quand le bot est en mode public"
 }, async (_0x451b9e, _0x197a1c, {
   repondre: _0x303d74,
-  prenium_id: _0xb39ac2
+  isSudo: _0xb39ac2
 }) => {
   if (!_0xb39ac2) {
     return _0x303d74("❌ Vous n'avez pas la permission d'exécuter cette commande.");
@@ -1618,7 +1618,7 @@ registerCommand({
     repondre: _0x49f3d7,
     arg: _0x32906c,
     verif_Groupe: _0x130be6,
-    prenium_id: _0x1c25ce
+    isSudo: _0x1c25ce
   } = _0x1e00a7;
   const _0x32bfef = _0x32906c[0]?.toLowerCase();
   if (!_0x1c25ce) {

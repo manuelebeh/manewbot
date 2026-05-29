@@ -130,11 +130,11 @@ registerCommand({
     ms: _0x2b1205,
     repondre: _0xe7b584,
     arg: _0x2502ce,
-    prenium_id: _0x1a2808
+    isSudo: _0x1a2808
   } = _0x4cb558;
   try {
     if (!_0x1a2808) {
-      return _0xe7b584("Seuls les utilisateurs prenium peuvent utiliser cette commande");
+      return _0xe7b584("Seuls les utilisateurs sudo peuvent utiliser cette commande");
     }
     const _0x3a0ffc = _0x2502ce[0]?.toLowerCase();
     const [_0x2964a3] = await WA_CONF.findOrCreate({
@@ -172,11 +172,11 @@ registerCommand({
     ms: _0x15db0d,
     repondre: _0x2db246,
     arg: _0x503b92,
-    prenium_id: _0x1d5cc0
+    isSudo: _0x1d5cc0
   } = _0x1f52cd;
   try {
     if (!_0x1d5cc0) {
-      return _0x2db246("Seuls les utilisateurs prenium peuvent utiliser cette commande");
+      return _0x2db246("Seuls les utilisateurs sudo peuvent utiliser cette commande");
     }
     const _0xeb53fd = _0x503b92[0]?.toLowerCase();
     const [_0x466317] = await WA_CONF.findOrCreate({
@@ -214,11 +214,11 @@ registerCommand({
     ms: _0x19368f,
     repondre: _0x5dca2d,
     arg: _0xa8a710,
-    prenium_id: _0x3f0f2f
+    isSudo: _0x3f0f2f
   } = _0xe9e13a;
   try {
     if (!_0x3f0f2f) {
-      return _0x5dca2d("❌ Seuls les utilisateurs *premium* peuvent utiliser cette commande.");
+      return _0x5dca2d("❌ Seuls les utilisateurs *sudo* peuvent utiliser cette commande.");
     }
     const _0x2fe332 = _0xa8a710[0]?.toLowerCase();
     const [_0x36cc6a] = await WA_CONF.findOrCreate({
