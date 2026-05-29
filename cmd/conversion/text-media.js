@@ -1,7 +1,7 @@
 'use strict';
 
 const { registerCommand } = require('./register');
-const { fs, path, os, axios, FormData, readFileSync, config, Sticker, StickerTypes, spawn, gTTS, sharp, Ranks, uploadToCatbox, alea, isSupportedFile, fusionCache, remini, convertWebpToMp4 } = require('./media');
+const { fs, path, os, axios, FormData, readFileSync, config, Sticker, StickerTypes, spawn, saveSpeechToFile, sharp, Ranks, uploadToCatbox, alea, isSupportedFile, fusionCache, remini, convertWebpToMp4 } = require('./media');
 const {
   getServiceUrls,
   serviceNotConfiguredMessage
@@ -32,34 +32,28 @@ registerCommand({
     speechText = arg.slice(1).join(" ");
   }
   try {
-    const tts = new gTTS(speechText, lang);
-    const outputPath = path.join(__dirname, "output.mp3");
-    tts.save(outputPath, function (err) {
-      if (err) {
-        return sock.sendMessage(chatJid, {
-          text: "Une erreur est survenue lors de la conversion en audio. Veuillez réessayer plus tard."
-        }, {
-          quoted: ms
-        });
-      }
-      const audioBuffer = fs.readFileSync(outputPath);
-      const audioMessage = {
+    const outputPath = path.join(__dirname, 'output.mp3');
+    await saveSpeechToFile(speechText, lang, outputPath);
+    const audioBuffer = fs.readFileSync(outputPath);
+    await sock.sendMessage(
+      chatJid,
+      {
         audio: audioBuffer,
-        mimetype: "audio/mpeg",
-        caption: "```Powered by Manewbot```"
-      };
-      sock.sendMessage(chatJid, audioMessage, {
-        quoted: ms
-      }).then(() => {
-        fs.unlinkSync(outputPath);
-      });
-    });
+        mimetype: 'audio/mpeg',
+        caption: '```Powered by Manewbot```',
+      },
+      { quoted: ms }
+    );
+    fs.unlinkSync(outputPath);
   } catch (err) {
-    return sock.sendMessage(chatJid, {
-      text: "Une erreur est survenue lors de la conversion en audio. Veuillez réessayer plus tard."
-    }, {
-      quoted: ms
-    });
+    console.error('Erreur TTS :', err.message || err);
+    return sock.sendMessage(
+      chatJid,
+      {
+        text: 'Une erreur est survenue lors de la conversion en audio. Veuillez réessayer plus tard.',
+      },
+      { quoted: ms }
+    );
   }
 });
 registerCommand({

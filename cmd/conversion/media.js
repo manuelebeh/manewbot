@@ -7,7 +7,7 @@ const os = require('os');
 const axios = require('axios');
 const FormData = require('form-data');
 const { spawn } = require('child_process');
-const gTTS = require('gtts');
+const { saveSpeechToFile } = require('../../lib/google-tts');
 const sharp = require('sharp');
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 const config = require('../../set');
@@ -129,7 +129,7 @@ module.exports = {
   Sticker,
   StickerTypes,
   spawn,
-  gTTS,
+  saveSpeechToFile,
   sharp,
   Ranks,
   uploadToCatbox,
