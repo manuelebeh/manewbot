@@ -23,6 +23,10 @@ const {
   remini,
   convertWebpToMp4,
 } = require('./_shared');
+const {
+  getServiceUrls,
+  serviceNotConfiguredMessage
+} = require('../../lib/service-urls');
 
 registerCommand({
   nom_cmd: "toimage",
@@ -167,34 +171,46 @@ registerCommand({
         quoted: ms
       });
     }
-    try {
-      const uploadUrl2 = await uploadToCatbox(mediaPath2);
-      const response2 = await axios.get("https://www.itzky.xyz/api/remini?url=" + uploadUrl2);
-      await sock.sendMessage(chatJid, {
-        image: {
-          url: response2.data.result
-        },
-        caption: "```Powered by Manewbot```"
-      }, {
-        quoted: ms
-      });
-      return;
-    } catch {}
-    try {
-      const enhancedImage2 = await remini(mediaPath2, "enhance");
-      await sock.sendMessage(chatJid, {
-        image: enhancedImage2,
-        caption: "```Powered by Manewbot```"
-      }, {
-        quoted: ms
-      });
-    } catch {
-      await sock.sendMessage(chatJid, {
-        text: "Une erreur est survenue pendant le traitement de l'image avec les deux services."
+    const services = getServiceUrls(config);
+    if (!services.remini && !services.vyro) {
+      return sock.sendMessage(chatJid, {
+        text: serviceNotConfiguredMessage("REMINI_API_BASE ou VYRO_API_BASE")
       }, {
         quoted: ms
       });
     }
+    if (services.remini) {
+      try {
+        const uploadUrl2 = await uploadToCatbox(mediaPath2);
+        const response2 = await axios.get(services.remini + "/api/remini?url=" + encodeURIComponent(uploadUrl2));
+        await sock.sendMessage(chatJid, {
+          image: {
+            url: response2.data.result
+          },
+          caption: "```Powered by Manewbot```"
+        }, {
+          quoted: ms
+        });
+        return;
+      } catch {}
+    }
+    if (services.vyro) {
+      try {
+        const enhancedImage2 = await remini(mediaPath2, "enhance");
+        await sock.sendMessage(chatJid, {
+          image: enhancedImage2,
+          caption: "```Powered by Manewbot```"
+        }, {
+          quoted: ms
+        });
+        return;
+      } catch {}
+    }
+    await sock.sendMessage(chatJid, {
+      text: "Une erreur est survenue pendant le traitement de l'image."
+    }, {
+      quoted: ms
+    });
   } catch {
     return sock.sendMessage(chatJid, {
       text: "Une erreur est survenue pendant le traitement de l'image."

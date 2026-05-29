@@ -1,6 +1,11 @@
 const {
   registerCommand
 } = require("../lib/commands");
+const config = require("../set");
+const {
+  getServiceUrls,
+  serviceNotConfiguredMessage
+} = require("../lib/service-urls");
 const axios = require("axios");
 const FormData = require("form-data");
 const effetsCanvacord = ["shit", "wasted", "wanted", "trigger", "trash", "rip", "sepia", "rainbow", "hitler", "invert1", "jail", "affect", "beautiful", "blur", "circle1", "facepalm", "greyscale", "jokeoverhead", "delete_image", "darkness", "colorfy", "threshold", "pixelate"];
@@ -38,16 +43,26 @@ function genererCommandeCanvacord(effectName) {
           imageSource = "https://files.catbox.moe/ulwqtr.jpg";
         }
       }
+      const {
+        ovl
+      } = getServiceUrls(config);
+      if (!ovl) {
+        return bot.sendMessage(jid, {
+          text: serviceNotConfiguredMessage("OVL_API_BASE")
+        }, {
+          quoted: ms
+        });
+      }
       let response;
       if (isLocalFile) {
         const form = new FormData();
         form.append("file", require("fs").createReadStream(imageSource));
-        response = await axios.post("https://api-ovl.koyeb.app/img-effect/" + effectName, form, {
+        response = await axios.post(ovl + "/img-effect/" + effectName, form, {
           headers: form.getHeaders(),
           responseType: "arraybuffer"
         });
       } else {
-        response = await axios.get("https://api-ovl.koyeb.app/img-effect/" + effectName + "?url=" + encodeURIComponent(imageSource), {
+        response = await axios.get(ovl + "/img-effect/" + effectName + "?url=" + encodeURIComponent(imageSource), {
           responseType: "arraybuffer"
         });
       }

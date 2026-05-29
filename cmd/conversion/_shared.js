@@ -26,6 +26,9 @@ const {
   Ranks
 } = require("../../database/rank");
 const os = require("os");
+const {
+  getServiceUrls
+} = require("../../lib/service-urls");
 let fusionCache = {};
 
 async function uploadToCatbox(filePath) {
@@ -53,7 +56,13 @@ const isSupportedFile = (filename) => {
 const remini = async (imageInput, mode) => {
   const modes = ["enhance", "recolor", "dehaze"];
   const selectedMode = modes.includes(mode) ? mode : modes[0];
-  const apiUrl = "https://inferenceengine.vyro.ai/" + selectedMode;
+  const {
+    vyro
+  } = getServiceUrls(config);
+  if (!vyro) {
+    throw new Error("VYRO_API_BASE not configured");
+  }
+  const apiUrl = vyro + "/" + selectedMode;
   const formData = new FormData();
   formData.append("model_version", 1);
   const imageBuffer = Buffer.isBuffer(imageInput) ? imageInput : readFileSync(imageInput);
@@ -94,7 +103,10 @@ async function convertWebpToMp4({
     if (url) {
       formData2.append("new-image-url", url);
     }
-    const response2 = await axios.post("https://ezgif.com/webp-to-mp4", formData2, {
+    const {
+      ezgif
+    } = getServiceUrls(config);
+    const response2 = await axios.post(ezgif + "/webp-to-mp4", formData2, {
       headers: formData2.getHeaders()
     });
     const value2 = response2?.request?.res?.responseUrl;

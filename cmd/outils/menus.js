@@ -31,7 +31,6 @@ registerCommand({
       arg,
       ms
     } = ctx;
-    const cmd = cmd;
     if (arg.length) {
       const value = arg[0].toLowerCase();
       if (value === "all") {
@@ -244,7 +243,6 @@ registerCommand({
     const value7 = value6.toLocaleDateString("fr-FR");
     const value8 = value6.toLocaleTimeString("fr-FR");
     const value9 = process.platform;
-    const cmd = cmd;
     const options = {};
     cmd.forEach(tmp => {
       if (!options[tmp.classe]) {
@@ -400,7 +398,6 @@ registerCommand({
     const value7 = value6.toLocaleDateString("fr-FR");
     const value8 = value6.toLocaleTimeString("fr-FR");
     const value9 = process.platform;
-    const cmd = cmd;
     const options = {};
     cmd.forEach(tmp => {
       if (!options[tmp.classe]) {

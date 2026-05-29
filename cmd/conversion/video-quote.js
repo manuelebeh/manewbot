@@ -23,6 +23,10 @@ const {
   remini,
   convertWebpToMp4,
 } = require('./_shared');
+const {
+  getServiceUrls,
+  serviceNotConfiguredMessage
+} = require('../../lib/service-urls');
 
 registerCommand({
   nom_cmd: "stickertovideo",
@@ -121,8 +125,14 @@ registerCommand({
       replyMessage: {}
     }]
   };
+  const {
+    quotely
+  } = getServiceUrls(config);
+  if (!quotely) {
+    return repondre(serviceNotConfiguredMessage("QUOTELY_API_BASE"));
+  }
   try {
-    const response2 = await axios.post("https://bot.lyo.su/quote/generate", payload2);
+    const response2 = await axios.post(quotely + "/quote/generate", payload2);
     const value52 = Buffer.from(response2.data.result.image, "base64");
     const sticker2 = new Sticker(value52, {
       pack: config.STICKER_PACK_NAME,
