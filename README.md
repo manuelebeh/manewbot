@@ -333,6 +333,22 @@ Utilisez un **numéro réservé au bot**, pas votre ligne personnelle :
 
 Protégez aussi `auth/` (déjà dans `.gitignore`) : permissions restrictives, sauvegardes chiffrées, jamais commitées.
 
+### Checklist production (VPS / panel)
+
+| Variable | Recommandation |
+|----------|----------------|
+| `NODE_ENV=production` | Pas de `npm install` automatique au reconnect ; logs messages **off** par défaut |
+| `LOG_MESSAGES` | `off` ou `minimal` en prod (`full` uniquement pour le debug) |
+| `ENABLE_HEALTH_CHECK` | `false` sur VPS sauf besoin local (sonde sur `127.0.0.1`) |
+| Clés API / `*_API_BASE` | Renseigner dans `.env` (voir `.env.example`) — commandes concernées désactivées si vide |
+
+**Après toute modification de `.env`** : redémarrer le processus (`node bot.js` ou votre service systemd/PM2). Le rechargement des commandes au reconnect WhatsApp ne recharge pas `dotenv`.
+
+```bash
+npm run check:secrets && npm test   # avant déploiement
+./scripts/backup-secrets.sh         # sauvegarde auth/ + .env chiffrée
+```
+
 </details>
 
 ---
