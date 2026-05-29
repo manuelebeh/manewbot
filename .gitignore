@@ -12,6 +12,10 @@ lib/cache_jid.json
 lib/store_msg.json
 store_msg.json
 auth/
+# Archives de sauvegarde locales (scripts/backup-secrets.sh)
+backups/
+*.secrets.tar.gz
+*.secrets.tar.gz.gpg
 .bot.pid
 plugins/
 contacts_groupe_*.vcf

@@ -253,14 +253,42 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 <details>
   <summary>Sécurité (VPS / panel)</summary>
 
+### Git : `.env` et `auth/` jamais commités
+
+Ces chemins sont dans `.gitignore` :
+
+- `.env`, `.env.*` (sauf `.env.example`)
+- `auth/` (sessions Baileys / `creds.json`)
+- `config_env.json` (sauf l’exemple versionné)
+- `backups/` (archives locales)
+
+Vérification locale ou CI :
+
+```bash
+npm run check:secrets
+# ou : node --test test/gitignore-secrets.test.js
+```
+
+### Sauvegardes chiffrées
+
+Ne stockez jamais `auth/` ou `.env` en clair sur un dépôt ou un cloud non chiffré.
+
+```bash
+chmod +x scripts/backup-secrets.sh
+./scripts/backup-secrets.sh
+# → backups/ovl-secrets-YYYYMMDD-HHMMSS.tar.gz.gpg
+```
+
+Restauration sur le serveur : `gpg -d backups/….tar.gz.gpg | tar -xzf - -C /chemin/vers/le/bot`
+
 ### Pare-feu : ne pas exposer le port 3000
 
-Le bot démarre un mini serveur HTTP pour le health check (Render, Heroku, etc.). **Par défaut**, il écoute uniquement sur `127.0.0.1` — pas accessible depuis Internet.
+Le bot peut démarrer un mini serveur HTTP pour le health check (Render, Heroku, etc.). **Par défaut**, il écoute sur `127.0.0.1` — pas accessible depuis Internet.
 
-Sur un **VPS ou panel** :
+Sur un **VPS ou panel** (recommandé dans `.env.example`) :
 
-- Ne ouvrez **pas** le port 3000 (ni `HEALTH_PORT`) dans le pare-feu public (`ufw`, security group cloud, etc.).
-- Pour désactiver complètement le health check : `ENABLE_HEALTH_CHECK=false` dans `.env`.
+- `ENABLE_HEALTH_CHECK=false` — pas de port HTTP du tout.
+- Sinon : laisser `HEALTH_BIND_HOST=127.0.0.1` (défaut) et **ne pas** ouvrir le port 3000 (`HEALTH_PORT`) dans `ufw`, iptables ou le security group cloud.
 - N'exposez `0.0.0.0` (`HEALTH_BIND_HOST=0.0.0.0`) **que** si votre hébergeur PaaS l'exige pour ses sondes internes.
 
 ### Compte WhatsApp dédié
