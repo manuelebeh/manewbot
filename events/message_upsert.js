@@ -34,8 +34,9 @@ const {
 const evt = require("../lib/commands");
 const config = require("../set");
 const {
-  getDevNumbers,
-  getDevJids,
+  getOwnerJid,
+  getSudoOnlyJids,
+  getPrivilegedJids,
   isRestrictedGroup,
   canUseRestrictedGroup,
   shouldRunHandlersInRestrictedGroup
@@ -171,15 +172,14 @@ async function message_upsert(upsert, sock) {
     const isCommand = messageText.trimStart().startsWith(config.PREFIXE);
     const args = isCommand ? messageText.trimStart().slice(config.PREFIXE.length).trimStart().split(/ +/).slice(1) : [];
     const commandName = isCommand ? messageText.slice(config.PREFIXE.length).trim().split(/ +/)[0].toLowerCase() : "";
-    const devNumbers = getDevNumbers(config);
-    const devJids = getDevJids(config);
     const sudoUsers = await getSudoUsers();
-    const sudoJids = [...devNumbers, botNumber, config.NUMERO_OWNER, ...sudoUsers]
-      .filter(Boolean)
-      .map(num => num.replace(/@.*$/, "") + "@s.whatsapp.net");
+    const ownerJid = getOwnerJid(config);
+    const sudoJids = getSudoOnlyJids(sudoUsers);
+    const privilegedJids = getPrivilegedJids(config, botNumber, sudoUsers);
+    const isOwner = !!ownerJid && senderJid === ownerJid;
     const isSudo = sudoJids.includes(senderJid);
-    const isDev = devJids.includes(senderJid);
-    const isAdmin = isGroup && (groupAdminJids.includes(senderJid) || isSudo);
+    const isStaff = isOwner || isSudo;
+    const isAdmin = isGroup && (groupAdminJids.includes(senderJid) || isStaff);
     const repondre = (text, targetJid) => {
       const jid = targetJid || chatJid;
       return sock.sendMessage(jid, {
@@ -222,9 +222,12 @@ async function message_upsert(upsert, sock) {
       nom_Auteur_Message: pushName,
       mtype: contentType,
       id_Bot: botJid,
+      isOwner,
       isSudo,
-      dev_id: isDev,
-      dev_num: devJids,
+      isStaff,
+      ownerJid,
+      sudoJids,
+      privilegedJids,
       id_Bot_N: botNumber,
       verif_Bot_Admin: isBotAdmin,
       prefixe: config.PREFIXE,
@@ -245,19 +248,19 @@ async function message_upsert(upsert, sock) {
       const isPrivateCmd = privateCmds.some(entry => entry.nom_cmd === cmd.nom_cmd || cmd.alias?.includes(entry.nom_cmd));
       const isPublicCmd = publicCmds.some(entry => entry.nom_cmd === cmd.nom_cmd || cmd.alias?.includes(entry.nom_cmd));
       if (!chatJid.endsWith("@newsletter")) {
-        if (config.MODE !== "public" && !isSudo && !isPublicCmd) {
+        if (config.MODE !== "public" && !isStaff && !isPublicCmd) {
           return;
         }
-        if (config.MODE === "public" && !isSudo && isPrivateCmd) {
+        if (config.MODE === "public" && !isStaff && isPrivateCmd) {
           return;
         }
-        if (isRestrictedGroup(chatJid, config) && !canUseRestrictedGroup(senderJid, isDev, config)) {
+        if (isRestrictedGroup(chatJid, config) && !canUseRestrictedGroup(senderJid, isStaff, config)) {
           return;
         }
-        if (!isSudo && (await isBanned("user", senderJid))) {
+        if (!isStaff && (await isBanned("user", senderJid))) {
           return;
         }
-        if (!isSudo && isGroup && (await isBanned("group", chatJid))) {
+        if (!isStaff && isGroup && (await isBanned("group", chatJid))) {
           return;
         }
         if (!isAdmin && isGroup && (await OnlyAdmins.findOne({
@@ -298,7 +301,7 @@ async function message_upsert(upsert, sock) {
         console.error("Erreur sticker command:", err);
       }
     }
-    if (!shouldRunHandlersInRestrictedGroup(chatJid, senderJid, botJid, isDev, devJids, config)) {
+    if (!shouldRunHandlersInRestrictedGroup(chatJid, senderJid, isStaff, config)) {
       return;
     }
     rankAndLevelUp(sock, chatJid, messageText, senderJid, pushName, config, msg);

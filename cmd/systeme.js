@@ -21,10 +21,10 @@ registerCommand({
   desc: "Définit ou modifie une variable d'environnement. Usage: setvar KEY = value"
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   arg
 }) => {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -55,10 +55,10 @@ registerCommand({
   desc: "Supprime une variable d'environnement. Usage: delvar KEY"
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   arg
 }) => {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -88,9 +88,9 @@ registerCommand({
 }, async (jid, bot, {
   repondre,
   arg,
-  isSudo
+  isOwner
 }) => {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -136,11 +136,11 @@ registerCommand({
   desc: "Vérifie les mises à jour disponibles du bot."
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   ms
 }) => {
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return bot.sendMessage(jid, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {
@@ -182,11 +182,11 @@ registerCommand({
   alias: ["maj"]
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   ms
 }) => {
   try {
-    if (!isSudo) {
+    if (!isOwner) {
       return bot.sendMessage(jid, {
         text: "Vous n'avez pas le droit d'exécuter cette commande."
       }, {

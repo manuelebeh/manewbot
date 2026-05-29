@@ -3,6 +3,9 @@ const {
   Events2
 } = require("../database/events");
 const {
+  Sudo
+} = require("../database/sudo");
+const {
   jidDecode
 } = require("@whiskeysockets/baileys");
 const {
@@ -13,7 +16,7 @@ const {
 } = require("../lib/groupe_cache");
 const config = require("../set");
 const {
-  getDevJids
+  getSudoOnlyJids
 } = require("../lib/parse-env-lists");
 const parseID = jid => {
   if (!jid) {
@@ -25,6 +28,16 @@ const parseID = jid => {
   }
   return jid;
 };
+async function getSudoUserIds() {
+  try {
+    const records = await Sudo.findAll({
+      attributes: ["id"]
+    });
+    return records.map((record) => record.id.replace(/@s\.whatsapp\.net$/, ""));
+  } catch {
+    return [];
+  }
+}
 async function envoyerWelcomeGoodbye(groupId, memberJid, messageType, eventSettings, sock) {
   const groupMetadata = await sock.groupMetadata(groupId);
   const groupName = groupMetadata.subject || "Groupe";
@@ -154,12 +167,14 @@ async function group_participants_update(participantUpdate, sock) {
         const ownerConfigJid = config.NUMERO_OWNER
           ? await getJid(config.NUMERO_OWNER + "@s.whatsapp.net", participantUpdate.id, sock)
           : null;
-        const devJidsResolved = (
+        const sudoOnlyJids = (
           await Promise.all(
-            getDevJids(config).map((jid) => getJid(jid, participantUpdate.id, sock))
+            getSudoOnlyJids(await getSudoUserIds()).map((jid) =>
+              getJid(jid, participantUpdate.id, sock)
+            )
           )
         ).filter(Boolean);
-        const isPrivilegedAuthor = [ownerJid, botJid, ownerConfigJid, targetJid, ...devJidsResolved].includes(authorJidResolved);
+        const isPrivilegedAuthor = [ownerJid, botJid, ownerConfigJid, targetJid, ...sudoOnlyJids].includes(authorJidResolved);
         if (participantUpdate.action == "promote") {
           if (antipromote == "oui" && isPrivilegedAuthor) {
             continue;

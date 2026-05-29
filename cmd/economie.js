@@ -472,8 +472,7 @@ registerCommand({
     auteur_Msg_Repondu,
     ms,
     repondre,
-    isSudo,
-    dev_id
+    isSudo
   } = ctx;
   await getInfosUtilisateur(auteur_Message);
   if (!isSudo) {
@@ -494,7 +493,7 @@ registerCommand({
     return repondre("Montant invalide.");
   }
   const maxDonation = 50000;
-  if (amount > maxDonation && !dev_id) {
+  if (amount > maxDonation) {
     return repondre("Tu ne peux pas donner plus de *" + maxDonation + " pièces*.");
   }
   const recipientRecord = await ECONOMIE.findOne({
