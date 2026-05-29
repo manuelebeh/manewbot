@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const BotCmd = sequelize.define("BotCmd", {
   nom_cmd: {
     type: DataTypes.STRING,
@@ -39,9 +15,6 @@ const BotCmd = sequelize.define("BotCmd", {
   tableName: "public_private_cmds",
   timestamps: false
 });
-(async () => {
-  await BotCmd.sync();
-})();
 async function set_cmd(cmdName, cmdType = "public") {
   if (!cmdName || !cmdType) {
     throw new Error("Données manquantes");
@@ -75,6 +48,7 @@ async function get_cmd(cmdName, cmdType) {
   });
 }
 module.exports = {
+  BotCmd,
   set_cmd: set_cmd,
   del_cmd: del_cmd,
   list_cmd: list_cmd,

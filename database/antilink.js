@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const Antilink = sequelize.define("Antilink", {
   id: {
     type: DataTypes.STRING,
@@ -60,10 +36,6 @@ const Antilink_warnings = sequelize.define("Antilink_warnings", {
   tableName: "antilink_warnings",
   timestamps: false
 });
-(async () => {
-  await Antilink.sync();
-  await Antilink_warnings.sync();
-})();
 module.exports = {
   Antilink: Antilink,
   Antilink_warnings: Antilink_warnings

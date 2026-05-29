@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const StickCmds = sequelize.define("StickCmds", {
   no_cmd: {
     type: DataTypes.STRING,
@@ -39,9 +15,6 @@ const StickCmds = sequelize.define("StickCmds", {
   tableName: "stickcmds",
   timestamps: false
 });
-(async () => {
-  await StickCmds.sync();
-})();
 async function set_stick_cmd(cmdName, stickHash) {
   if (!cmdName || !stickHash) {
     throw new Error("Commande ou URL manquante");
@@ -74,6 +47,7 @@ async function get_stick_cmd() {
   }));
 }
 module.exports = {
+  StickCmds,
   set_stick_cmd: set_stick_cmd,
   del_stick_cmd: del_stick_cmd,
   get_stick_cmd: get_stick_cmd

@@ -37,13 +37,14 @@ const {
   getOwnerJid,
   getSudoOnlyJids,
   getPrivilegedJids,
-  isRestrictedGroup,
-  canUseRestrictedGroup,
   shouldRunHandlersInRestrictedGroup
 } = require("../lib/parse-env-lists");
 const {
   resolveCommandReactEnabled
 } = require("../lib/env-toggle");
+const {
+  runCommand: executeCommand
+} = require("../lib/run-command");
 const {
   get_stick_cmd
 } = require("../database/stick_cmd");
@@ -242,45 +243,25 @@ async function message_upsert(upsert, sock) {
       getJid,
       quote: quoteContext
     };
-    const runCommand = async (cmd, skipReact = false) => {
-      const privateCmds = await list_cmd("private");
-      const publicCmds = await list_cmd("public");
-      const isPrivateCmd = privateCmds.some(entry => entry.nom_cmd === cmd.nom_cmd || cmd.alias?.includes(entry.nom_cmd));
-      const isPublicCmd = publicCmds.some(entry => entry.nom_cmd === cmd.nom_cmd || cmd.alias?.includes(entry.nom_cmd));
-      if (!chatJid.endsWith("@newsletter")) {
-        if (config.MODE !== "public" && !isStaff && !isPublicCmd) {
-          return;
-        }
-        if (config.MODE === "public" && !isStaff && isPrivateCmd) {
-          return;
-        }
-        if (isRestrictedGroup(chatJid, config) && !canUseRestrictedGroup(senderJid, isStaff, config)) {
-          return;
-        }
-        if (!isStaff && (await isBanned("user", senderJid))) {
-          return;
-        }
-        if (!isStaff && isGroup && (await isBanned("group", chatJid))) {
-          return;
-        }
-        if (!isAdmin && isGroup && (await OnlyAdmins.findOne({
-          where: {
-            id: chatJid
-          }
-        }))) {
-          return;
-        }
-      }
-      if (!skipReact && resolveCommandReactEnabled(config)) {
-        await sock.sendMessage(chatJid, {
-          react: {
-            text: cmd.react || "🪄",
-            key: msg.key
-          }
-        });
-      }
-      await cmd.fonction(chatJid, sock, owerlap);
-    };
+    const runCommand = (cmd, skipReact = false) =>
+      executeCommand({
+        cmd,
+        skipReact,
+        config,
+        chatJid,
+        senderJid,
+        isGroup,
+        isStaff,
+        isAdmin,
+        sock,
+        msg,
+        owerlap,
+        listCmd: list_cmd,
+        isBanned,
+        onlyAdminsFindOne: (groupJid) =>
+          OnlyAdmins.findOne({ where: { id: groupJid } }),
+        resolveCommandReactEnabled,
+      });
     if (isCommand) {
       const matchedCmd = evt.cmd.find(entry => entry.nom_cmd === commandName || entry.alias?.includes(commandName));
       if (matchedCmd) {

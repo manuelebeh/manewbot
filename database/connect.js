@@ -1,30 +1,8 @@
 'use strict';
 
-const { Sequelize, DataTypes } = require('sequelize');
-const config = require('../set');
+const { DataTypes } = require('sequelize');
+const sequelize = require('./sequelize');
 const { localAuthExists } = require('./session');
-
-const db = config.DATABASE;
-
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: 'sqlite',
-    storage: './database.db',
-    logging: false,
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: 'postgres',
-    ssl: true,
-    protocol: 'postgres',
-    dialectOptions: {
-      native: true,
-      ssl: { require: true, rejectUnauthorized: false },
-    },
-    logging: false,
-  });
-}
 
 const Connect = sequelize.define(
   'Connect',
@@ -44,9 +22,6 @@ const Connect = sequelize.define(
   }
 );
 
-(async () => {
-  await Connect.sync();
-})();
 
 async function saveSecondSession(numero) {
   if (!localAuthExists(numero)) {
@@ -88,6 +63,7 @@ async function deleteSecondSession(numero) {
 }
 
 module.exports = {
+  Connect,
   saveSecondSession,
   getSecondSession,
   getSecondAllSessions,
