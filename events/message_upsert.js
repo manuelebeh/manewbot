@@ -78,7 +78,22 @@ async function message_upsert(_0x25bbcb, _0x4802aa) {
       return;
     }
     addMessage(_0x315eed.key.id, _0x315eed);
-    const _0x199a38 = getContentType(_0x315eed.message);
+    let _0x199a38 = getContentType(_0x315eed.message);
+    let _0xviewOnce = false;
+    if (_0x199a38?.startsWith("viewOnce")) {
+      _0xviewOnce = true;
+      const _0xvoInner = _0x315eed.message[_0x199a38]?.message;
+      if (_0xvoInner) {
+        _0x199a38 = getContentType(_0xvoInner);
+        _0x315eed.message = { ..._0x315eed.message, ..._0xvoInner };
+      }
+    } else if (
+      _0x315eed.message.imageMessage?.viewOnce === true ||
+      _0x315eed.message.videoMessage?.viewOnce === true ||
+      _0x315eed.message.audioMessage?.viewOnce === true
+    ) {
+      _0xviewOnce = true;
+    }
     const _0x26c11c = {
       conversation: _0x315eed.message.conversation,
       imageMessage: _0x315eed.message.imageMessage?.caption,
@@ -131,7 +146,7 @@ async function message_upsert(_0x25bbcb, _0x4802aa) {
       });
     };
     const _0x142a8b = _0x230272 ? "👥 " + _0x588a7a : "💬 Privé";
-    console.log("\n━━━━━━━[ BOT-LOG ]━━━━━━\n" + ("👤 Auteur  : " + _0x5155c7 + " (" + _0x5cab86 + ")\n") + ("🏷️ Source  : " + _0x142a8b + "\n") + ("📩 Type    : " + _0x199a38 + "\n") + (_0x26c11c && _0x26c11c.trim() !== "" ? "📝 Texte   : " + _0x26c11c + "\n" : "") + "━━━━━━━━━━━━━━━━━━━━━━━\n");
+    console.log("\n━━━━━━━[ BOT-LOG ]━━━━━━\n" + ("👤 Auteur  : " + _0x5155c7 + " (" + _0x5cab86 + ")\n") + ("🏷️ Source  : " + _0x142a8b + "\n") + ("📩 Type    : " + _0x199a38 + (_0xviewOnce ? " 👁️ (vue unique)" : "") + "\n") + (_0xviewOnce ? "👁️ Info    : Vue unique reçue\n" : "") + (_0x26c11c && _0x26c11c.trim() !== "" ? "📝 Texte   : " + _0x26c11c + "\n" : "") + "━━━━━━━━━━━━━━━━━━━━━━━\n");
     const _0x4bce85 = {
       verif_Groupe: _0x230272,
       mbre_membre: _0x3fa1bc,

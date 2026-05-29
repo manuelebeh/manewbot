@@ -23,6 +23,9 @@ async function getJid(_0x3f628a, _0x14740f, _0x5c840e, _0x1acb0f = 0) {
     if (_0xacf478[_0x3f628a]) {
       return _0xacf478[_0x3f628a];
     }
+    if (!_0x14740f || !_0x14740f.endsWith("@g.us")) {
+      return null;
+    }
     const _0x1613c1 = await _0x5c840e.groupMetadata(_0x14740f);
     if (!_0x1613c1 || !Array.isArray(_0x1613c1.participants)) {
       return null;
