@@ -277,6 +277,11 @@ Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`,
 | `cmd/groupe/` | Modération et réglages de groupe |
 | `cmd/conversion/` | Stickers, média, ffmpeg (`upload`, `stickers`, `image-edit`, …) |
 | `cmd/outils/` | Menus, ping, capture, tempmail, … |
+| `cmd/jeux/` | Tic-tac-toe, quiz anime, dmots, word chain |
+| `cmd/search/` | Images, Google, wiki, IMDB, météo, Shazam, … |
+| `cmd/telechargement/` | YouTube, TikTok, Instagram, Facebook, APK, … |
+| `cmd/economie/` | Portefeuille, banque, paris, bonus, … |
+| `cmd/fun/` | Texte, citations, ranks, fake message, … |
 
 </details>
 
