@@ -1,0 +1,11 @@
+{
+  "name": "@whiskeysockets/baileys",
+  "version": "7.0.0-cjs-bridge",
+  "private": true,
+  "type": "commonjs",
+  "main": "index.cjs",
+  "dependencies": {
+    "@whiskeysockets/baileys-esm": "npm:@whiskeysockets/baileys@7.0.0-rc13",
+    "jiti": "^2.6.1"
+  }
+}

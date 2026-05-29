@@ -4,11 +4,13 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const pino = require('pino');
+const qrcode = require('qrcode-terminal');
 const {
   default: makeWASocket,
   makeCacheableSignalKeyStore,
   Browsers,
   delay,
+  DisconnectReason,
   fetchLatestBaileysVersion,
   useMultiFileAuthState,
 } = require('@whiskeysockets/baileys');
@@ -37,6 +39,125 @@ const PRINCIPAL_FOLDER = 'principale';
 const sessionsActives = new Set();
 const instancesSessions = new Map();
 const sessionsSupprimees = new Set();
+const reconnectingSessions = new Set();
+const lastReconnectAt = new Map();
+const sessionGeneration = new Map();
+const INSTANCE_LOCK_FILE = path.join(__dirname, '.ovl.pid');
+
+const RECONNECTABLE_CODES = new Set([
+  DisconnectReason.connectionClosed,
+  DisconnectReason.connectionLost,
+  DisconnectReason.timedOut,
+  DisconnectReason.restartRequired,
+  DisconnectReason.unavailableService,
+]);
+
+function acquireInstanceLock() {
+  if (fs.existsSync(INSTANCE_LOCK_FILE)) {
+    const oldPid = Number.parseInt(fs.readFileSync(INSTANCE_LOCK_FILE, 'utf8'), 10);
+    if (oldPid && oldPid !== process.pid) {
+      try {
+        process.kill(oldPid, 0);
+        console.error(
+          'Une instance OVL tourne déjà (PID ' +
+            oldPid +
+            '). Arrêtez-la (Ctrl+C ou kill ' +
+            oldPid +
+            ') avant de relancer.'
+        );
+        process.exit(1);
+      } catch (_) {
+        /* lock orphelin */
+      }
+    }
+  }
+
+  fs.writeFileSync(INSTANCE_LOCK_FILE, String(process.pid));
+  const releaseLock = () => {
+    try {
+      if (
+        fs.existsSync(INSTANCE_LOCK_FILE) &&
+        fs.readFileSync(INSTANCE_LOCK_FILE, 'utf8') === String(process.pid)
+      ) {
+        fs.unlinkSync(INSTANCE_LOCK_FILE);
+      }
+    } catch (_) {
+      /* ignore */
+    }
+  };
+  process.on('exit', releaseLock);
+  process.on('SIGINT', () => {
+    releaseLock();
+    process.exit(0);
+  });
+  process.on('SIGTERM', () => {
+    releaseLock();
+    process.exit(0);
+  });
+}
+
+function shouldReconnectAfter(code) {
+  if (code === DisconnectReason.connectionReplaced) return false;
+  if (code === DisconnectReason.loggedOut) return false;
+  if (code === DisconnectReason.forbidden) return false;
+  if (code === DisconnectReason.badSession) return false;
+  if (code === DisconnectReason.multideviceMismatch) return false;
+  if (code == null) return true;
+  return RECONNECTABLE_CODES.has(code);
+}
+
+function isCurrentSocket(numero, sock, generation) {
+  return (
+    sessionGeneration.get(numero) === generation &&
+    instancesSessions.get(numero) === sock
+  );
+}
+
+function disconnectLabel(code) {
+  if (code == null) return 'inconnu';
+  return DisconnectReason[code] || String(code);
+}
+
+async function teardownSessionSocket(numero) {
+  const sock = instancesSessions.get(numero);
+  if (!sock) return;
+
+  instancesSessions.delete(numero);
+  sessionsActives.delete(numero);
+
+  try {
+    sock.ev.removeAllListeners();
+  } catch (_) {
+    /* ignore */
+  }
+
+  try {
+    await sock.end(undefined);
+  } catch (_) {
+    /* ignore */
+  }
+}
+
+async function reconnectSession({ numero, isPrincipale }) {
+  if (sessionsSupprimees.has(numero) || reconnectingSessions.has(numero)) {
+    return null;
+  }
+
+  const now = Date.now();
+  const last = lastReconnectAt.get(numero) || 0;
+  if (now - last < 5000) return null;
+
+  reconnectingSessions.add(numero);
+  lastReconnectAt.set(numero, now);
+
+  try {
+    await teardownSessionSocket(numero);
+    await delay(3000);
+    return startGenericSession({ numero, isPrincipale });
+  } finally {
+    reconnectingSessions.delete(numero);
+  }
+}
 
 console.info = function (...args) {
   const line = args.join(' ');
@@ -72,6 +193,14 @@ async function startGenericSession({ numero, isPrincipale = false }) {
     return null;
   }
 
+  if (instancesSessions.has(numero) && !reconnectingSessions.has(numero)) {
+    console.log('Session ' + numero + ' déjà active, démarrage ignoré.');
+    return instancesSessions.get(numero);
+  }
+
+  const generation = (sessionGeneration.get(numero) || 0) + 1;
+  sessionGeneration.set(numero, generation);
+
   const authFolder = authFolderFor({ numero, isPrincipale });
   const isFirstRun = isPrincipale && !localAuthExists(authFolder);
 
@@ -100,7 +229,6 @@ async function startGenericSession({ numero, isPrincipale = false }) {
       },
       logger,
       browser: Browsers.macOS('Desktop'),
-      printQRInTerminal: isFirstRun,
       keepAliveIntervalMs: 10000,
       markOnlineOnConnect: false,
       generateHighQualityLinkPreview: true,
@@ -113,25 +241,56 @@ async function startGenericSession({ numero, isPrincipale = false }) {
       },
     });
 
+    if (isFirstRun) {
+      sock.ev.on('connection.update', ({ qr }) => {
+        if (!qr) return;
+        console.log('\nScannez ce QR code avec WhatsApp :\n');
+        qrcode.generate(qr, { small: true });
+        console.log('');
+      });
+    }
+
     sock.ev.on('messages.upsert', (event) => message_upsert(event, sock));
     sock.ev.on('group-participants.update', (event) =>
       group_participants_update(event, sock)
     );
     sock.ev.on('groups.update', (event) => group_update(event, sock));
-    sock.ev.on(
-      'connection.update',
-      (event) =>
-        connection_update(
-          event,
-          sock,
-          () => {
-            if (!sessionsSupprimees.has(numero)) {
-              return startGenericSession({ numero, isPrincipale });
-            }
-          },
-          isPrincipale ? async () => startSecondarySessions() : undefined
-        )
-    );
+    sock.ev.on('connection.update', (event) => {
+      if (!isCurrentSocket(numero, sock, generation)) return;
+
+      let disconnectCode;
+      if (event.connection === 'close') {
+        disconnectCode = event.lastDisconnect?.error?.output?.statusCode;
+        console.log(
+          'Déconnexion (' +
+            disconnectLabel(disconnectCode) +
+            ')' +
+            (disconnectCode === DisconnectReason.loggedOut
+              ? ' — scannez à nouveau le QR si besoin.'
+              : disconnectCode === DisconnectReason.connectionReplaced
+                ? ' — une autre connexion utilise cette session (autre processus ou WhatsApp Web).'
+                : '')
+        );
+
+        if (disconnectCode === DisconnectReason.connectionReplaced) {
+          if (isCurrentSocket(numero, sock, generation)) {
+            teardownSessionSocket(numero).catch(() => {});
+          }
+          return;
+        }
+      }
+
+      return connection_update(
+        event,
+        sock,
+        () => {
+          if (!isCurrentSocket(numero, sock, generation)) return null;
+          if (!shouldReconnectAfter(disconnectCode)) return null;
+          return reconnectSession({ numero, isPrincipale });
+        },
+        isPrincipale ? async () => startSecondarySessions() : undefined
+      );
+    });
     sock.ev.on('creds.update', saveCreds);
     sock.ev.on('call', (event) => call(sock, event));
 
@@ -266,6 +425,7 @@ function startHealthCheck() {
   });
 }
 
+acquireInstanceLock();
 startHealthCheck();
 
 process.on('uncaughtException', (error) => {

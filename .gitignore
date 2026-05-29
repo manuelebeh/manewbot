@@ -8,3 +8,4 @@ config_env.json
 cache_jid.json
 store_msg.json
 auth/
+.ovl.pid
