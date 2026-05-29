@@ -1,7 +1,7 @@
 <h1 align="center">Manewbot</h1>
 
 <p align="center">
-    Un bot WhatsApp multi-appareil. N'oubliez pas de laisser une star pour le projet.
+    A multi-device WhatsApp bot. Don't forget to star the project.
 </p>
 
 <p align="center">
@@ -22,64 +22,64 @@
 ---
 
 <details>
-  <summary>Déploiement de Manewbot</summary>
+  <summary>Deploying Manewbot</summary>
 
-### Étape 1 : Fork du dépôt GitHub  
-[![Fork GitHub](https://img.shields.io/badge/Fork%20le%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/manuelebeh/manewbot/fork)
-
----
-
-### Étape 2 : Appairage WhatsApp (session locale)
-
-L'authentification se fait entièrement en local via un QR code Baileys :
-
-1. Lancez le bot pour la première fois : `node bot.js`
-2. Un QR code s'affiche dans le terminal
-3. Sur WhatsApp > **Appareils connectés** > **Connecter un appareil**, scannez le QR
-4. Les credentials sont sauvegardés dans `auth/principale/`
-
-Au redémarrage suivant, le bot se reconnecte automatiquement sans QR.
+### Step 1: Fork the GitHub repository
+[![Fork GitHub](https://img.shields.io/badge/Fork%20the%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/manuelebeh/manewbot/fork)
 
 ---
 
-### Étape 3 : Créer une base de données  (au choix)
-[![Créer Base de Données](https://img.shields.io/badge/Supabase-Base%20de%20donn%C3%A9es-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+### Step 2: Pair WhatsApp (local session)
 
-### Étape 4 : Méthodes de déploiement
+Authentication is fully local via a Baileys QR code:
+
+1. Start the bot for the first time: `node bot.js`
+2. A QR code appears in the terminal
+3. In WhatsApp go to **Linked devices** > **Link a device** and scan the QR
+4. Credentials are saved in `auth/principale/`
+
+On the next restart, the bot reconnects automatically without a new QR scan.
+
+---
+
+### Step 3: Create a database (optional)
+[![Create Database](https://img.shields.io/badge/Supabase-Database-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
+
+### Step 4: Deployment options
 
 #### <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" height="28" />
-- Créez un compte : [Lien Heroku](https://signup.heroku.com/)
-- Déploiement rapide : [Déployer sur Heroku](https://dashboard.heroku.com/new?template=https://github.com/manuelebeh/manewbot)
+- Create an account: [Heroku signup](https://signup.heroku.com/)
+- Quick deploy: [Deploy on Heroku](https://dashboard.heroku.com/new?template=https://github.com/manuelebeh/manewbot)
 
 #### <img src="https://img.shields.io/badge/Render-12100E?style=for-the-badge&logo=render&logoColor=white" height="28" />
-- Créez un compte : [Lien Render](https://dashboard.render.com/register)
-- Déploiement rapide : [Déployer sur Render](https://dashboard.render.com/web/new)
+- Create an account: [Render signup](https://dashboard.render.com/register)
+- Quick deploy: [Deploy on Render](https://dashboard.render.com/web/new)
 
 #### <img src="https://img.shields.io/badge/Panel-grey?style=for-the-badge&logo=windows-terminal&logoColor=white" height="28" />
-- Créez un serveur
-- Ajoutez le fichier `index.js` ou `main.js`
-- Démarrez le bot
+- Set up a server (Node.js 20+)
+- Entry point: `bot.js` (or use the panel script below to clone the repo and run `bot.js`)
+- Run `npm install` then `node bot.js` or `npm start` (PM2)
 
 #### <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" height="28" />
-- Ajoutez un fichier `.env`
-- Créez le fichier `.github/workflows/deploy.yml`
+- Add a `.env` file
+- CI is already defined in `.github/workflows/ci.yml` (see below)
 
 </details>
 
 ---
 
 <details>
-  <summary>Fichier index.js ou main.js pour déploiement sur panel</summary>
+  <summary>Panel script (clone + PM2 / node bot.js)</summary>
 
 ```js
 const { spawnSync, spawn } = require('child_process');
 const { existsSync, mkdirSync, writeFileSync } = require('fs');
 
-// Ajoutez ici vos variables d'environnement
+// Paste your environment variables here
 const env_file = ``;
 
 if (!env_file.trim()) {
-  console.error("'env_file' est vide. Veuillez renseigner vos variables d'environnement avant de lancer le script.");
+  console.error("'env_file' is empty. Set your environment variables before running this script.");
   process.exit(1);
 }
 
@@ -97,7 +97,7 @@ function setupProject() {
   if (!existsSync('manewbot/.env')) {
     mkdirSync('manewbot', { recursive: true });
     writeFileSync('manewbot/.env', env_file);
-    console.log("Fichier .env créé avec succès.");
+    console.log('.env file created successfully.');
   }
 
   const install = spawnSync('npm', ['install'], { cwd: 'manewbot', stdio: 'inherit' });
@@ -182,156 +182,143 @@ launchApp();
 ---
 
 <details>
-  <summary>Fichier .github/workflows/deploy.yml</summary>
+  <summary>GitHub CI (`.github/workflows/ci.yml`)</summary>
 
-```yaml
-name: Manewbot CI
+On every push / PR to `main` or `master`:
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  schedule:
-    - cron: '0 */5 * * *'
+1. `npm ci`
+2. `npm run check:secrets`
+3. `npm run check:syntax`
+4. `npm test`
+5. `npm run lint`
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: |
-          sudo apt update
-          sudo apt install -y ffmpeg
-          npm i
-      - run: npm test
-      - run: npm run check:secrets
+**Local prerequisites** (ffmpeg for some audio/video commands):
+
+```bash
+npm install
+npm run check:secrets && npm run check:syntax && npm test && npm run lint
+node bot.js
 ```
-
-Le workflow `.github/workflows/ci.yml` exécute à chaque push : vérification des secrets, `check:syntax`, tests unitaires et ESLint (`--quiet`, erreurs uniquement).
 
 </details>
 
 ---
 
 <details>
-  <summary>Exemple de fichier .env</summary>
+  <summary>Example `.env` file</summary>
+
+Copy `.env.example` to `.env` and set at least:
 
 ```env
 PREFIXE=.
 NOM_OWNER=Manewbie
 NUMERO_OWNER=228xxxxxxxx
 MODE=private
+NOM_BOT=Manewbot
 STICKER_PACK_NAME=Manewbot
 STICKER_AUTHOR_NAME=Manewbie
-NOM_BOT=Manewbot
 ```
 
-</details>
-
----
-
-<details>
-  <summary>Multi-comptes (sessions secondaires)</summary>
-
-Pour connecter un second numéro WhatsApp :
-
-1. Créez le dossier `auth/<numero>/` (ex: `auth/22612345678/`)
-2. Lancez temporairement Baileys avec `useMultiFileAuthState('auth/<numero>')` pour scanner le QR de ce compte (ou copiez un `creds.json` déjà apparié)
-3. Utilisez la commande owner pour enregistrer le numéro : `<prefixe>connect 22612345678`
-4. Le bot démarrera automatiquement la session secondaire au prochain cycle de vérification
-
-Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le dossier `auth/<numero>/` sera supprimé.
+Common optional variables: `COMMAND_REACT`, `RESTRICTED_GROUPS`, `WHATSAPP_NEWSLETTER_JID`, API keys (`AI_API_BASE`, `GOOGLE_SEARCH_*`, …) — see the full [`.env.example`](./.env.example) file.
 
 </details>
 
 ---
 
 <details>
-  <summary>Rôles : owner, sudo et modération</summary>
+  <summary>Multi-account (secondary sessions)</summary>
 
-| Rôle | Configuration | Droits |
-|------|----------------|--------|
-| **Owner** | `NUMERO_OWNER` dans `.env` | Commandes `classe: Owner` (bloquées au routeur si non-owner), `setvar`, `update`, config sensible, immunité totale |
-| **Sudo** | Commande `setsudo` (table DB) | Staff : commandes en mode privé/public, modération groupe ; seul l'owner peut kick/ban un sudo |
-| **Admin WA** | Admin du groupe WhatsApp | Commandes groupe selon `verif_Admin` |
-| **Membre** | — | Selon `MODE`, bans, listes public/private |
+To connect a second WhatsApp number:
 
-**Groupes restreints** (`RESTRICTED_GROUPS`) : seuls l'owner, les sudo et les JID de `RESTRICTED_GROUP_ALLOWLIST` peuvent utiliser le bot et les handlers passifs dans ces groupes.
+1. Create the folder `auth/<number>/` (e.g. `auth/22612345678/`)
+2. Temporarily run Baileys with `useMultiFileAuthState('auth/<number>')` to scan that account’s QR (or copy an already paired `creds.json`)
+3. Register the number with an owner command: `<prefix>connect 22612345678`
+4. The bot will start the secondary session on the next check cycle
 
-**Tests locaux** : `npm test` · **Qualité** : `npm run check:syntax` · `npm run lint` · **CI** : `check:secrets`, `check:syntax`, tests, ESLint (voir `.github/workflows/ci.yml`).
+To remove a secondary account, use the matching owner command. The `auth/<number>/` folder will be deleted.
 
-### Structure des commandes
+</details>
 
-Chaque catégorie est un dossier avec un barrel `cmd/<category>/index.js` (chargé par `lib/plugin.js`) :
+---
 
-| Dossier | Rôle |
-|---------|------|
-| `cmd/owner/` | Commandes propriétaire (ban, sudo, sessions, …) |
-| `cmd/group/` | Tagging, polls, welcome, antimodules, … |
-| `cmd/group/moderation/` | kick, kickall, promote, warn, … |
-| `cmd/group/settings/` | gcreate, gname, lock, link, ginfo, … |
-| `cmd/conversion/` | `stickers/`, `image-edit/`, `ffmpeg/`, `video-quote/`, helpers |
-| `lib/dl/` | Scrapers YouTube, TikTok, Instagram, Facebook, Twitter, APK |
-| `lib/message-upsert/` | Helpers résolution messages / view-once |
-| `events/group_participants/` | Welcome/goodbye et alertes promote/demote |
-| `cmd/owner/ban/` | block, ban, onlyadmins, … |
-| `cmd/reaction/` | `captions.js` + enregistrement dynamique |
-| `cmd/<cat>/register.js` | `registerCommand` uniquement (léger) |
-| `cmd/<cat>/deps.js` ou `media.js` | Dépendances lourdes de la catégorie (conversion → `media.js`) |
+<details>
+  <summary>Roles: owner, sudo, and moderation</summary>
 
-Chaque commande importe seulement ce dont elle a besoin, par ex. `require('../register')` + `require('../deps')`. Sous-dossiers spécialisés utilisent des modules nommés (`deps.js`, `textpro.js`, `audio-fx.js`, …).
-| `cmd/tools/` | capture, tempmail, devtools, … |
-| `cmd/tools/menus/` | description, theme, menu, allmenu |
-| `cmd/games/` | tictactoe, anime-quizz, dmots |
-| `cmd/games/wcg/` | Word Chain Game (helpers + game) |
+| Role | Configuration | Permissions |
+|------|----------------|-------------|
+| **Owner** | `NUMERO_OWNER` in `.env` | `classe: Owner` commands (blocked at router if not owner), `setvar`, `update`, sensitive config, full immunity |
+| **Sudo** | `setsudo` command (DB table) | Staff: private/public mode commands, group moderation; only the owner can kick/ban a sudo |
+| **WA admin** | WhatsApp group admin | Group commands per `verif_Admin` |
+| **Member** | — | Per `MODE`, bans, public/private command lists |
+
+**Restricted groups** (`RESTRICTED_GROUPS`): only the owner, sudo users, and JIDs in `RESTRICTED_GROUP_ALLOWLIST` can use the bot and passive handlers in those groups.
+
+**Local checks**: `npm test` · **Quality**: `npm run check:syntax` · `npm run lint` · **CI**: `check:secrets`, `check:syntax`, tests, ESLint (see `.github/workflows/ci.yml`).
+
+### Command structure
+
+Each category is a folder under `cmd/<category>/` with a barrel `index.js`, loaded by `lib/plugin.js` (17 categories, ~330 commands).
+
+| Directory | Purpose |
+|-----------|---------|
+| `cmd/owner/` | Owner (ban, sudo, sessions, …) · `owner/ban/` |
+| `cmd/group/` | Tagging, polls, welcome, antimodules · `group/moderation/`, `group/settings/` |
+| `cmd/conversion/` | Stickers, image-edit, ffmpeg, video-quote, TTS (`lib/google-tts.js`) |
+| `cmd/download/` | YouTube, TikTok, Instagram, Facebook, Twitter, APK |
+| `cmd/tools/` | capture, tempmail, devtools, menus · `tools/menus/` |
+| `cmd/games/` | tictactoe, anime-quizz, dmots · `games/wcg/` |
 | `cmd/search/` | img, web, entertainment, shazam |
-| `cmd/download/` | YouTube, TikTok, Instagram, APK, … |
-| `cmd/economy/` | wallet, banking, games, admin |
+| `cmd/economy/` | wallet, banking, economy mini-games, admin |
 | `cmd/fun/` | text, quotes, ranks, fake |
-| `cmd/ai/` | gpt, dalle, gemini, llama, claude, … |
-| `cmd/privacy/` | présence, bio, confidentialité WA |
-| `cmd/status/` | save, sendme, toggles status |
+| `cmd/ai/` | gpt, dalle, gemini, llama, claude, copilot, … |
+| `cmd/privacy/` | presence, bio, WhatsApp privacy settings |
+| `cmd/status/` | save, sendme, status toggles |
 | `cmd/system/` | setvar, checkupdate, update |
-| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) — `logovintage`, `logospace`, `logounderwater` |
-| `cmd/reaction/` | Réactions GIF waifu.pics (~27 cmd) |
-| `cmd/image_edits/` | Effets image OVL (~24 cmd) |
-| `cmd/fx_audio/` | Filtres audio ffmpeg (~40 cmd) |
+| `cmd/logo/` | ephoto360 text effects (`logovintage`, `logospace`, …) |
+| `cmd/reaction/` | GIF reactions (waifu.pics) · `captions.js` |
+| `cmd/image_edits/` | Image effects via OVL API |
+| `cmd/fx_audio/` | ffmpeg audio filters |
 
-`lib/style.js` charge `lib/style-apply.js` (fonctions) et `lib/style-maps.js` (jeux de caractères fancy).
+**Shared modules**
+
+| Path | Purpose |
+|------|---------|
+| `cmd/<cat>/register.js` | `registerCommand` (lightweight) |
+| `cmd/<cat>/deps.js` or `media.js` | Heavy category dependencies |
+| `lib/dl/` | Social media download scrapers |
+| `lib/message-upsert/` | Message / view-once context |
+| `lib/run-command.js` | ACL (public/private mode, bans, onlyadmins) |
+| `packages/baileys-cjs/` | Baileys (local CJS dependency) |
+| `events/group_participants/` | Welcome/goodbye, promote/demote |
+
+Each command file imports only what it needs (`register` + `deps`, or named modules like `textpro.js`, `audio-fx.js`, …). `lib/style.js` re-exports `style-apply.js` and `style-maps.js`.
 
 </details>
 
 ---
 
 <details>
-  <summary>Sécurité (VPS / panel)</summary>
+  <summary>Security (VPS / panel)</summary>
 
-### Git : `.env` et `auth/` jamais commités
+### Git: never commit `.env` or `auth/`
 
-Ces chemins sont dans `.gitignore` :
+These paths are in `.gitignore`:
 
-- `.env`, `.env.*` (sauf `.env.example`)
-- `auth/` (sessions Baileys / `creds.json`)
-- `config_env.json` (sauf l’exemple versionné)
-- `backups/` (archives locales)
+- `.env`, `.env.*` (except `.env.example`)
+- `auth/` (Baileys sessions / `creds.json`)
+- `config_env.json` (except the versioned example)
+- `backups/` (local archives)
 
-Vérification locale ou CI :
+Local or CI check:
 
 ```bash
 npm run check:secrets
-# ou : node --test test/gitignore-secrets.test.js
+# or: node --test test/gitignore-secrets.test.js
 ```
 
-### Sauvegardes chiffrées
+### Encrypted backups
 
-Ne stockez jamais `auth/` ou `.env` en clair sur un dépôt ou un cloud non chiffré.
+Never store `auth/` or `.env` in plain text on a repo or unencrypted cloud.
 
 ```bash
 chmod +x scripts/backup-secrets.sh
@@ -339,65 +326,67 @@ chmod +x scripts/backup-secrets.sh
 # → backups/ovl-secrets-YYYYMMDD-HHMMSS.tar.gz.gpg
 ```
 
-Restauration sur le serveur : `gpg -d backups/….tar.gz.gpg | tar -xzf - -C /chemin/vers/le/bot`
+Restore on the server: `gpg -d backups/….tar.gz.gpg | tar -xzf - -C /path/to/bot`
 
-### Pare-feu : ne pas exposer le port 3000
+### Firewall: do not expose port 3000
 
-Le bot peut démarrer un mini serveur HTTP pour le health check (Render, Heroku, etc.). **Par défaut**, il écoute sur `127.0.0.1` — pas accessible depuis Internet.
+The bot can start a small HTTP server for health checks (Render, Heroku, etc.). **By default** it listens on `127.0.0.1` — not reachable from the internet.
 
-Sur un **VPS ou panel** (recommandé dans `.env.example`) :
+On a **VPS or panel** (recommended in `.env.example`):
 
-- `ENABLE_HEALTH_CHECK=false` — pas de port HTTP du tout.
-- Sinon : laisser `HEALTH_BIND_HOST=127.0.0.1` (défaut) et **ne pas** ouvrir le port 3000 (`HEALTH_PORT`) dans `ufw`, iptables ou le security group cloud.
-- N'exposez `0.0.0.0` (`HEALTH_BIND_HOST=0.0.0.0`) **que** si votre hébergeur PaaS l'exige pour ses sondes internes.
+- `ENABLE_HEALTH_CHECK=false` — no HTTP port at all.
+- Otherwise keep `HEALTH_BIND_HOST=127.0.0.1` (default) and **do not** open port 3000 (`HEALTH_PORT`) in `ufw`, iptables, or your cloud security group.
+- Only bind `0.0.0.0` (`HEALTH_BIND_HOST=0.0.0.0`) if your PaaS host requires it for internal probes.
 
-### Compte WhatsApp dédié
+### Dedicated WhatsApp account
 
-Utilisez un **numéro réservé au bot**, pas votre ligne personnelle :
+Use a **number dedicated to the bot**, not your personal line:
 
-- Limite le risque en cas de bannissement ou de fuite du dossier `auth/`.
-- Facilite la rotation : supprimez `auth/principale/` et rescannez un nouveau QR.
-- `NUMERO_OWNER` dans `.env` doit correspondre au compte qui contrôle le bot (owner des commandes).
+- Limits risk if the account is banned or `auth/` leaks.
+- Easier rotation: delete `auth/principale/` and scan a new QR.
+- `NUMERO_OWNER` in `.env` must match the account that controls the bot (command owner).
 
-Protégez aussi `auth/` (déjà dans `.gitignore`) : permissions restrictives, sauvegardes chiffrées, jamais commitées.
+Also protect `auth/` (already in `.gitignore`): restrictive permissions, encrypted backups, never committed.
 
-### Checklist production (VPS / panel)
+### Production checklist (VPS / panel)
 
-| Variable | Recommandation |
+| Variable | Recommendation |
 |----------|----------------|
-| `NODE_ENV=production` | Pas de `npm install` automatique au reconnect ; logs messages **off** par défaut |
-| `LOG_MESSAGES` | `off` ou `minimal` en prod (`full` uniquement pour le debug) |
-| `ENABLE_HEALTH_CHECK` | `false` sur VPS sauf besoin local (sonde sur `127.0.0.1`) |
-| Clés API / `*_API_BASE` | Renseigner dans `.env` (voir `.env.example`) — commandes concernées désactivées si vide |
-| `TELEGRAM_BOT_TOKEN` | Requis pour `tgs` (owner) — **ne jamais committer** ; révoquer sur BotFather si fuite |
-| `CHATBOT_API_BASE` | URL GET du chatbot (`?user_id=&text=`) — vide = aucun appel externe |
-| `WAIFU_PICS_API_BASE`, `EPHOTO360_BASE`, `CATBOX_UPLOAD_URL`, … | Voir `.env.example` (URLs médias surchargeables) |
+| `NODE_ENV=production` | No automatic `npm install` of deps on reconnect; message logs **off** by default |
+| `AUTO_INSTALL_MISSING_DEPS=false` | Optional in prod (explicit; default off when `NODE_ENV=production`) |
+| `COMMAND_REACT` | `on` / `off` — emoji reaction on the message when a command runs |
+| `LOG_MESSAGES` | `off` or `minimal` in prod (`full` only for debugging) |
+| `ENABLE_HEALTH_CHECK` | `false` on VPS unless you need a local probe on `127.0.0.1` |
+| API keys / `*_API_BASE` | Set in `.env` (see `.env.example`) — related commands stay disabled if empty |
+| `TELEGRAM_BOT_TOKEN` | Required for `tgs` (owner) — **never commit**; revoke on BotFather if leaked |
+| `CHATBOT_API_BASE` | Chatbot GET URL (`?user_id=&text=`) — empty = no external calls |
+| `WAIFU_PICS_API_BASE`, `EPHOTO360_BASE`, `CATBOX_UPLOAD_URL`, … | See `.env.example` (overridable media URLs) |
 
-### Historique Git et secrets
+### Git history and secrets
 
-Si un token ou une clé a déjà été **commité** par le passé, le retirer du code actuel ne suffit pas : il reste dans l’historique Git.
+If a token or key was **committed in the past**, removing it from current code is not enough — it remains in Git history.
 
-1. Révoquer / régénérer la clé chez le fournisseur (Telegram BotFather, Google Cloud, etc.).
-2. Nettoyer l’historique avec [git-filter-repo](https://github.com/newren/git-filter-repo) ou BFG, puis `git push --force` (coordination équipe requise).
-3. Vérifier : `npm run check:secrets` et `git log -p -- .env` (ne doit rien montrer de sensible).
+1. Revoke / rotate the key with the provider (Telegram BotFather, Google Cloud, etc.).
+2. Rewrite history with [git-filter-repo](https://github.com/newren/git-filter-repo) or BFG, then `git push --force` (team coordination required).
+3. Verify: `npm run check:secrets` and `git log -p -- .env` (must not show secrets).
 
-### Commandes sensibles (rappel)
+### Sensitive commands (reminder)
 
-- `vv` / `vv2` / `capture` : owner/sudo (`isStaff`) uniquement.
-- `fetch_sc` : owner + URLs publiques validées (pas de SSRF vers réseau privé).
-- `update` : `git stash` puis `pull --ff-only` (plus de `reset --hard`).
+- `vv` / `vv2` / `capture`: owner/sudo (`isStaff`) only.
+- `fetch_sc`: owner + validated public URLs (no SSRF to private networks).
+- `update`: `git stash` then `pull --ff-only` (no more `reset --hard`).
 
-**Après toute modification de `.env`** : redémarrer le processus (`node bot.js` ou votre service systemd/PM2). Le rechargement des commandes au reconnect WhatsApp ne recharge pas `dotenv`.
+**After any `.env` change**: restart the process (`node bot.js` or your systemd/PM2 service). Reloading commands on WhatsApp reconnect does **not** reload `dotenv`.
 
 ```bash
-npm run check:secrets && npm run check:syntax && npm test && npm run lint   # avant déploiement
-./scripts/backup-secrets.sh         # sauvegarde auth/ + .env chiffrée
+npm run check:secrets && npm run check:syntax && npm test && npm run lint   # before deploy
+./scripts/backup-secrets.sh         # encrypted backup of auth/ + .env
 ```
 
 </details>
 
 ---
 
-### Licence
+### License
 
-Distribué sous la licence MIT. Voir le fichier [LICENSE](./LICENSE) pour plus d'informations.
+Distributed under the MIT License. See [LICENSE](./LICENSE) for details.
