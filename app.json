@@ -27,11 +27,6 @@
       "value": "public",
       "required": false
     },
-    "SESSION_ID": {
-      "description": "Identifiant de session",
-      "value": "",
-      "required": true
-    },
     "NOM_BOT": {
       "description": "Nom du bot",
       "value": "🤖 OVL-MD BOT V2",

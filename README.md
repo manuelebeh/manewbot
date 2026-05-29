@@ -26,25 +26,30 @@
 ---
 
 <details>
-  <summary>🚀 Déploiement de OVL-MD-V2</summary>
+  <summary>Déploiement de OVL-MD-V2</summary>
 
 ### 🧬 Étape 1 : Fork du dépôt GitHub  
 [![Fork GitHub](https://img.shields.io/badge/Fork%20le%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ainz-devs/OVL-MD-V2/fork)
 
 ---
 
-### 🔐 Étape 2 : Générer une SESSION ID
+### Étape 2 : Appairage WhatsApp (session locale)
 
-📌 **Conserve la Session-ID dans un endroit sécurisé.** 
+L'authentification se fait entièrement en local via un QR code Baileys :
 
-[![Obtenir SESSION-ID](https://img.shields.io/badge/Obtenir%20SESSION--ID-0A0A0A?style=for-the-badge&logo=key&logoColor=white)](https://ovl-web.koyeb.app/)  
+1. Lancez le bot pour la première fois : `node Ovl.js`
+2. Un QR code s'affiche dans le terminal
+3. Sur WhatsApp > **Appareils connectés** > **Connecter un appareil**, scannez le QR
+4. Les credentials sont sauvegardés dans `auth/principale/`
+
+Au redémarrage suivant, le bot se reconnecte automatiquement sans QR.
 
 ---
 
-### 🗄️ Étape 3 : Créer une base de données  (au choix)
+### Étape 3 : Créer une base de données  (au choix)
 [![Créer Base de Données](https://img.shields.io/badge/Supabase-Base%20de%20donn%C3%A9es-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)](https://supabase.com)
 
-### 🚀 Étape 4 : Méthodes de déploiement
+### Étape 4 : Méthodes de déploiement
 
 #### <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" height="28" />
 - Créez un compte : [Lien Heroku](https://signup.heroku.com/)
@@ -53,10 +58,6 @@
 #### <img src="https://img.shields.io/badge/Render-12100E?style=for-the-badge&logo=render&logoColor=white" height="28" />
 - Créez un compte : [Lien Render](https://dashboard.render.com/register)
 - Déploiement rapide : [Déployer sur Render](https://dashboard.render.com/web/new)
-
-#### <img src="https://img.shields.io/badge/Koyeb-000000?style=for-the-badge&logo=koyeb&logoColor=white" height="28" />
-- Créez un compte : [Lien Koyeb](https://app.koyeb.com/auth/signup)
-- Déploiement rapide : [Déployer sur Koyeb](https://app.koyeb.com/deploy?type=git&name=ovl-md&repository=https%3A%2F%2Fgithub.com%2FAinz-devs%2FOVL-MD-V2&branch=main&builder=dockerfile&instance_type=free&env%5BPREFIXE%5D=.&env%5BNOM_OWNER%5D=Ainz&env%5BNUMERO_OWNER%5D=226xxxxxxxx&env%5BMODE%5D=public&env%5BSESSION_ID%5D=&env%5BSTICKER_PACK_NAME%5D=%E1%B4%8F%E1%B4%A0%CA%9F-%E1%B4%8D%E1%B4%85-%E1%B4%A0%F0%9D%9F%B8&env%5BSTICKER_AUTHOR_NAME%5D=%E1%B4%80%C9%AA%C9%B4%E1%B4%A2%F0%9F%94%85%E2%9C%A8&env%5BNOM_BOT%5D=%F0%9F%A4%96+OVL-MD+BOT+V2)
 
 #### <img src="https://img.shields.io/badge/Panel-grey?style=for-the-badge&logo=windows-terminal&logoColor=white" height="28" />
 - Créez un serveur
@@ -221,14 +222,13 @@ jobs:
 ---
 
 <details>
-  <summary>🔐 Exemple de fichier .env</summary>
+  <summary>Exemple de fichier .env</summary>
 
 ```env
 PREFIXE=.
 NOM_OWNER=Ainz
 NUMERO_OWNER=226xxxxxxxx
 MODE=public
-SESSION_ID=
 STICKER_PACK_NAME=ᴏᴠʟ-ᴍᴅ-ᴠ𝟸
 STICKER_AUTHOR_NAME=ᴀɪɴᴢ🔅✨
 NOM_BOT=🤖 OVL-MD BOT V2
@@ -238,17 +238,23 @@ NOM_BOT=🤖 OVL-MD BOT V2
 
 ---
 
-### 🌍 Rejoins la Communauté OVL
+<details>
+  <summary>Multi-comptes (sessions secondaires)</summary>
 
-[![WhatsApp Support](https://img.shields.io/badge/Support%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/BP1oOMh0QvR7H3vvO9bRYK)
-[![Telegram Channel](https://img.shields.io/badge/Canal%20Telegram-229ED9?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/ovlmd_tlg)
-[![WhatsApp Channel](https://img.shields.io/badge/Channel%20WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029VayTmvxHltYGCm0J7P0A)
+Pour connecter un second numéro WhatsApp :
 
-Partage, pose tes questions, et reste à jour avec toutes les nouveautés du projet !
+1. Créez le dossier `auth/<numero>/` (ex: `auth/22612345678/`)
+2. Lancez temporairement Baileys avec `useMultiFileAuthState('auth/<numero>')` pour scanner le QR de ce compte (ou copiez un `creds.json` déjà apparié)
+3. Utilisez la commande owner pour enregistrer le numéro : `<prefixe>connect 22612345678`
+4. Le bot démarrera automatiquement la session secondaire au prochain cycle de vérification
+
+Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le dossier `auth/<numero>/` sera supprimé.
+
+</details>
 
 ---
 
-### 👨‍💻 Développeur Principal
+### Développeur Principal
 - **Ainz**
 ---
 ### 🙌 Remerciements
@@ -256,6 +262,6 @@ Partage, pose tes questions, et reste à jour avec toutes les nouveautés du pro
 - Nathan Harmone – pour ses tutoriels YouTube.
 - Dr Djibi – pour son soutien.
 ---
-### 📄 Licence
+### Licence
 
-Distribué sous la licence MIT. Voir le fichier [LICENSE](./LICENSE) pour plus d’informations.
+Distribué sous la licence MIT. Voir le fichier [LICENSE](./LICENSE) pour plus d'informations.
