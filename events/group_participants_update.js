@@ -7,10 +7,10 @@ const {
 } = require("@whiskeysockets/baileys");
 const {
   getJid
-} = require("./Message_upsert_events");
+} = require("./message_upsert_events");
 const {
   groupCache
-} = require("../lib/groupeCache");
+} = require("../lib/groupe_cache");
 const config = require("../set");
 const parseID = _0x46925f => {
   if (!_0x46925f) {

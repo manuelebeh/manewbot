@@ -7,7 +7,7 @@ const {
 const FileType = require("file-type");
 const {
   getJid
-} = require("./Message_upsert_events");
+} = require("./message_upsert_events");
 async function dl_save_media_ms(_0x15b63b, _0x2c8b79) {
   const _0x43e944 = _0x2c8b79.msg || _0x2c8b79;
   const _0x21115c = _0x43e944.mimetype || "";

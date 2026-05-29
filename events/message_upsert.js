@@ -15,7 +15,7 @@ const {
   chatbot,
   antispam,
   autoreact_msg
-} = require("./Message_upsert_events");
+} = require("./message_upsert_events");
 const {
   Bans,
   OnlyAdmins

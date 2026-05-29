@@ -1,6 +1,6 @@
 const {
   groupCache
-} = require("../lib/groupeCache");
+} = require("../lib/groupe_cache");
 async function group_update(_0x512d2b, _0x49480e) {
   try {
     const _0x5d0e9c = await _0x49480e.groupMetadata(_0x512d2b.id);

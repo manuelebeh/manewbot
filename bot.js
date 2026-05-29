@@ -16,7 +16,7 @@ const {
 } = require('@whiskeysockets/baileys');
 
 const { getMessage } = require('./lib/store');
-const { groupCache } = require('./lib/groupeCache');
+const { groupCache } = require('./lib/groupe_cache');
 const { localAuthExists, ensureAuthDir } = require('./database/session');
 const config = require('./set');
 const {
