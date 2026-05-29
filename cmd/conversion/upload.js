@@ -1,7 +1,7 @@
 'use strict';
 
 const { registerCommand } = require('./register');
-const { fs, path, os, axios, FormData, readFileSync, config, Sticker, StickerTypes, spawn, gTTS, sharp, Ranks, uploadToCatbox, alea, isSupportedFile, fusionCache, remini, convertWebpToMp4 } = require('./media');
+const { fs, path, os, axios, FormData, readFileSync, config, Sticker, StickerTypes, spawn, saveSpeechToFile, sharp, Ranks, uploadToCatbox, alea, isSupportedFile, fusionCache, remini, convertWebpToMp4 } = require('./media');
 
 registerCommand({
   nom_cmd: "url",

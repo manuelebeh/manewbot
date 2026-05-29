@@ -6,7 +6,7 @@ const {
 const {
   decodeJid
 } = require("../lib/jid");
-const FileType = require("file-type");
+const { extensionFromMime } = require("../lib/mime-ext");
 const {
   getJid
 } = require("./message_upsert_events");
@@ -23,17 +23,14 @@ async function dl_save_media_ms(content, message) {
     chunks.push(chunk);
   }
   const buffer = Buffer.concat(chunks);
-  const fileType = await FileType.fromBuffer(buffer);
-  if (!fileType) {
-    throw new Error("Type de fichier inconnu");
-  }
+  const ext = extensionFromMime(mimetype);
   const downloadsDir = "./downloads";
   if (!fs.existsSync(downloadsDir)) {
     fs.mkdirSync(downloadsDir, {
       recursive: true
     });
   }
-  const filePath = path.join(downloadsDir, "media_" + Date.now() + "." + fileType.ext);
+  const filePath = path.join(downloadsDir, "media_" + Date.now() + "." + ext);
   await fs.promises.writeFile(filePath, buffer);
   setTimeout(() => {
     fs.unlink(filePath, () => {});
