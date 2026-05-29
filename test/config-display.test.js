@@ -17,4 +17,8 @@ describe('config-display', () => {
   it('leaves normal values visible', () => {
     assert.equal(formatConfigValue('MODE', 'private'), 'private');
   });
+
+  it('masks TELEGRAM_BOT_TOKEN entirely', () => {
+    assert.equal(formatConfigValue('TELEGRAM_BOT_TOKEN', '123:ABCsecret'), '[MASQUÉ]');
+  });
 });

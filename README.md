@@ -274,14 +274,26 @@ Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`,
 | Dossier | Rôle |
 |---------|------|
 | `cmd/owner/` | Commandes propriétaire (ban, sudo, sessions, …) |
-| `cmd/groupe/` | Modération et réglages de groupe |
-| `cmd/conversion/` | Stickers, média, ffmpeg (`upload`, `stickers`, `image-edit`, …) |
-| `cmd/outils/` | Menus, ping, capture, tempmail, … |
-| `cmd/jeux/` | Tic-tac-toe, quiz anime, dmots, word chain |
-| `cmd/search/` | Images, Google, wiki, IMDB, météo, Shazam, … |
-| `cmd/telechargement/` | YouTube, TikTok, Instagram, Facebook, APK, … |
-| `cmd/economie/` | Portefeuille, banque, paris, bonus, … |
-| `cmd/fun/` | Texte, citations, ranks, fake message, … |
+| `cmd/groupe/` | Tagging, polls, welcome, antimodules, … |
+| `cmd/groupe/moderation/` | kick, kickall, promote, warn, … |
+| `cmd/groupe/settings/` | gcreate, gname, lock, link, ginfo, … |
+| `cmd/conversion/` | Stickers, média, ffmpeg |
+| `cmd/outils/` | Menus, capture, tempmail, devtools, … |
+| `cmd/jeux/` | Tic-tac-toe, quiz anime, dmots, wcg |
+| `cmd/search/` | img, web, entertainment, shazam |
+| `cmd/telechargement/` | YouTube, TikTok, Instagram, APK, … |
+| `cmd/economie/` | wallet, banking, games, admin |
+| `cmd/fun/` | text, quotes, ranks, fake |
+| `cmd/ia/` | gpt, dalle, gemini, llama, claude, … |
+| `cmd/confidentialite/` | présence, bio, confidentialité WA |
+| `cmd/status/` | save, sendme, toggles status |
+| `cmd/systeme/` | setvar, checkupdate, update |
+| `cmd/logo/` | Effets texte ephoto360 (~50 cmd) |
+| `cmd/reaction/` | Réactions GIF waifu.pics (~27 cmd) |
+| `cmd/image_edits/` | Effets image OVL (~24 cmd) |
+| `cmd/fx_audio/` | Filtres audio ffmpeg (~40 cmd) |
+
+Chaque fichier `cmd/<module>.js` à la racine ne fait que `require('./<module>/…')` (point d’entrée pour `lib/plugin.js`).
 
 </details>
 
@@ -346,6 +358,7 @@ Protégez aussi `auth/` (déjà dans `.gitignore`) : permissions restrictives, s
 | `LOG_MESSAGES` | `off` ou `minimal` en prod (`full` uniquement pour le debug) |
 | `ENABLE_HEALTH_CHECK` | `false` sur VPS sauf besoin local (sonde sur `127.0.0.1`) |
 | Clés API / `*_API_BASE` | Renseigner dans `.env` (voir `.env.example`) — commandes concernées désactivées si vide |
+| `TELEGRAM_BOT_TOKEN` | Requis pour `tgs` (owner) — **ne jamais committer** ; révoquer sur BotFather si fuite |
 
 **Après toute modification de `.env`** : redémarrer le processus (`node bot.js` ou votre service systemd/PM2). Le rechargement des commandes au reconnect WhatsApp ne recharge pas `dotenv`.
 

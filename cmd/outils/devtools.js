@@ -1,24 +1,16 @@
 'use strict';
 
+const JavaScriptObfuscator = require('javascript-obfuscator');
 const {
   registerCommand,
-  cmd,
   fs,
   path,
-  os,
-  axios,
-  config,
-  translate,
-  prefixe,
-  WA_CONF,
-  TempMail,
-  JavaScriptObfuscator,
   spawn,
   AdmZip,
-  pkg,
-  stylize,
-  contextInfo,
 } = require('./_shared');
+const { requireOwner, ownerReply } = require('../../lib/require-owner');
+
+const OWNER_DENIED = "❌ Réservé au propriétaire du bot.";
 
 registerCommand({
   nom_cmd: "obfuscate",
@@ -32,6 +24,7 @@ registerCommand({
     repondre,
     ms
   } = ctx;
+  if (!requireOwner(ctx, () => ownerReply(sock, chatJid, ms, OWNER_DENIED))) return;
   if (!arg || arg.length === 0) {
     return repondre("Veuillez fournir le code JavaScript à obfusquer.");
   }
@@ -71,6 +64,7 @@ registerCommand({
     repondre,
     ms
   } = ctx;
+  if (!requireOwner(ctx, () => ownerReply(sock, chatJid, ms, OWNER_DENIED))) return;
   if (!arg || arg.length < 1) {
     return repondre("Veuillez fournir l'URL du dépôt Git à cloner.");
   }
@@ -85,10 +79,13 @@ registerCommand({
   if (!value4.test(value2)) {
     return repondre("URL de dépôt Git invalide.");
   }
+  const cloneRoot = path.join(process.cwd(), 'downloads', 'gitclone');
+  fs.mkdirSync(cloneRoot, { recursive: true });
+  const cloneTarget = path.join(cloneRoot, pluginName);
   try {
     repondre("🔄Clonage du dépôt en cours...");
     const cloneProcess = spawn("git", ["clone", value2, pluginName], {
-      cwd: process.cwd()
+      cwd: cloneRoot,
     });
     let stderr = "";
     cloneProcess.stderr.on("data", chunk => {
@@ -100,21 +97,22 @@ registerCommand({
       }
       try {
         const value5 = new AdmZip();
-        value5.addLocalFolder(pluginName);
-        value5.writeZip(value3);
+        value5.addLocalFolder(cloneTarget);
+        const zipPath = path.join(cloneRoot, value3);
+        value5.writeZip(zipPath);
         const fileData = {
-          document: fs.readFileSync(value3),
+          document: fs.readFileSync(zipPath),
           mimetype: "application/zip",
           fileName: pluginName + ".zip"
         };
         sock.sendMessage(chatJid, fileData, {
           quoted: ms
         });
-        fs.rmSync(pluginName, {
+        fs.rmSync(cloneTarget, {
           recursive: true,
           force: true
         });
-        fs.unlinkSync(value3);
+        fs.unlinkSync(zipPath);
       } catch (err) {
         repondre("Erreur lors de la compression en zip : " + err.message);
       }

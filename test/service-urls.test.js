@@ -2,7 +2,11 @@
 
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
-const { getServiceUrls, serviceNotConfiguredMessage } = require('../lib/service-urls');
+const {
+  getServiceUrls,
+  serviceNotConfiguredMessage,
+  buildYoutubeDownloadUrl,
+} = require('../lib/service-urls');
 
 describe('service-urls', () => {
   it('getServiceUrls trims bases and defaults ezgif', () => {
@@ -21,5 +25,18 @@ describe('service-urls', () => {
 
   it('serviceNotConfiguredMessage names env key', () => {
     assert.match(serviceNotConfiguredMessage('OVL_API_BASE'), /OVL_API_BASE/);
+  });
+
+  it('buildYoutubeDownloadUrl uses configured base', () => {
+    const url = buildYoutubeDownloadUrl(
+      { YOUTUBE_DL_API_BASE: 'https://yt.example/' },
+      'https://cdn.example/file.mp4'
+    );
+    assert.equal(
+      url,
+      'https://yt.example/youtube/download?url=' +
+        encodeURIComponent('https://cdn.example/file.mp4')
+    );
+    assert.equal(buildYoutubeDownloadUrl({ YOUTUBE_DL_API_BASE: '' }, 'x'), null);
   });
 });

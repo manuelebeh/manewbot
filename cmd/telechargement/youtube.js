@@ -2,10 +2,23 @@
 
 const {
   registerCommand,
+  config,
+  buildYoutubeDownloadUrl,
+  serviceNotConfiguredMessage,
   ytdl,
   axios,
   resolveArgsWithLink,
 } = require('./_shared');
+
+async function fetchYoutubeMedia(repondre, downloadPath) {
+  const mediaUrl = buildYoutubeDownloadUrl(config, downloadPath);
+  if (!mediaUrl) {
+    await repondre(serviceNotConfiguredMessage('YOUTUBE_DL_API_BASE'));
+    return null;
+  }
+  const response = await axios.get(mediaUrl, { responseType: 'arraybuffer' });
+  return Buffer.from(response.data);
+}
 
 registerCommand({
   nom_cmd: "song",
@@ -37,10 +50,8 @@ registerCommand({
     }, {
       quoted: ms
     });
-    const audioResponse = await axios.get("https://you-tube-dl-psi.vercel.app/youtube/download?url=" + encodeURIComponent(downloadResult.ytdl.download), {
-      responseType: "arraybuffer"
-    });
-    const audioBuffer = Buffer.from(audioResponse.data);
+    const audioBuffer = await fetchYoutubeMedia(repondre, downloadResult.ytdl.download);
+    if (!audioBuffer) return;
     await sock.sendMessage(chatJid, {
       audio: audioBuffer,
       mimetype: "audio/mpeg",
@@ -82,10 +93,8 @@ registerCommand({
     }, {
       quoted: ms
     });
-    const videoResponse = await axios.get("https://you-tube-dl-psi.vercel.app/youtube/download?url=" + encodeURIComponent(downloadResult.ytdl.download), {
-      responseType: "arraybuffer"
-    });
-    const videoBuffer = Buffer.from(videoResponse.data);
+    const videoBuffer = await fetchYoutubeMedia(repondre, downloadResult.ytdl.download);
+    if (!videoBuffer) return;
     await sock.sendMessage(chatJid, {
       video: videoBuffer,
       mimetype: "video/mp4",
@@ -118,10 +127,8 @@ registerCommand({
   }
   try {
     const downloadResult = await ytdl(youtubeUrl, "audio");
-    const audioResponse = await axios.get("https://you-tube-dl-psi.vercel.app/youtube/download?url=" + encodeURIComponent(downloadResult.ytdl.download), {
-      responseType: "arraybuffer"
-    });
-    const audioBuffer = Buffer.from(audioResponse.data);
+    const audioBuffer = await fetchYoutubeMedia(repondre, downloadResult.ytdl.download);
+    if (!audioBuffer) return;
     await sock.sendMessage(chatJid, {
       audio: audioBuffer,
       mimetype: "audio/mpeg",
@@ -154,10 +161,8 @@ registerCommand({
   }
   try {
     const downloadResult = await ytdl(youtubeUrl, "video");
-    const videoResponse = await axios.get("https://you-tube-dl-psi.vercel.app/youtube/download?url=" + encodeURIComponent(downloadResult.ytdl.download), {
-      responseType: "arraybuffer"
-    });
-    const videoBuffer = Buffer.from(videoResponse.data);
+    const videoBuffer = await fetchYoutubeMedia(repondre, downloadResult.ytdl.download);
+    if (!videoBuffer) return;
     await sock.sendMessage(chatJid, {
       video: videoBuffer,
       mimetype: "video/mp4",

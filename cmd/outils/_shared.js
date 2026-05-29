@@ -9,7 +9,6 @@ const fs = require('fs');
 const path = require('path');
 const { WA_CONF } = require('../../database/wa_conf');
 const { TempMail } = require('tempmail.lol');
-const JavaScriptObfuscator = require('javascript-obfuscator');
 const { spawn } = require('child_process');
 const AdmZip = require('adm-zip');
 const os = require('os');
@@ -46,7 +45,6 @@ module.exports = {
   prefixe,
   WA_CONF,
   TempMail,
-  JavaScriptObfuscator,
   spawn,
   AdmZip,
   pkg,
