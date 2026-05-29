@@ -48,4 +48,11 @@ module.exports = {
   VYRO_API_BASE: process.env.VYRO_API_BASE || '',
   /** Conversion webp→mp4 (défaut : https://ezgif.com) */
   EZGIF_API_BASE: process.env.EZGIF_API_BASE || 'https://ezgif.com',
+  /** Bot Telegram (commande owner tgs) — ne jamais committer */
+  TELEGRAM_BOT_TOKEN: process.env.TELEGRAM_BOT_TOKEN || '',
+  /** Proxy YouTube (recherche + download), ex. https://you-tube-dl-psi.vercel.app */
+  YOUTUBE_DL_API_BASE:
+    process.env.YOUTUBE_DL_API_BASE || 'https://you-tube-dl-psi.vercel.app',
+  /** API paroles (commande lyrics) */
+  LYRICS_API_BASE: process.env.LYRICS_API_BASE || 'https://api.delirius.store',
 };

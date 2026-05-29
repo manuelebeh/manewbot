@@ -12,7 +12,6 @@ const {
   prefixe,
   WA_CONF,
   TempMail,
-  JavaScriptObfuscator,
   spawn,
   AdmZip,
   pkg,

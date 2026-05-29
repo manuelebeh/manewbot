@@ -29,7 +29,12 @@ registerCommand(
       return repondre('❌ Lien incorrect.');
     }
 
-    const token = '8408302436:AAFAKAtwCOywhSW0vqm9VNK71huTi8pUp1k';
+    const token = config.TELEGRAM_BOT_TOKEN;
+    if (!token) {
+      return repondre(
+        '❗ Telegram non configuré — définissez TELEGRAM_BOT_TOKEN dans .env (puis redémarrez le bot).'
+      );
+    }
     const apiBase = 'https://api.telegram.org/bot' + token;
 
     try {
@@ -51,9 +56,13 @@ registerCommand(
 
       for (const stickerInfo of stickers) {
         const fileRes = await axios.get(apiBase + '/getFile?file_id=' + stickerInfo.file_id);
+        const filePath = fileRes.data?.result?.file_path;
+        if (!filePath) continue;
+        const fileUrl =
+          'https://api.telegram.org/file/bot' + token + '/' + filePath;
         const fileData = await axios({
           method: 'get',
-          url: apiBase.replace('/bot', '/file/bot') + '/' + fileRes.data.result.file_path,
+          url: fileUrl,
           responseType: 'arraybuffer',
         });
         const sticker = new Sticker(fileData.data, {

@@ -2,6 +2,8 @@
 
 const { registerCommand } = require('../../lib/commands');
 const { fbdl, ttdl, igdl, twitterdl, ytdl, apkdl } = require('../../lib/dl');
+const config = require('../../set');
+const { buildYoutubeDownloadUrl, serviceNotConfiguredMessage } = require('../../lib/service-urls');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
@@ -27,6 +29,9 @@ async function extractLink(arg, msg_Repondu) {
 
 module.exports = {
   registerCommand,
+  config,
+  buildYoutubeDownloadUrl,
+  serviceNotConfiguredMessage,
   fbdl,
   ttdl,
   igdl,

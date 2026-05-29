@@ -31,7 +31,7 @@ const {
 const { getSecondAllSessions } = require('./database/connect');
 
 const MAX_SESSIONS = 30;
-const STARTUP_DELAY_MS = 45000;
+const STARTUP_DELAY_MS = Number(process.env.STARTUP_DELAY_MS) || 45000;
 const SECONDARY_POLL_MS = 10000;
 const LOG_LEVEL = 'silent';
 const PRINCIPAL_FOLDER = 'principale';

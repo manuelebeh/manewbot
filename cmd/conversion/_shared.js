@@ -9,8 +9,6 @@ const {
   StickerTypes
 } = require("wa-sticker-formatter");
 const {
-  execSync,
-  exec,
   spawn
 } = require("child_process");
 const path = require("path");
@@ -150,7 +148,6 @@ module.exports = {
   config,
   Sticker,
   StickerTypes,
-  execSync,
   spawn,
   gTTS,
   sharp,

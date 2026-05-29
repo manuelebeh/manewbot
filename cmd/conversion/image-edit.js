@@ -11,7 +11,6 @@ const {
   config,
   Sticker,
   StickerTypes,
-  execSync,
   spawn,
   gTTS,
   sharp,

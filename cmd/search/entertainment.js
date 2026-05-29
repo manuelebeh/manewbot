@@ -35,7 +35,7 @@ registerCommand({
     });
   }
   try {
-    const response = await axios.get("http://www.omdbapi.com/?apikey=" + config.OMDB_API_KEY + "&t=" + encodeURIComponent(title) + "&plot=full&lang=fr");
+    const response = await axios.get("https://www.omdbapi.com/?apikey=" + config.OMDB_API_KEY + "&t=" + encodeURIComponent(title) + "&plot=full&lang=fr");
     const movie = response.data;
     if (movie.Response === "False") {
       return bot.sendMessage(jid, {
@@ -265,7 +265,11 @@ registerCommand({
     return repondre("❌ Veuillez fournir un nom de chanson.");
   }
   try {
-    const apiUrl = "https://api.delirius.store/search/lyrics?query=" + encodeURIComponent(query);
+    const lyricsBase = (config.LYRICS_API_BASE || '').replace(/\/+$/, '');
+    if (!lyricsBase) {
+      return repondre('❗ Paroles non configurées (LYRICS_API_BASE).');
+    }
+    const apiUrl = lyricsBase + "/search/lyrics?query=" + encodeURIComponent(query);
     const {
       data
     } = await axios.get(apiUrl);
