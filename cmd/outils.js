@@ -817,8 +817,23 @@ registerCommand({
     });
   }
   const value = arg[0];
+  const config = require("../set");
+  const {
+    getAiBases,
+    aiNotConfiguredMessage
+  } = require("../lib/ai-api");
+  const {
+    sswweb
+  } = getAiBases(config);
+  if (!sswweb) {
+    return sock.sendMessage(chatJid, {
+      text: aiNotConfiguredMessage("SSWEB_API_BASE ou AI_API_BASE")
+    }, {
+      quoted: ms
+    });
+  }
   try {
-    const response = await axios.get("https://eliteprotech-apis.zone.id/ssweb?url=" + encodeURIComponent(value), {
+    const response = await axios.get(sswweb + "/ssweb?url=" + encodeURIComponent(value), {
       responseType: "arraybuffer"
     });
     await sock.sendMessage(chatJid, {

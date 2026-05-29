@@ -1,9 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 const {
-  downloadContentFromMessage,
-  jidDecode
+  downloadContentFromMessage
 } = require("@whiskeysockets/baileys");
+const {
+  decodeJid
+} = require("../lib/jid");
 const FileType = require("file-type");
 const {
   getJid
@@ -38,16 +40,6 @@ async function dl_save_media_ms(content, message) {
   }, 300000);
   return filePath;
 }
-const decodeJid = jid => {
-  if (!jid) {
-    return jid;
-  }
-  if (/:\d+@/gi.test(jid)) {
-    const decoded = jidDecode(jid) || {};
-    return decoded.user && decoded.server && decoded.user + "@" + decoded.server || jid;
-  }
-  return jid;
-};
 async function recup_msg({
   bot,
   auteur,

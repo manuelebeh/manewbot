@@ -210,8 +210,11 @@ jobs:
           sudo apt update
           sudo apt install -y ffmpeg
           npm i
-      - run: timeout 18300s npm run bot
+      - run: npm test
+      - run: npm run check:secrets
 ```
+
+Le workflow `.github/workflows/ci.yml` du dépôt exécute les tests unitaires et la vérification des secrets à chaque push.
 
 </details>
 
@@ -224,7 +227,7 @@ jobs:
 PREFIXE=.
 NOM_OWNER=Manewbie
 NUMERO_OWNER=228xxxxxxxx
-MODE=public
+MODE=private
 STICKER_PACK_NAME=Manewbot
 STICKER_AUTHOR_NAME=Manewbie
 NOM_BOT=Manewbot
@@ -245,6 +248,24 @@ Pour connecter un second numéro WhatsApp :
 4. Le bot démarrera automatiquement la session secondaire au prochain cycle de vérification
 
 Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le dossier `auth/<numero>/` sera supprimé.
+
+</details>
+
+---
+
+<details>
+  <summary>Rôles : owner, sudo et modération</summary>
+
+| Rôle | Configuration | Droits |
+|------|----------------|--------|
+| **Owner** | `NUMERO_OWNER` dans `.env` | Commandes système (`setvar`, `update`), config sensible, immunité totale |
+| **Sudo** | Commande `setsudo` (table DB) | Staff : commandes en mode privé/public, modération groupe ; seul l'owner peut kick/ban un sudo |
+| **Admin WA** | Admin du groupe WhatsApp | Commandes groupe selon `verif_Admin` |
+| **Membre** | — | Selon `MODE`, bans, listes public/private |
+
+**Groupes restreints** (`RESTRICTED_GROUPS`) : seuls l'owner, les sudo et les JID de `RESTRICTED_GROUP_ALLOWLIST` peuvent utiliser le bot et les handlers passifs dans ces groupes.
+
+**Tests locaux** : `npm test` · **CI** : `npm run check:secrets` + tests unitaires (voir `.github/workflows/ci.yml`).
 
 </details>
 

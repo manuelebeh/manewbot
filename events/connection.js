@@ -1,7 +1,8 @@
 'use strict';
 
 const { execSync } = require('child_process');
-const { delay, DisconnectReason, jidDecode } = require('@whiskeysockets/baileys');
+const { delay, DisconnectReason } = require('@whiskeysockets/baileys');
+const { decodeJid } = require('../lib/jid');
 const pkg = require('../package.json');
 const config = require('../set');
 const { manage_env } = require('../lib/manage_env');
@@ -12,18 +13,6 @@ const NEWSLETTER_JID = '120363371282577847@newsletter';
 
 let restartCount = 0;
 let wasOpen = false;
-
-const decodeJid = (jid) => {
-  if (!jid) return jid;
-  if (/:\d+@/gi.test(jid)) {
-    const decoded = jidDecode(jid) || {};
-    return (
-      (decoded.user && decoded.server && decoded.user + '@' + decoded.server) ||
-      jid
-    );
-  }
-  return jid;
-};
 
 function buildStatusBanner() {
   const nomBot = config.NOM_BOT || 'Manewbot';

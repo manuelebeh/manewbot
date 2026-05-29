@@ -28,9 +28,11 @@ const {
   addMessage
 } = require("../lib/store");
 const {
-  jidDecode,
   getContentType
 } = require("@whiskeysockets/baileys");
+const {
+  decodeJid
+} = require("../lib/jid");
 const evt = require("../lib/commands");
 const config = require("../set");
 const {
@@ -51,16 +53,6 @@ const {
 const {
   list_cmd
 } = require("../database/public_private_cmd");
-const decodeJid = jid => {
-  if (!jid) {
-    return jid;
-  }
-  if (/:\d+@/gi.test(jid)) {
-    const decoded = jidDecode(jid) || {};
-    return decoded.user && decoded.server && decoded.user + "@" + decoded.server || jid;
-  }
-  return jid;
-};
 async function getSudoUsers() {
   try {
     const sudoRecords = await Sudo.findAll({
@@ -300,13 +292,6 @@ async function message_upsert(upsert, sock) {
     antispam(sock, chatJid, msg, senderJid, isGroup, isAdmin, isBotAdmin);
     autoread_msg(sock, msg.key);
     autoreact_msg(sock, msg, chatJid);
-    for (const func of evt.func) {
-      try {
-        await func.fonction(chatJid, sock, owerlap);
-      } catch (err) {
-        console.error("Erreur dans la fonction isfunc '" + func.nom_cmd + "':", err);
-      }
-    }
   } catch (err) {
     console.error("❌ Erreur(message.upsert):", err);
   }

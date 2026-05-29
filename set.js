@@ -30,4 +30,12 @@ module.exports = {
   ACRCLOUD_HOST: process.env.ACRCLOUD_HOST || 'identify-eu-west-1.acrcloud.com',
   ACRCLOUD_ACCESS_KEY: process.env.ACRCLOUD_ACCESS_KEY || '',
   ACRCLOUD_ACCESS_SECRET: process.env.ACRCLOUD_ACCESS_SECRET || '',
+  /** Base URL API IA texte/image (ex. https://votre-proxy.example) */
+  AI_API_BASE: process.env.AI_API_BASE || '',
+  /** Base URL API secondaire (blackbox, claude, …) */
+  AI_TOXXIC_API_BASE: process.env.AI_TOXXIC_API_BASE || '',
+  /** Base URL API Llama */
+  AI_LLAMA_API_BASE: process.env.AI_LLAMA_API_BASE || '',
+  /** Capture d'écran web (défaut : AI_API_BASE si vide) */
+  SSWEB_API_BASE: process.env.SSWEB_API_BASE || '',
 };
