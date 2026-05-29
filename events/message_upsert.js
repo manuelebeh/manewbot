@@ -41,6 +41,9 @@ const {
   shouldRunHandlersInRestrictedGroup
 } = require("../lib/parse-env-lists");
 const {
+  resolveCommandReactEnabled
+} = require("../lib/env-toggle");
+const {
   get_stick_cmd
 } = require("../database/stick_cmd");
 const {
@@ -265,7 +268,7 @@ async function message_upsert(upsert, sock) {
           return;
         }
       }
-      if (!skipReact) {
+      if (!skipReact && resolveCommandReactEnabled(config)) {
         await sock.sendMessage(chatJid, {
           react: {
             text: cmd.react || "🪄",

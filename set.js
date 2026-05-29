@@ -21,4 +21,6 @@ module.exports = {
   RESTRICTED_GROUP_ALLOWLIST: process.env.RESTRICTED_GROUP_ALLOWLIST || '',
   /** Comma-separated group JIDs where autoreact is disabled */
   BLOCKED_AUTOREACT_GROUPS: process.env.BLOCKED_AUTOREACT_GROUPS || '',
+  /** on/off — réaction emoji sur le message à l'exécution d'une commande (vide = activé) */
+  COMMAND_REACT: process.env.COMMAND_REACT || '',
 };
