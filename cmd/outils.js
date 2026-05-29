@@ -215,7 +215,7 @@ registerCommand({
     arg: _0x1255a2,
     ms: _0x54fc65,
     repondre: _0xa9921d,
-    prenium_id: _0x1bf893
+    isSudo: _0x1bf893
   } = _0x45d5bd;
   try {
     if (!_0x1bf893) {

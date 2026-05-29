@@ -158,7 +158,7 @@ async function message_upsert(_0x25bbcb, _0x4802aa) {
       nom_Auteur_Message: _0x5155c7,
       mtype: _0x199a38,
       id_Bot: _0x30b220,
-      prenium_id: _0x3c366f,
+      isSudo: _0x3c366f,
       dev_id: _0x5726a6,
       dev_num: _0x418519,
       id_Bot_N: _0x485d4c,

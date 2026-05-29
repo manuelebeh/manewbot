@@ -124,7 +124,7 @@ registerCommand({
   desc: "Réinitialise le compte économie d'un utilisateur"
 }, async (_0x5a73b1, _0x5143c5, {
   arg: _0x72eefe,
-  prenium_id: _0x53d55e,
+  isSudo: _0x53d55e,
   getJid: _0x307898,
   auteur_Msg_Repondu: _0x261722
 }) => {
@@ -454,7 +454,7 @@ registerCommand({
   nom_cmd: "don",
   classe: "Economie",
   react: "🤝",
-  desc: "Permet à un Premium de donner des pièces à un autre utilisateur"
+  desc: "Permet à un utilisateur sudo de donner des pièces à un autre utilisateur"
 }, async (_0x2742a5, _0x2d1e84, {
   arg: _0x5827dc,
   auteur_Message: _0x4d7370,
@@ -462,12 +462,12 @@ registerCommand({
   auteur_Msg_Repondu: _0x2ee283,
   ms: _0x2f465c,
   repondre: _0x308571,
-  prenium_id: _0xbf79c9,
+  isSudo: _0xbf79c9,
   dev_id: _0x3d9418
 }) => {
   const _0x509ec7 = await getInfosUtilisateur(_0x4d7370);
   if (!_0xbf79c9) {
-    return _0x308571("Cette commande est réservée aux utilisateurs Premium.");
+    return _0x308571("Cette commande est réservée aux utilisateurs sudo.");
   }
   let _0x471b45 = null;
   if (_0x2ee283) {
