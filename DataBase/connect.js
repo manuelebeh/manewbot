@@ -1,1 +1,95 @@
-const _0x5edd24=_0x3d8c;(function(_0x31f1b5,_0x42c962){const _0x41cdca=_0x3d8c,_0x358106=_0x31f1b5();while(!![]){try{const _0x42d825=parseInt(_0x41cdca(0x1ac))/0x1+-parseInt(_0x41cdca(0x1b2))/0x2+-parseInt(_0x41cdca(0x1ba))/0x3+parseInt(_0x41cdca(0x1b6))/0x4+parseInt(_0x41cdca(0x1ad))/0x5+parseInt(_0x41cdca(0x1b9))/0x6+parseInt(_0x41cdca(0x1a2))/0x7;if(_0x42d825===_0x42c962)break;else _0x358106['push'](_0x358106['shift']());}catch(_0x546049){_0x358106['push'](_0x358106['shift']());}}}(_0x5ca5,0xc34b1));const _0xd1de6=(function(){let _0x30b946=!![];return function(_0x1f42df,_0x565e5a){const _0x5966ec=_0x30b946?function(){if(_0x565e5a){const _0x44b9b4=_0x565e5a['apply'](_0x1f42df,arguments);return _0x565e5a=null,_0x44b9b4;}}:function(){};return _0x30b946=![],_0x5966ec;};}()),_0x21983c=_0xd1de6(this,function(){const _0x5310d1=_0x3d8c,_0x322812={'VEeyB':_0x5310d1(0x1b3)};return _0x21983c[_0x5310d1(0x1c1)]()[_0x5310d1(0x1a6)](_0x322812['VEeyB'])[_0x5310d1(0x1c1)]()[_0x5310d1(0x1cb)](_0x21983c)['search'](_0x322812[_0x5310d1(0x1bb)]);});_0x21983c();const {Sequelize,DataTypes}=require(_0x5edd24(0x1b5)),config=require(_0x5edd24(0x1a3)),{get_session}=require(_0x5edd24(0x1ab)),db=config[_0x5edd24(0x1a8)];let sequelize;!db?sequelize=new Sequelize({'dialect':'sqlite','storage':'./database.db','logging':![]}):sequelize=new Sequelize(db,{'dialect':_0x5edd24(0x1b7),'ssl':!![],'protocol':_0x5edd24(0x1b7),'dialectOptions':{'native':!![],'ssl':{'require':!![],'rejectUnauthorized':![]}},'logging':![]});const Connect=sequelize[_0x5edd24(0x1b0)](_0x5edd24(0x1c0),{'numero':{'type':DataTypes[_0x5edd24(0x1a0)],'primaryKey':!![]},'session_id':{'type':DataTypes[_0x5edd24(0x1a0)],'allowNull':![]}},{'tableName':_0x5edd24(0x1c2),'timestamps':![]});((async()=>{await Connect['sync']();})());function _0x3d8c(_0x115dba,_0x1b6484){_0x115dba=_0x115dba-0x1a0;const _0x202b54=_0x5ca5();let _0x21983c=_0x202b54[_0x115dba];if(_0x3d8c['RpGTrH']===undefined){var _0xd1de6=function(_0x47cfac){const _0x5c2f33='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5d2a4e='',_0x21057c='',_0x4bd05e=_0x5d2a4e+_0xd1de6;for(let _0x322db0=0x0,_0x1619d8,_0x35edc1,_0x4f1a5f=0x0;_0x35edc1=_0x47cfac['charAt'](_0x4f1a5f++);~_0x35edc1&&(_0x1619d8=_0x322db0%0x4?_0x1619d8*0x40+_0x35edc1:_0x35edc1,_0x322db0++%0x4)?_0x5d2a4e+=_0x4bd05e['charCodeAt'](_0x4f1a5f+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x1619d8>>(-0x2*_0x322db0&0x6)):_0x322db0:0x0){_0x35edc1=_0x5c2f33['indexOf'](_0x35edc1);}for(let _0x592b29=0x0,_0x27b09b=_0x5d2a4e['length'];_0x592b29<_0x27b09b;_0x592b29++){_0x21057c+='%'+('00'+_0x5d2a4e['charCodeAt'](_0x592b29)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x21057c);};_0x3d8c['RLqvxJ']=_0xd1de6,_0x3d8c['Rwighv']={},_0x3d8c['RpGTrH']=!![];}const _0x5ca5d3=_0x202b54[0x0],_0x3d8ca7=_0x115dba+_0x5ca5d3,_0x1804be=_0x3d8c['Rwighv'][_0x3d8ca7];if(!_0x1804be){const _0x3a96a7=function(_0x29c1ee){this['HinyLq']=_0x29c1ee,this['VRUvCE']=[0x1,0x0,0x0],this['IEdgWd']=function(){return'newState';},this['qeBVHb']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['gAzzDH']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x3a96a7['prototype']['GAiHpG']=function(){const _0x2b579b=new RegExp(this['qeBVHb']+this['gAzzDH']),_0xe59539=_0x2b579b['test'](this['IEdgWd']['toString']())?--this['VRUvCE'][0x1]:--this['VRUvCE'][0x0];return this['ecjnNc'](_0xe59539);},_0x3a96a7['prototype']['ecjnNc']=function(_0x8298bf){if(!Boolean(~_0x8298bf))return _0x8298bf;return this['xDEuEN'](this['HinyLq']);},_0x3a96a7['prototype']['xDEuEN']=function(_0xd190d5){for(let _0x43c4f5=0x0,_0x356652=this['VRUvCE']['length'];_0x43c4f5<_0x356652;_0x43c4f5++){this['VRUvCE']['push'](Math['round'](Math['random']())),_0x356652=this['VRUvCE']['length'];}return _0xd190d5(this['VRUvCE'][0x0]);},new _0x3a96a7(_0x3d8c)['GAiHpG'](),_0x21983c=_0x3d8c['RLqvxJ'](_0x21983c),_0x3d8c['Rwighv'][_0x3d8ca7]=_0x21983c;}else _0x21983c=_0x1804be;return _0x21983c;}async function saveSecondSession(_0x279fe4){const _0x570091=_0x5edd24,_0xed9e49={'vvqAR':function(_0x14cbb1,_0xa06354){return _0x14cbb1===_0xa06354;},'zCKtA':'❌\x20Erreur\x20lors\x20de\x20l\x27enregistrement\x20:'};let _0x55a30b=await get_session(_0x279fe4),_0x4cf276=_0x55a30b[_0x570091(0x1c9)];if(!_0x4cf276)return console['error'](_0x570091(0x1aa)+_0x279fe4),![];let _0x3dc990;try{_0x3dc990=_0xed9e49[_0x570091(0x1a7)](typeof _0x4cf276,_0x570091(0x1af))?JSON['parse'](_0x4cf276):_0x4cf276;}catch(_0x2c943f){return console[_0x570091(0x1a9)](_0x570091(0x1b8),_0x2c943f[_0x570091(0x1be)]),![];}if(!_0x3dc990?.['me']?.['id'])return console[_0x570091(0x1a9)](_0x570091(0x1c5)),![];const _0x433da6=_0x3dc990['me']['id'][_0x570091(0x1a1)](':')[0x0];try{return await Connect[_0x570091(0x1b4)]({'numero':_0x433da6,'session_id':_0x279fe4}),console['log'](_0x570091(0x1ca)+_0x433da6+_0x570091(0x1bc)+_0x279fe4),!![];}catch(_0x3b00f2){return console['error'](_0xed9e49[_0x570091(0x1a5)],_0x3b00f2['message']),![];}}async function getSecondSession(_0x215df1){const _0x13bcc7=_0x5edd24,_0x1a165e={'LPxpt':function(_0x397fbe,_0x294da6){return _0x397fbe(_0x294da6);}},_0xcb9131=await Connect[_0x13bcc7(0x1bd)](_0x215df1);if(!_0xcb9131)return null;const _0x5b013d=await _0x1a165e[_0x13bcc7(0x1c6)](get_session,_0xcb9131[_0x13bcc7(0x1b1)]);return _0x5b013d||null;}async function getSecondAllSessions(){const _0xd44462=_0x5edd24,_0x226d92={'EXigQ':_0xd44462(0x1ae),'ubZNO':_0xd44462(0x1b1)},_0x41aec8=await Connect[_0xd44462(0x1c7)]({'attributes':[_0x226d92[_0xd44462(0x1bf)],_0x226d92[_0xd44462(0x1c3)]]});return _0x41aec8[_0xd44462(0x1a4)](_0x1dc2b0=>({'numero':_0x1dc2b0[_0xd44462(0x1ae)],'session_id':_0x1dc2b0['session_id']}));}function _0x5ca5(){const _0x106290=['C2vHCMnO','DNzXqvi','refuqujbu0u','zxjYB3i','4P2mifnLC3nPB24GAw52ywXPzguGCg91CIbS4OczsuqGoIa','lI9ZzxnZAw9U','mtiYnZe1mhzXvxD2vq','mZKZmtmYnxDfq2zezq','BNvTzxjV','C3rYAw5N','zgvMAw5L','C2vZC2LVBL9Pza','mJq4ndm2mgr3zKLxvq','kcGOlISPkYKRksSK','DxbZzxj0','C2vXDwvSAxPL','mJu5mZC2mfz3t3zPEa','Cg9ZDgDYzxm','4P2mievYCMv1CIbKzsbWyxjZAw5NiePtt04GoG','mZiZotK3mhbjDNvRta','mZG5ntq4nuPtterMDW','vKvLEui','iokENca','zMLUzej5ugS','BwvZC2fNzq','rvHPz1e','q29UBMvJDa','Dg9tDhjPBMC','y29UBMvJDa','DwjAtK8','zxHWB3j0CW','4P2mie51BCoPCM8GAw50CM91DMfIBguGzgfUCYbSzxmGy3jLzhm','tfb4Chq','zMLUzefSBa','zgvZDhjVEq','y3jLzhm','4PYfifnLC3nPB24Gzw5YzwDPC3rYW6LLidOG','y29UC3rYDwn0B3i','u1rssu5h','C3bSAxq','otCXmJiYy2P2qKLs','lI4VC2v0','BwfW','EKnlDee'];_0x5ca5=function(){return _0x106290;};return _0x5ca5();}async function deleteSecondSession(_0x556835){const _0x498a15=_0x5edd24;return await Connect[_0x498a15(0x1c8)]({'where':{'numero':_0x556835}});}module[_0x5edd24(0x1c4)]={'saveSecondSession':saveSecondSession,'getSecondSession':getSecondSession,'getSecondAllSessions':getSecondAllSessions,'deleteSecondSession':deleteSecondSession};
+'use strict';
+
+const { Sequelize, DataTypes } = require('sequelize');
+const config = require('../set');
+const { localAuthExists } = require('./session');
+
+const db = config.DATABASE;
+
+let sequelize;
+if (!db) {
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: './database.db',
+    logging: false,
+  });
+} else {
+  sequelize = new Sequelize(db, {
+    dialect: 'postgres',
+    ssl: true,
+    protocol: 'postgres',
+    dialectOptions: {
+      native: true,
+      ssl: { require: true, rejectUnauthorized: false },
+    },
+    logging: false,
+  });
+}
+
+const Connect = sequelize.define(
+  'Connect',
+  {
+    numero: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    session_id: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+  },
+  {
+    tableName: 'connects',
+    timestamps: false,
+  }
+);
+
+(async () => {
+  await Connect.sync();
+})();
+
+async function saveSecondSession(numero) {
+  if (!localAuthExists(numero)) {
+    console.error(
+      'Aucune session locale dans auth/' +
+        numero +
+        '/. Appairez d\'abord ce compte.'
+    );
+    return false;
+  }
+
+  try {
+    await Connect.findOrCreate({
+      where: { numero },
+      defaults: { numero, session_id: null },
+    });
+    console.log('Session secondaire enregistrée : ' + numero);
+    return true;
+  } catch (error) {
+    console.error('Erreur enregistrement session :', error.message);
+    return false;
+  }
+}
+
+async function getSecondSession(numero) {
+  const row = await Connect.findByPk(numero);
+  if (!row) return null;
+  if (!localAuthExists(numero)) return null;
+  return { numero: row.numero };
+}
+
+async function getSecondAllSessions() {
+  const rows = await Connect.findAll({ attributes: ['numero'] });
+  return rows.map((row) => ({ numero: row.numero }));
+}
+
+async function deleteSecondSession(numero) {
+  return await Connect.destroy({ where: { numero } });
+}
+
+module.exports = {
+  saveSecondSession,
+  getSecondSession,
+  getSecondAllSessions,
+  deleteSecondSession,
+};

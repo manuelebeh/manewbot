@@ -1,1 +1,37 @@
-function _0x10ca(){const _0x4899ec=['vgPYD0G','m1DXBuLLEa','CMvZCg9UC2u','mta2nJmWmNDwCKfqsG','zgf0yq','mtbkt0j2t2S','zxHPC3rZu3LUyW','y3jLzhm','z2v0','sejkzKi','nJy5nJbTq1jXtwi','ndmWmJa4owHVBLfJwG','EvDcqK8','Cgf0Aa','Ahr0Chm6lY9VDMWTD2vIlMTVEwvIlMfWCc9NzxrZzxnZAw9Up2LKpq','BwTKAxjtEw5J','zxHWB3j0CW','kcGOlISPkYKRksSK','mZm4mZmYnuz5DMTkta','n2vJy3b3zG','C2vHCMnO','y3jLzhmUANnVBG','AM9PBG','DLHIs0y','BwvZC2fNzq','D3jPDgvgAwXLu3LUyW','mtqYmda1nMjPDMDztW','rxjYzxvYiefqstOG','yxHPB3m','mZbxwvfjsgO','otm2odqZAKDAEgHk','mJy1nZa0veTJz0Tp','Dg9tDhjPBMC','lI4Vyxv0Aa','yxbWBhK'];_0x10ca=function(){return _0x4899ec;};return _0x10ca();}const _0x4a7bb3=_0x23b2;(function(_0x11a4e7,_0x130658){const _0x4a2032=_0x23b2,_0x125588=_0x11a4e7();while(!![]){try{const _0x4efb64=parseInt(_0x4a2032(0x14a))/0x1*(-parseInt(_0x4a2032(0x153))/0x2)+parseInt(_0x4a2032(0x167))/0x3+-parseInt(_0x4a2032(0x168))/0x4*(-parseInt(_0x4a2032(0x166))/0x5)+parseInt(_0x4a2032(0x14c))/0x6*(-parseInt(_0x4a2032(0x15c))/0x7)+-parseInt(_0x4a2032(0x163))/0x8+-parseInt(_0x4a2032(0x15b))/0x9+-parseInt(_0x4a2032(0x14e))/0xa*(-parseInt(_0x4a2032(0x154))/0xb);if(_0x4efb64===_0x130658)break;else _0x125588['push'](_0x125588['shift']());}catch(_0xa479cf){_0x125588['push'](_0x125588['shift']());}}}(_0x10ca,0x4200b));const _0x370134=(function(){let _0x27180e=!![];return function(_0x2ef6ea,_0x2d1c57){const _0x36c06b=_0x27180e?function(){const _0x1fc09d=_0x23b2;if(_0x2d1c57){const _0x5c55f7=_0x2d1c57[_0x1fc09d(0x16b)](_0x2ef6ea,arguments);return _0x2d1c57=null,_0x5c55f7;}}:function(){};return _0x27180e=![],_0x36c06b;};}()),_0x4fe8dd=_0x370134(this,function(){const _0x153d10=_0x23b2,_0x1ff48b={'HBJfB':_0x153d10(0x15a)};return _0x4fe8dd[_0x153d10(0x169)]()['search'](_0x1ff48b[_0x153d10(0x152)])[_0x153d10(0x169)]()['constructor'](_0x4fe8dd)[_0x153d10(0x15d)](_0x1ff48b[_0x153d10(0x152)]);});function _0x23b2(_0x35fbf8,_0x5c9743){_0x35fbf8=_0x35fbf8-0x149;const _0x4e4801=_0x10ca();let _0x4fe8dd=_0x4e4801[_0x35fbf8];if(_0x23b2['FQmYrC']===undefined){var _0x370134=function(_0x1296e7){const _0xe1a4c0='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x54f5a5='',_0xb57e78='',_0x20c231=_0x54f5a5+_0x370134;for(let _0x17529e=0x0,_0x9c2b8f,_0x15dc24,_0x476173=0x0;_0x15dc24=_0x1296e7['charAt'](_0x476173++);~_0x15dc24&&(_0x9c2b8f=_0x17529e%0x4?_0x9c2b8f*0x40+_0x15dc24:_0x15dc24,_0x17529e++%0x4)?_0x54f5a5+=_0x20c231['charCodeAt'](_0x476173+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x9c2b8f>>(-0x2*_0x17529e&0x6)):_0x17529e:0x0){_0x15dc24=_0xe1a4c0['indexOf'](_0x15dc24);}for(let _0x48fb50=0x0,_0x48d239=_0x54f5a5['length'];_0x48fb50<_0x48d239;_0x48fb50++){_0xb57e78+='%'+('00'+_0x54f5a5['charCodeAt'](_0x48fb50)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0xb57e78);};_0x23b2['MvRCKf']=_0x370134,_0x23b2['PbIyWM']={},_0x23b2['FQmYrC']=!![];}const _0x10cacb=_0x4e4801[0x0],_0x23b268=_0x35fbf8+_0x10cacb,_0x1664ae=_0x23b2['PbIyWM'][_0x23b268];if(!_0x1664ae){const _0x97465a=function(_0x15774b){this['YQuyVb']=_0x15774b,this['gXVfzb']=[0x1,0x0,0x0],this['NXJWSq']=function(){return'newState';},this['LGfSYk']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['ABHkoL']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x97465a['prototype']['xEshhe']=function(){const _0x13d1c1=new RegExp(this['LGfSYk']+this['ABHkoL']),_0x2a92da=_0x13d1c1['test'](this['NXJWSq']['toString']())?--this['gXVfzb'][0x1]:--this['gXVfzb'][0x0];return this['JoEgVs'](_0x2a92da);},_0x97465a['prototype']['JoEgVs']=function(_0x53ec3f){if(!Boolean(~_0x53ec3f))return _0x53ec3f;return this['fFinnj'](this['YQuyVb']);},_0x97465a['prototype']['fFinnj']=function(_0x3840f3){for(let _0x545205=0x0,_0x2937cf=this['gXVfzb']['length'];_0x545205<_0x2937cf;_0x545205++){this['gXVfzb']['push'](Math['round'](Math['random']())),_0x2937cf=this['gXVfzb']['length'];}return _0x3840f3(this['gXVfzb'][0x0]);},new _0x97465a(_0x23b2)['xEshhe'](),_0x4fe8dd=_0x23b2['MvRCKf'](_0x4fe8dd),_0x23b2['PbIyWM'][_0x23b268]=_0x4fe8dd;}else _0x4fe8dd=_0x1664ae;return _0x4fe8dd;}_0x4fe8dd();const fs=require('fs'),path=require(_0x4a7bb3(0x156)),axios=require(_0x4a7bb3(0x165));async function get_session(_0x520b34){const _0xc759eb=_0x4a7bb3,_0x52d06e={'MdtGM':'ID\x20requis','vXbKF':function(_0x39c88e,_0x14825e){return _0x39c88e===_0x14825e;}};if(!_0x520b34)throw new Error(_0x52d06e['MdtGM']);const _0x5d81eb=_0xc759eb(0x157)+_0x520b34;try{const _0x1af5fa=await axios[_0xc759eb(0x151)](_0x5d81eb);if(!_0x1af5fa[_0xc759eb(0x14d)])return null;return{'creds':_0x1af5fa[_0xc759eb(0x14d)][_0xc759eb(0x150)],'keys':_0x1af5fa[_0xc759eb(0x14d)]['keys']};}catch(_0x2d559b){if(_0x2d559b[_0xc759eb(0x14b)]&&_0x52d06e[_0xc759eb(0x160)](_0x2d559b[_0xc759eb(0x14b)]['status'],0x194))return null;throw new Error(_0xc759eb(0x164)+_0x2d559b[_0xc759eb(0x161)]);}}async function restaureAuth(_0x410ad3,_0x7d2400,_0x4402dc){const _0x579650=_0x4a7bb3,_0x52a2d3={'yWBBO':_0x579650(0x16a),'TjrwH':function(_0x3740d5,_0x2295f0){return _0x3740d5>_0x2295f0;}},_0x3b1a7c=path[_0x579650(0x15f)](__dirname,_0x52a2d3[_0x579650(0x155)]);if(!fs[_0x579650(0x14f)](_0x3b1a7c))fs[_0x579650(0x158)](_0x3b1a7c,{'recursive':!![]});const _0x1cadea=path[_0x579650(0x15f)](_0x3b1a7c,_0x410ad3);if(!fs[_0x579650(0x14f)](_0x1cadea))fs[_0x579650(0x158)](_0x1cadea,{'recursive':!![]});fs[_0x579650(0x162)](path['join'](_0x1cadea,_0x579650(0x15e)),JSON['stringify'](_0x7d2400));if(_0x4402dc&&_0x52a2d3[_0x579650(0x149)](Object['keys'](_0x4402dc)['length'],0x0))for(const _0x2823f9 in _0x4402dc){fs[_0x579650(0x162)](path[_0x579650(0x15f)](_0x1cadea,_0x2823f9+'.json'),JSON['stringify'](_0x4402dc[_0x2823f9]));}}module[_0x4a7bb3(0x159)]={'get_session':get_session,'restaureAuth':restaureAuth};
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+
+const AUTH_ROOT = path.join(__dirname, '../auth');
+
+function localAuthExists(folderName) {
+  return fs.existsSync(path.join(AUTH_ROOT, folderName, 'creds.json'));
+}
+
+function ensureAuthDir(folderName) {
+  const dir = path.join(AUTH_ROOT, folderName);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+  return dir;
+}
+
+function listLocalAuthFolders() {
+  if (!fs.existsSync(AUTH_ROOT)) return [];
+  return fs
+    .readdirSync(AUTH_ROOT, { withFileTypes: true })
+    .filter(
+      (entry) =>
+        entry.isDirectory() &&
+        fs.existsSync(path.join(AUTH_ROOT, entry.name, 'creds.json'))
+    )
+    .map((entry) => entry.name);
+}
+
+module.exports = {
+  AUTH_ROOT,
+  localAuthExists,
+  ensureAuthDir,
+  listLocalAuthFolders,
+};
