@@ -8,7 +8,8 @@
     "start": "pm2 start bot.js --attach --name manewbot",
     "stop": "pm2 stop all",
     "bot": "node bot.js",
-    "test": "node --test test/*.test.js"
+    "test": "node --test test/*.test.js",
+    "check:secrets": "bash scripts/check-secrets-git.sh"
   },
   "keywords": [
     "Manewbot",
