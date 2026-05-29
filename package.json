@@ -7,7 +7,8 @@
   "scripts": {
     "start": "pm2 start bot.js --attach --name manewbot",
     "stop": "pm2 stop all",
-    "bot": "node bot.js"
+    "bot": "node bot.js",
+    "test": "node --test test/*.test.js"
   },
   "keywords": [
     "Manewbot",

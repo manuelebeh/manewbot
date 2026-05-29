@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const Warn = sequelize.define("Warn", {
   userId: {
     type: DataTypes.STRING,
@@ -50,10 +26,6 @@ const WarnConfig = sequelize.define("WarnConfig", {
   tableName: "warn_config",
   timestamps: false
 });
-(async () => {
-  await Warn.sync();
-  await WarnConfig.sync();
-})();
 async function delWarn(userId) {
   return await Warn.destroy({
     where: {
@@ -96,6 +68,8 @@ async function setWarn(userId) {
   return warnRow;
 }
 module.exports = {
+  Warn,
+  WarnConfig,
   delWarn: delWarn,
   setWarn: setWarn,
   getLimit: getLimit,

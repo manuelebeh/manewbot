@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const Antibot = sequelize.define("Antibot", {
   id: {
     type: DataTypes.STRING,
@@ -60,10 +36,6 @@ const AntibotWarnings = sequelize.define("AntibotWarnings", {
   tableName: "antibot_warnings",
   timestamps: false
 });
-(async () => {
-  await Antibot.sync();
-  await AntibotWarnings.sync();
-})();
 module.exports = {
   Antibot: Antibot,
   AntibotWarnings: AntibotWarnings

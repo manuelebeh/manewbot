@@ -1,5 +1,7 @@
 'use strict';
 
+require('../database/init');
+
 const { dl_save_media_ms, recup_msg } = require('./autres_fonctions');
 
 module.exports = {

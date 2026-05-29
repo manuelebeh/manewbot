@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const Mention = sequelize.define("Mention", {
   id: {
     type: DataTypes.INTEGER,
@@ -52,17 +28,6 @@ const Mention = sequelize.define("Mention", {
   tableName: "mention",
   timestamps: false
 });
-(async () => {
-  await Mention.sync();
-  const queryInterface = sequelize.getQueryInterface();
-  const tableDesc = await queryInterface.describeTable("mention");
-  if (!tableDesc.type) {
-    await queryInterface.addColumn("mention", "type", {
-      type: DataTypes.STRING,
-      defaultValue: "texte"
-    });
-  }
-})();
 async function setMention({
   url = "url",
   text = "text",
@@ -96,6 +61,7 @@ async function getMention() {
   });
 }
 module.exports = {
+  Mention,
   setMention: setMention,
   delMention: delMention,
   getMention: getMention

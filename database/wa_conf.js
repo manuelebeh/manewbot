@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const WA_CONF = sequelize.define("WA_CONF", {
   id: {
     type: DataTypes.STRING,
@@ -84,19 +60,6 @@ const WA_CONF2 = sequelize.define("WA_CONF2", {
   tableName: "wa_conf2",
   timestamps: false
 });
-(async () => {
-  await WA_CONF.sync();
-  await WA_CONF2.sync();
-  const legacyRows = await WA_CONF.findAll({
-    where: {
-      mention: "non"
-    }
-  });
-  for (const row of legacyRows) {
-    row.mention = "1";
-    await row.save();
-  }
-})();
 module.exports = {
   WA_CONF: WA_CONF,
   WA_CONF2: WA_CONF2

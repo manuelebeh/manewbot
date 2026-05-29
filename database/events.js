@@ -1,31 +1,7 @@
 const {
-  Sequelize,
   DataTypes
 } = require("sequelize");
-const config = require("../set");
-const db = config.DATABASE;
-let sequelize;
-if (!db) {
-  sequelize = new Sequelize({
-    dialect: "sqlite",
-    storage: "./database.db",
-    logging: false
-  });
-} else {
-  sequelize = new Sequelize(db, {
-    dialect: "postgres",
-    ssl: true,
-    protocol: "postgres",
-    dialectOptions: {
-      native: true,
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    },
-    logging: false
-  });
-}
+const sequelize = require("./sequelize");
 const GroupSettings = sequelize.define("GroupSettings", {
   id: {
     type: DataTypes.STRING,
@@ -76,10 +52,6 @@ const Events2 = sequelize.define("Events2", {
   tableName: "events2",
   timestamps: false
 });
-(async () => {
-  await GroupSettings.sync();
-  await Events2.sync();
-})();
 module.exports = {
   GroupSettings: GroupSettings,
   Events2: Events2
