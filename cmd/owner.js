@@ -12,6 +12,11 @@ const {
   Sudo
 } = require("../database/sudo");
 const config = require("../set");
+const {
+  resolveCommandReactEnabled,
+  getCommandReactEnvOverride,
+  formatFeatureState
+} = require("../lib/env-toggle");
 const axios = require("axios");
 const {
   Sticker,
@@ -445,7 +450,7 @@ registerCommand({
   if (!arg[0]) {
     const value = record && record.autoreact_msg === "oui" ? "activé" : "désactivé";
     return sock.sendMessage(chatJid, {
-      text: "Etat actuel de react_msg : " + value + "\nUsage : react_msg on/off"
+      text: "Etat actuel de react_msg : " + value + " (réaction aléatoire sur *tous* les messages)\nUsage : react_msg on/off\n\nRéaction à l'exécution des commandes : " + formatFeatureState(resolveCommandReactEnabled(config), getCommandReactEnvOverride(config)) + " — réglage .env COMMAND_REACT"
     }, {
       quoted: ms
     });
