@@ -1,4 +1,4 @@
-<h1 align="center">OVL-MD-V2</h1>
+<h1 align="center">Manewbot</h1>
 
 <p align="center">
     <img alt="OVL" src="https://files.catbox.moe/gxcb9p.jpg">
@@ -15,21 +15,21 @@
     <a href="https://github.com/WhiskeySockets/Baileys">
         <img src="https://img.shields.io/badge/Baileys-Web%20API-orange?style=flat-square" alt="Using Baileys Web API" />
     </a>
-    <a href="https://github.com/Ainz-devs/OVL-MD-V2/stargazers">
-        <img src="https://img.shields.io/github/stars/Ainz-devs/OVL-MD-V2?style=flat-square" alt="Stars" />
+    <a href="https://github.com/manuelebeh/Manewbot/stargazers">
+        <img src="https://img.shields.io/github/stars/manuelebeh/manewbot?style=flat-square" alt="Stars" />
     </a>
-    <a href="https://github.com/Ainz-devs/OVL-MD-V2/network/members">
-        <img src="https://img.shields.io/github/forks/Ainz-devs/OVL-MD-V2?style=flat-square" alt="Forks" />
+    <a href="https://github.com/manuelebeh/Manewbot/network/members">
+        <img src="https://img.shields.io/github/forks/manuelebeh/manewbot?style=flat-square" alt="Forks" />
     </a>
 </p>
 
 ---
 
 <details>
-  <summary>Déploiement de OVL-MD-V2</summary>
+  <summary>Déploiement de Manewbot</summary>
 
 ### Étape 1 : Fork du dépôt GitHub  
-[![Fork GitHub](https://img.shields.io/badge/Fork%20le%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ainz-devs/OVL-MD-V2/fork)
+[![Fork GitHub](https://img.shields.io/badge/Fork%20le%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/manuelebeh/manewbot/fork)
 
 ---
 
@@ -53,7 +53,7 @@ Au redémarrage suivant, le bot se reconnecte automatiquement sans QR.
 
 #### <img src="https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white" height="28" />
 - Créez un compte : [Lien Heroku](https://signup.heroku.com/)
-- Déploiement rapide : [Déployer sur Heroku](https://dashboard.heroku.com/new?template=https://github.com/Ainz-devs/OVL-MD-V2)
+- Déploiement rapide : [Déployer sur Heroku](https://dashboard.heroku.com/new?template=https://github.com/manuelebeh/manewbot)
 
 #### <img src="https://img.shields.io/badge/Render-12100E?style=for-the-badge&logo=render&logoColor=white" height="28" />
 - Créez un compte : [Lien Render](https://dashboard.render.com/register)
@@ -94,7 +94,7 @@ const crashResetDelay = 30000;
 
 function setupProject() {
   if (!existsSync('ovl')) {
-    const clone = spawnSync('git', ['clone', 'https://github.com/Ainz-devs/OVL-MD-V2', 'ovl'], { stdio: 'inherit' });
+    const clone = spawnSync('git', ['clone', 'https://github.com/manuelebeh/manewbot', 'ovl'], { stdio: 'inherit' });
     if (clone.status !== 0) process.exit(1);
   }
 
@@ -226,11 +226,11 @@ jobs:
 
 ```env
 PREFIXE=.
-NOM_OWNER=Ainz
-NUMERO_OWNER=226xxxxxxxx
+NOM_OWNER=Manewbie
+NUMERO_OWNER=228xxxxxxxx
 MODE=public
-STICKER_PACK_NAME=OVL-MD-V2
-STICKER_AUTHOR_NAME=Ainz
+STICKER_PACK_NAME=Manewbot
+STICKER_AUTHOR_NAME=Manewbie
 NOM_BOT=OVL-MD BOT V2
 ```
 

@@ -1,9 +1,9 @@
 {
-  "name": "OVL-MD-V2",
+  "name": "Manewbot",
   "description": "Bot WhatsApp Multi-Device basé sur Baileys",
-  "keywords": ["Ainz", "OVL-MD-V2", "Whatsapp", "Baileys", "Muti-device"],
+  "keywords": ["Manewbot", "Whatsapp", "Baileys", "Muti-device"],
   "logo": "https://files.catbox.moe/lojrxz.jpg",
-  "repository": "https://github.com/Ainz-devs/OVL-MD-V2",
+  "repository": "https://github.com/manuelebeh/manewbot",
   "success_url": "/",
   "stack": "container",
   "env": {
@@ -14,7 +14,7 @@
     },
     "NOM_OWNER": {
       "description": "Nom de l'Owner du bot",
-      "value": "Ainz",
+      "value": "Manuelebeh",
       "required": false
     },
     "NUMERO_OWNER": {
@@ -29,17 +29,17 @@
     },
     "NOM_BOT": {
       "description": "Nom du bot",
-      "value": "🤖 OVL-MD BOT V2",
+      "value": "Manewbot",
       "required": false
     },
     "STICKER_PACK_NAME": {
       "description": "Nom du pack de stickers",
-      "value": "ᴏᴠʟ-ᴍᴅ-ᴠ𝟸",
+      "value": "Manewbot",
       "required": false
     },
     "STICKER_AUTHOR_NAME": {
       "description": "Auteur du sticker",
-      "value": "ᴀɪɴᴢ🔅✨",
+      "value": "Manuelebeh",
       "required": false
     }
   },
