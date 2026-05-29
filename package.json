@@ -1,13 +1,13 @@
 {
   "name": "Manewbot",
   "version": "2.1.3",
-  "description": "Bot Whatsapp multi-appareil developpé par Ainz et mis à jour par Manuelebeh",
-  "main": "Ovl.js",
+  "description": "Bot Whatsapp multi-appareil — Manewbot par Manewbie",
+  "main": "bot.js",
   "type": "commonjs",
   "scripts": {
-    "start": "pm2 start Ovl.js --attach --name ovl",
+    "start": "pm2 start bot.js --attach --name manewbot",
     "stop": "pm2 stop all",
-    "Ovl": "node Ovl.js"
+    "bot": "node bot.js"
   },
   "keywords": [
     "Manewbot",

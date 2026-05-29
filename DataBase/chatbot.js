@@ -1,1 +1,56 @@
-function _0x2d8b(_0x59b0f0,_0x48e6f2){_0x59b0f0=_0x59b0f0-0x14d;const _0x546f19=_0x576b();let _0x26f2e7=_0x546f19[_0x59b0f0];if(_0x2d8b['QtezPV']===undefined){var _0x549894=function(_0x5e9c0f){const _0x21f57a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xadd9aa='',_0x774eb1='',_0x3010e7=_0xadd9aa+_0x549894;for(let _0x2c0ee2=0x0,_0x2ac3a2,_0x3dd358,_0x3de4ea=0x0;_0x3dd358=_0x5e9c0f['charAt'](_0x3de4ea++);~_0x3dd358&&(_0x2ac3a2=_0x2c0ee2%0x4?_0x2ac3a2*0x40+_0x3dd358:_0x3dd358,_0x2c0ee2++%0x4)?_0xadd9aa+=_0x3010e7['charCodeAt'](_0x3de4ea+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x2ac3a2>>(-0x2*_0x2c0ee2&0x6)):_0x2c0ee2:0x0){_0x3dd358=_0x21f57a['indexOf'](_0x3dd358);}for(let _0x1de4b7=0x0,_0x535caa=_0xadd9aa['length'];_0x1de4b7<_0x535caa;_0x1de4b7++){_0x774eb1+='%'+('00'+_0xadd9aa['charCodeAt'](_0x1de4b7)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x774eb1);};_0x2d8b['PMXwWf']=_0x549894,_0x2d8b['FsAGSP']={},_0x2d8b['QtezPV']=!![];}const _0x576bb0=_0x546f19[0x0],_0x2d8bbc=_0x59b0f0+_0x576bb0,_0x9eb99b=_0x2d8b['FsAGSP'][_0x2d8bbc];if(!_0x9eb99b){const _0x5039a8=function(_0x588f45){this['ETnTxe']=_0x588f45,this['BsmoKW']=[0x1,0x0,0x0],this['KDkKon']=function(){return'newState';},this['TrrEqy']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['RqpUYc']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x5039a8['prototype']['jSGSkq']=function(){const _0x38d08b=new RegExp(this['TrrEqy']+this['RqpUYc']),_0x16d0aa=_0x38d08b['test'](this['KDkKon']['toString']())?--this['BsmoKW'][0x1]:--this['BsmoKW'][0x0];return this['aLLrFs'](_0x16d0aa);},_0x5039a8['prototype']['aLLrFs']=function(_0x1cc23d){if(!Boolean(~_0x1cc23d))return _0x1cc23d;return this['kxwigq'](this['ETnTxe']);},_0x5039a8['prototype']['kxwigq']=function(_0x447a28){for(let _0x566779=0x0,_0x311232=this['BsmoKW']['length'];_0x566779<_0x311232;_0x566779++){this['BsmoKW']['push'](Math['round'](Math['random']())),_0x311232=this['BsmoKW']['length'];}return _0x447a28(this['BsmoKW'][0x0]);},new _0x5039a8(_0x2d8b)['jSGSkq'](),_0x26f2e7=_0x2d8b['PMXwWf'](_0x26f2e7),_0x2d8b['FsAGSP'][_0x2d8bbc]=_0x26f2e7;}else _0x26f2e7=_0x9eb99b;return _0x26f2e7;}const _0x9e2224=_0x2d8b;(function(_0x203926,_0x461d94){const _0x11998c=_0x2d8b,_0x3f02b3=_0x203926();while(!![]){try{const _0x1a391d=parseInt(_0x11998c(0x15f))/0x1+parseInt(_0x11998c(0x163))/0x2*(-parseInt(_0x11998c(0x160))/0x3)+parseInt(_0x11998c(0x167))/0x4*(-parseInt(_0x11998c(0x156))/0x5)+-parseInt(_0x11998c(0x165))/0x6*(parseInt(_0x11998c(0x168))/0x7)+-parseInt(_0x11998c(0x166))/0x8*(-parseInt(_0x11998c(0x151))/0x9)+-parseInt(_0x11998c(0x15a))/0xa*(-parseInt(_0x11998c(0x157))/0xb)+-parseInt(_0x11998c(0x15b))/0xc*(-parseInt(_0x11998c(0x154))/0xd);if(_0x1a391d===_0x461d94)break;else _0x3f02b3['push'](_0x3f02b3['shift']());}catch(_0x3c6209){_0x3f02b3['push'](_0x3f02b3['shift']());}}}(_0x576b,0x8ef77));const _0x549894=(function(){let _0x112a55=!![];return function(_0x467a45,_0x535fb4){const _0x23e318=_0x112a55?function(){const _0xb4f850=_0x2d8b;if(_0x535fb4){const _0x2c5e07=_0x535fb4[_0xb4f850(0x164)](_0x467a45,arguments);return _0x535fb4=null,_0x2c5e07;}}:function(){};return _0x112a55=![],_0x23e318;};}()),_0x26f2e7=_0x549894(this,function(){const _0x1f29b3=_0x2d8b,_0x48a7a4={'XOpud':_0x1f29b3(0x169)};return _0x26f2e7[_0x1f29b3(0x162)]()[_0x1f29b3(0x15e)](_0x48a7a4['XOpud'])['toString']()[_0x1f29b3(0x14f)](_0x26f2e7)[_0x1f29b3(0x15e)](_0x48a7a4['XOpud']);});_0x26f2e7();const {Sequelize,DataTypes}=require(_0x9e2224(0x158)),config=require(_0x9e2224(0x161)),db=config['DATABASE'];let sequelize;!db?sequelize=new Sequelize({'dialect':_0x9e2224(0x14d),'storage':_0x9e2224(0x14e),'logging':![]}):sequelize=new Sequelize(db,{'dialect':'postgres','ssl':!![],'protocol':_0x9e2224(0x15c),'dialectOptions':{'native':!![],'ssl':{'require':!![],'rejectUnauthorized':![]}},'logging':![]});const ChatbotConf=sequelize['define']('ChatbotConf',{'id':{'type':DataTypes['STRING'],'primaryKey':!![]},'chatbot_pm':{'type':DataTypes[_0x9e2224(0x155)](_0x9e2224(0x152),_0x9e2224(0x15d)),'defaultValue':'non'},'chatbot_gc':{'type':DataTypes['ENUM'](_0x9e2224(0x152),'non'),'defaultValue':_0x9e2224(0x15d)},'enabled_ids':{'type':DataTypes[_0x9e2224(0x159)],'allowNull':![],'defaultValue':'[]'}},{'tableName':'chatbot_config','timestamps':![]});((async()=>{const _0x30bf6a=_0x9e2224;await ChatbotConf[_0x30bf6a(0x150)]();})()),module[_0x9e2224(0x153)]={'ChatbotConf':ChatbotConf};function _0x576b(){const _0x5621ac=['lI9KyxrHyMfZzs5KyG','y29UC3rYDwn0B3i','C3LUyW','mtHfAvbKzMy','B3vP','zxHWB3j0CW','mteXnZe2ndfhCw5uvMC','ru5vtq','mtuXnZu1ENrhuvDc','mtG0otG3yMzptLvw','C2vXDwvSAxPL','vevyva','ntKWzezqve5O','mJrLy2jzz1a','Cg9ZDgDYzxm','BM9U','C2vHCMnO','nZm3mtjvy1bRvMC','mZaZuLfrve9y','lI4VC2v0','Dg9tDhjPBMC','mtq5odzVDhDvBeu','yxbWBhK','mtG2vKn1zLf6','mtyYntq0EvLXr0Lq','mte2zwP6uwfW','mtm2mdK0EuD3Ag9R','kcGOlISPkYKRksSK','C3fSAxrL'];_0x576b=function(){return _0x5621ac;};return _0x576b();}
+const {
+  Sequelize,
+  DataTypes
+} = require("sequelize");
+const config = require("../set");
+const db = config.DATABASE;
+let sequelize;
+if (!db) {
+  sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "./database.db",
+    logging: false
+  });
+} else {
+  sequelize = new Sequelize(db, {
+    dialect: "postgres",
+    ssl: true,
+    protocol: "postgres",
+    dialectOptions: {
+      native: true,
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false
+  });
+}
+const ChatbotConf = sequelize.define("ChatbotConf", {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
+  chatbot_pm: {
+    type: DataTypes.ENUM("oui", "non"),
+    defaultValue: "non"
+  },
+  chatbot_gc: {
+    type: DataTypes.ENUM("oui", "non"),
+    defaultValue: "non"
+  },
+  enabled_ids: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+    defaultValue: "[]"
+  }
+}, {
+  tableName: "chatbot_config",
+  timestamps: false
+});
+(async () => {
+  await ChatbotConf.sync();
+})();
+module.exports = {
+  ChatbotConf: ChatbotConf
+};

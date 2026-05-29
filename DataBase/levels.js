@@ -1,1 +1,413 @@
-const _0x4f776f=_0x1cdf;(function(_0x7108c2,_0x8fc8ec){const _0x1f53b7=_0x1cdf,_0x4a33d5=_0x7108c2();while(!![]){try{const _0x8905b9=parseInt(_0x1f53b7(0x19f))/0x1*(parseInt(_0x1f53b7(0x1ba))/0x2)+parseInt(_0x1f53b7(0x1a9))/0x3*(-parseInt(_0x1f53b7(0x195))/0x4)+-parseInt(_0x1f53b7(0x193))/0x5+-parseInt(_0x1f53b7(0x186))/0x6*(parseInt(_0x1f53b7(0x1d4))/0x7)+parseInt(_0x1f53b7(0x1a8))/0x8*(parseInt(_0x1f53b7(0x1da))/0x9)+-parseInt(_0x1f53b7(0x1a7))/0xa+parseInt(_0x1f53b7(0x1b8))/0xb*(parseInt(_0x1f53b7(0x1d9))/0xc);if(_0x8905b9===_0x8fc8ec)break;else _0x4a33d5['push'](_0x4a33d5['shift']());}catch(_0x59fda6){_0x4a33d5['push'](_0x4a33d5['shift']());}}}(_0x5ed0,0xea068));const _0x10414f=(function(){let _0x11fd78=!![];return function(_0x1ae5c2,_0x2730fb){const _0x56241a=_0x11fd78?function(){const _0x1d68da=_0x1cdf;if(_0x2730fb){const _0x282f91=_0x2730fb[_0x1d68da(0x1e3)](_0x1ae5c2,arguments);return _0x2730fb=null,_0x282f91;}}:function(){};return _0x11fd78=![],_0x56241a;};}()),_0x4dcc13=_0x10414f(this,function(){const _0x529811=_0x1cdf,_0x3cad0f={'InMbw':_0x529811(0x191)};return _0x4dcc13['toString']()[_0x529811(0x199)](_0x3cad0f[_0x529811(0x1ce)])['toString']()[_0x529811(0x1c7)](_0x4dcc13)[_0x529811(0x199)](_0x3cad0f[_0x529811(0x1ce)]);});function _0x1cdf(_0x24569b,_0x57a222){_0x24569b=_0x24569b-0x186;const _0x2c6ba0=_0x5ed0();let _0x4dcc13=_0x2c6ba0[_0x24569b];if(_0x1cdf['QFZZwl']===undefined){var _0x10414f=function(_0x217a4c){const _0x21bcff='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x80d98c='',_0x53fe31='',_0x5b3eec=_0x80d98c+_0x10414f;for(let _0x53ec72=0x0,_0x14a829,_0x22f506,_0x5936ec=0x0;_0x22f506=_0x217a4c['charAt'](_0x5936ec++);~_0x22f506&&(_0x14a829=_0x53ec72%0x4?_0x14a829*0x40+_0x22f506:_0x22f506,_0x53ec72++%0x4)?_0x80d98c+=_0x5b3eec['charCodeAt'](_0x5936ec+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x14a829>>(-0x2*_0x53ec72&0x6)):_0x53ec72:0x0){_0x22f506=_0x21bcff['indexOf'](_0x22f506);}for(let _0x3fd849=0x0,_0x36040a=_0x80d98c['length'];_0x3fd849<_0x36040a;_0x3fd849++){_0x53fe31+='%'+('00'+_0x80d98c['charCodeAt'](_0x3fd849)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x53fe31);};_0x1cdf['HIaEla']=_0x10414f,_0x1cdf['vpBwmp']={},_0x1cdf['QFZZwl']=!![];}const _0x5ed052=_0x2c6ba0[0x0],_0x1cdfba=_0x24569b+_0x5ed052,_0x1dcf4a=_0x1cdf['vpBwmp'][_0x1cdfba];if(!_0x1dcf4a){const _0x2187e6=function(_0x331367){this['mGgwOs']=_0x331367,this['PQsSZp']=[0x1,0x0,0x0],this['tvxkHI']=function(){return'newState';},this['wRbWFt']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['VgsJAB']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x2187e6['prototype']['xfyHfF']=function(){const _0x3cba49=new RegExp(this['wRbWFt']+this['VgsJAB']),_0x317e78=_0x3cba49['test'](this['tvxkHI']['toString']())?--this['PQsSZp'][0x1]:--this['PQsSZp'][0x0];return this['BChcua'](_0x317e78);},_0x2187e6['prototype']['BChcua']=function(_0x2edbae){if(!Boolean(~_0x2edbae))return _0x2edbae;return this['rEsFDE'](this['mGgwOs']);},_0x2187e6['prototype']['rEsFDE']=function(_0x4ef503){for(let _0x453cad=0x0,_0x5aa184=this['PQsSZp']['length'];_0x453cad<_0x5aa184;_0x453cad++){this['PQsSZp']['push'](Math['round'](Math['random']())),_0x5aa184=this['PQsSZp']['length'];}return _0x4ef503(this['PQsSZp'][0x0]);},new _0x2187e6(_0x1cdf)['xfyHfF'](),_0x4dcc13=_0x1cdf['HIaEla'](_0x4dcc13),_0x1cdf['vpBwmp'][_0x1cdfba]=_0x4dcc13;}else _0x4dcc13=_0x1dcf4a;return _0x4dcc13;}function _0x5ed0(){const _0x5dfb27=['W4LSAxrL','BgvUz3rO','uhjPBMnL','kcGOlISPkYKRksSK','u291DMvYywLUigrLCYbdAwv1Ea','mJa2otyXnuHYDeLOuG','txL0AgLXDwu','ntG3mLfYwurkAW','u2vPz25LDxiGq29TBwfUzgfUDa','qxzHDgfY','qxzHDgfYiev0zxjUzwW','C2vHCMnO','qxjJAgLKDwm','r2fYzgLLBIbtDxbYW6PTzq','smoPCM9ZieLTBw9YDgvS','zxHWB3j0CW','rmoPzMvUC2v1CG','mZa3mdf5y3PXveu','r3jHBMqGtwhdRNrYzq','r3jHBMqGu2vPz25LDxi','tmoPz2vUzgu','q2HHBxbPB24','r3jHBMqGr2fYzgLLBG','vMLZAw9UBMfPCMuGvwX0Aw1L','vMLYDhvVC2u','ntCWodC5mhvMDxLWyG','mtzUC2jSCK0','mJmXowzHy1zfyW','twhdRNrYzsbfEmoPy3v0zxvY','vMLJB210zq','rxHWBg9YyxrLDxi','rgLLDsbtDxbYW6PTzq','r3jHBMqGrg9TAw5HBNq','r3vLCNjPzxi','Bgv2zwW','uLvNC04','r3jHBMqGqwXJAgLTAxn0zq','q2HLDMfSAwvY','u2vUDgLUzwXSzq','q29UCxxdQxjHBNq','tmoPz2vUzguGrxrLCM5LBgXL','tmoPz2vUzguGu3vWCSoQBwu','mtq0nJuYnJr5vfz6ruq','uhjVDgvJDgv1CG','nJjZuevxswy','u2fNzq','W4LYDwrPDa','twfYCxvPCW','r2fYzgLLBG','twhdRNrYzsbuywn0AwnPzw4','W4LJBgfPCMv1CG','qxjJAgL0zwn0zq','t3jHy2XL','qxjJAgL0zwn0zsbtDxbYW6PTzq','uhjVzgLNzq','qMfYB24','tmoPz2LVBM5HAxjL','y29UC3rYDwn0B3i','rw1WzxjLDxi','vMLZAw9UBMfPCMu','q2HHBxbPB24GW4L0zxjUzwW','twhdRNrYzsbbCMnOAxrLy3rL','t3jHy2XLifvSDgLTzq','u2vPz25LDxiGzguGr3vLCNjL','sw5nyNC','vSoPDmoPCMfU','rxJdQwn1Dgv1CG','u291DMvYywLUifn1ChldQM1L','q2HHBxbPB24GvwX0Aw1L','uM9PigrLCYbbCMnHBMvZ','mtiWmtq5ndDlrMfXD2O','tM92AwnL','qwXJAgLTAxn0zq','qxzHDgfYifn1ChldQM1L','u291DMvYywLU','mJreB3vhufe','ntq1nZq5mMLJwNPKza','W4LXDwLSAwjYAxn0zq','uSoPz25HBNq','smoPCM9ZierPDMLU','smoPCML0AwvYierPDMLU','sgfYBw9UAxnHDgv1CG','r3jHBMqGt3jHy2XL','zxHWuMvXDwLYzwq','u2vPz25LDxiGzgvZifnLy3jLDhm','yxbWBhK','nMrWzMjpBa','rg9TAw5HBNq','vgL0yw4','vML6Axi','u2vPz25LDxiGzgvZimojDg9PBgvZ','twhdRNrYzsbdB25XDCoPCMfUDa','uSoPz2vUDcddIxrLCM5LBa','vgfJDgLJAwvU'];_0x5ed0=function(){return _0x5dfb27;};return _0x5ed0();}_0x4dcc13();const levels=[{'level':0x1,'name':_0x4f776f(0x1d5),'expRequired':0x64},{'level':0x2,'name':'Apprenti','expRequired':0x12c},{'level':0x3,'name':'Élève','expRequired':0x258},{'level':0x4,'name':'Aspirant','expRequired':0x3e8},{'level':0x5,'name':'Aventurier','expRequired':0x5dc},{'level':0x6,'name':_0x4f776f(0x1ac),'expRequired':0x834},{'level':0x7,'name':_0x4f776f(0x1af),'expRequired':0xaf0},{'level':0x8,'name':_0x4f776f(0x1cf),'expRequired':0xe10},{'level':0x9,'name':_0x4f776f(0x1a3),'expRequired':0x1194},{'level':0xa,'name':'Héros','expRequired':0x157c},{'level':0xb,'name':_0x4f776f(0x18e),'expRequired':0x19c8},{'level':0xc,'name':'Commandant','expRequired':0x1e78},{'level':0xd,'name':_0x4f776f(0x1b3),'expRequired':0x238c},{'level':0xe,'name':_0x4f776f(0x1c5),'expRequired':0x2904},{'level':0xf,'name':_0x4f776f(0x1ab),'expRequired':0x2ee0},{'level':0x10,'name':'Comte','expRequired':0x3520},{'level':0x11,'name':_0x4f776f(0x1bd),'expRequired':0x3bc4},{'level':0x12,'name':'Duc','expRequired':0x42cc},{'level':0x13,'name':_0x4f776f(0x19a),'expRequired':0x4a38},{'level':0x14,'name':_0x4f776f(0x190),'expRequired':0x5208},{'level':0x15,'name':_0x4f776f(0x1d8),'expRequired':0x5a3c},{'level':0x16,'name':'Maître','expRequired':0x62d4},{'level':0x17,'name':_0x4f776f(0x1a0),'expRequired':0x6bd0},{'level':0x18,'name':_0x4f776f(0x1a2),'expRequired':0x7530},{'level':0x19,'name':_0x4f776f(0x194),'expRequired':0x7ef4},{'level':0x1a,'name':_0x4f776f(0x1b4),'expRequired':0x891c},{'level':0x1b,'name':_0x4f776f(0x1ca),'expRequired':0x93a8},{'level':0x1c,'name':_0x4f776f(0x188),'expRequired':0x9e98},{'level':0x1d,'name':_0x4f776f(0x1be),'expRequired':0xa9ec},{'level':0x1e,'name':_0x4f776f(0x1c9),'expRequired':0xb5a4},{'level':0x1f,'name':_0x4f776f(0x1bb),'expRequired':0xc1c0},{'level':0x20,'name':_0x4f776f(0x1c2),'expRequired':0xce40},{'level':0x21,'name':'Stratège','expRequired':0xdb24},{'level':0x22,'name':_0x4f776f(0x18d),'expRequired':0xe86c},{'level':0x23,'name':_0x4f776f(0x1c1),'expRequired':0xf618},{'level':0x24,'name':'Mentor','expRequired':0x10428},{'level':0x25,'name':_0x4f776f(0x1a6),'expRequired':0x1129c},{'level':0x26,'name':_0x4f776f(0x1c4),'expRequired':0x12174},{'level':0x27,'name':_0x4f776f(0x1bc),'expRequired':0x130b0},{'level':0x28,'name':_0x4f776f(0x1d6),'expRequired':0x14050},{'level':0x29,'name':'Maître\x20des\x20Arcanes','expRequired':0x15054},{'level':0x2a,'name':_0x4f776f(0x1e2),'expRequired':0x160bc},{'level':0x2b,'name':_0x4f776f(0x1b5),'expRequired':0x17188},{'level':0x2c,'name':_0x4f776f(0x187),'expRequired':0x182b8},{'level':0x2d,'name':_0x4f776f(0x1d0),'expRequired':0x1944c},{'level':0x2e,'name':'Chancelier','expRequired':0x1a644},{'level':0x2f,'name':_0x4f776f(0x189),'expRequired':0x1b8a0},{'level':0x30,'name':_0x4f776f(0x1c8),'expRequired':0x1cb60},{'level':0x31,'name':_0x4f776f(0x1dc),'expRequired':0x1de84},{'level':0x32,'name':'Grand\x20Régent','expRequired':0x1f20c},{'level':0x33,'name':_0x4f776f(0x196),'expRequired':0x205f8},{'level':0x34,'name':_0x4f776f(0x1cb),'expRequired':0x21a48},{'level':0x35,'name':_0x4f776f(0x1d2),'expRequired':0x22efc},{'level':0x36,'name':_0x4f776f(0x1c6),'expRequired':0x24414},{'level':0x37,'name':_0x4f776f(0x18c),'expRequired':0x25990},{'level':0x38,'name':_0x4f776f(0x1d1),'expRequired':0x26f70},{'level':0x39,'name':_0x4f776f(0x197),'expRequired':0x285b4},{'level':0x3a,'name':'Pionnier','expRequired':0x29c5c},{'level':0x3b,'name':'Explorateur\x20Suprême','expRequired':0x2b368},{'level':0x3c,'name':'Guide','expRequired':0x2cad8},{'level':0x3d,'name':_0x4f776f(0x19b),'expRequired':0x2e2ac},{'level':0x3e,'name':_0x4f776f(0x1b9),'expRequired':0x2fae4},{'level':0x3f,'name':_0x4f776f(0x19e),'expRequired':0x31380},{'level':0x40,'name':_0x4f776f(0x1df),'expRequired':0x32c80},{'level':0x41,'name':_0x4f776f(0x1db),'expRequired':0x345e4},{'level':0x42,'name':_0x4f776f(0x192),'expRequired':0x35fac},{'level':0x43,'name':_0x4f776f(0x1c0),'expRequired':0x379d8},{'level':0x44,'name':_0x4f776f(0x1a5),'expRequired':0x39468},{'level':0x45,'name':'Sage\x20Ultime','expRequired':0x3af5c},{'level':0x46,'name':_0x4f776f(0x1e0),'expRequired':0x3cab4},{'level':0x47,'name':'Roi\x20Stratège','expRequired':0x3e670},{'level':0x48,'name':_0x4f776f(0x1bf),'expRequired':0x40290},{'level':0x49,'name':'Grand\x20Mentor','expRequired':0x41f14},{'level':0x4a,'name':_0x4f776f(0x19c),'expRequired':0x43bfc},{'level':0x4b,'name':_0x4f776f(0x1b2),'expRequired':0x45948},{'level':0x4c,'name':_0x4f776f(0x1d3),'expRequired':0x476f8},{'level':0x4d,'name':_0x4f776f(0x1a1),'expRequired':0x4950c},{'level':0x4e,'name':_0x4f776f(0x18b),'expRequired':0x4b384},{'level':0x4f,'name':'Commandant\x20Ultime','expRequired':0x4d260},{'level':0x50,'name':_0x4f776f(0x1b7),'expRequired':0x4f1a0},{'level':0x51,'name':_0x4f776f(0x1ae),'expRequired':0x51144},{'level':0x52,'name':_0x4f776f(0x1cd),'expRequired':0x5314c},{'level':0x53,'name':_0x4f776f(0x1aa),'expRequired':0x551b8},{'level':0x54,'name':_0x4f776f(0x1c3),'expRequired':0x57288},{'level':0x55,'name':'Grand\x20Vizir','expRequired':0x593bc},{'level':0x56,'name':'Empereur\x20Suprême','expRequired':0x5b554},{'level':0x57,'name':'Grand\x20Rédempteur','expRequired':0x5d750},{'level':0x58,'name':_0x4f776f(0x1d7),'expRequired':0x5f9b0},{'level':0x59,'name':_0x4f776f(0x1cc),'expRequired':0x61c74},{'level':0x5a,'name':_0x4f776f(0x1de),'expRequired':0x63f9c},{'level':0x5b,'name':'Champion\x20des\x20Cieux','expRequired':0x66328},{'level':0x5c,'name':_0x4f776f(0x1dd),'expRequired':0x68718},{'level':0x5d,'name':_0x4f776f(0x1b6),'expRequired':0x6ab6c},{'level':0x5e,'name':_0x4f776f(0x1a4),'expRequired':0x6d024},{'level':0x5f,'name':'Roi\x20Suprême','expRequired':0x6f540},{'level':0x60,'name':'Empereur\x20Divin','expRequired':0x71ac0},{'level':0x61,'name':_0x4f776f(0x18a),'expRequired':0x740a4},{'level':0x62,'name':'Architecte\x20Divin','expRequired':0x766ec},{'level':0x63,'name':_0x4f776f(0x198),'expRequired':0x78d98},{'level':0x64,'name':_0x4f776f(0x1ad),'expRequired':0x7b4a8}],calculateLevel=_0x2126c5=>{const _0x108442=_0x4f776f,_0x4db14a={'RUgsN':function(_0x52a827,_0x1f2392){return _0x52a827-_0x1f2392;},'fBuzA':function(_0x18ddb2,_0x5a5f35){return _0x18ddb2>=_0x5a5f35;}};for(let _0xb7cee2=_0x4db14a[_0x108442(0x1b1)](levels[_0x108442(0x18f)],0x1);_0x4db14a['fBuzA'](_0xb7cee2,0x0);_0xb7cee2--){if(_0x2126c5>=levels[_0xb7cee2][_0x108442(0x1e1)])return levels[_0xb7cee2][_0x108442(0x1b0)];}return levels[0x0][_0x108442(0x1b0)];};module[_0x4f776f(0x19d)]={'levels':levels,'calculateLevel':calculateLevel};
+const levels = [{
+  level: 1,
+  name: "Novice",
+  expRequired: 100
+}, {
+  level: 2,
+  name: "Apprenti",
+  expRequired: 300
+}, {
+  level: 3,
+  name: "Élève",
+  expRequired: 600
+}, {
+  level: 4,
+  name: "Aspirant",
+  expRequired: 1000
+}, {
+  level: 5,
+  name: "Aventurier",
+  expRequired: 1500
+}, {
+  level: 6,
+  name: "Explorateur",
+  expRequired: 2100
+}, {
+  level: 7,
+  name: "Guerrier",
+  expRequired: 2800
+}, {
+  level: 8,
+  name: "Vétéran",
+  expRequired: 3600
+}, {
+  level: 9,
+  name: "Champion",
+  expRequired: 4500
+}, {
+  level: 10,
+  name: "Héros",
+  expRequired: 5500
+}, {
+  level: 11,
+  name: "Élite",
+  expRequired: 6600
+}, {
+  level: 12,
+  name: "Commandant",
+  expRequired: 7800
+}, {
+  level: 13,
+  name: "Chevalier",
+  expRequired: 9100
+}, {
+  level: 14,
+  name: "Baron",
+  expRequired: 10500
+}, {
+  level: 15,
+  name: "Vicomte",
+  expRequired: 12000
+}, {
+  level: 16,
+  name: "Comte",
+  expRequired: 13600
+}, {
+  level: 17,
+  name: "Marquis",
+  expRequired: 15300
+}, {
+  level: 18,
+  name: "Duc",
+  expRequired: 17100
+}, {
+  level: 19,
+  name: "Archiduc",
+  expRequired: 19000
+}, {
+  level: 20,
+  name: "Prince",
+  expRequired: 21000
+}, {
+  level: 21,
+  name: "Souverain",
+  expRequired: 23100
+}, {
+  level: 22,
+  name: "Maître",
+  expRequired: 25300
+}, {
+  level: 23,
+  name: "Grand Maître",
+  expRequired: 27600
+}, {
+  level: 24,
+  name: "Légende",
+  expRequired: 30000
+}, {
+  level: 25,
+  name: "Mythique",
+  expRequired: 32500
+}, {
+  level: 26,
+  name: "Sentinelle",
+  expRequired: 35100
+}, {
+  level: 27,
+  name: "Champion Éternel",
+  expRequired: 37800
+}, {
+  level: 28,
+  name: "Titan",
+  expRequired: 40600
+}, {
+  level: 29,
+  name: "Gardien",
+  expRequired: 43500
+}, {
+  level: 30,
+  name: "Visionnaire",
+  expRequired: 46500
+}, {
+  level: 31,
+  name: "Sage",
+  expRequired: 49600
+}, {
+  level: 32,
+  name: "Oracle",
+  expRequired: 52800
+}, {
+  level: 33,
+  name: "Stratège",
+  expRequired: 56100
+}, {
+  level: 34,
+  name: "Tacticien",
+  expRequired: 59500
+}, {
+  level: 35,
+  name: "Architecte",
+  expRequired: 63000
+}, {
+  level: 36,
+  name: "Mentor",
+  expRequired: 66600
+}, {
+  level: 37,
+  name: "Virtuose",
+  expRequired: 70300
+}, {
+  level: 38,
+  name: "Prodige",
+  expRequired: 74100
+}, {
+  level: 39,
+  name: "Érudit",
+  expRequired: 78000
+}, {
+  level: 40,
+  name: "Alchimiste",
+  expRequired: 82000
+}, {
+  level: 41,
+  name: "Maître des Arcanes",
+  expRequired: 86100
+}, {
+  level: 42,
+  name: "Seigneur des Secrets",
+  expRequired: 90300
+}, {
+  level: 43,
+  name: "Conquérant",
+  expRequired: 94600
+}, {
+  level: 44,
+  name: "Dominant",
+  expRequired: 99000
+}, {
+  level: 45,
+  name: "Exécuteur",
+  expRequired: 103500
+}, {
+  level: 46,
+  name: "Chancelier",
+  expRequired: 108100
+}, {
+  level: 47,
+  name: "Vizir",
+  expRequired: 112800
+}, {
+  level: 48,
+  name: "Empereur",
+  expRequired: 117600
+}, {
+  level: 49,
+  name: "Régnant",
+  expRequired: 122500
+}, {
+  level: 50,
+  name: "Grand Régent",
+  expRequired: 127500
+}, {
+  level: 51,
+  name: "Seigneur Commandant",
+  expRequired: 132600
+}, {
+  level: 52,
+  name: "Maître Architecte",
+  expRequired: 137800
+}, {
+  level: 53,
+  name: "Champion Ultime",
+  expRequired: 143100
+}, {
+  level: 54,
+  name: "Légionnaire",
+  expRequired: 148500
+}, {
+  level: 55,
+  name: "Régent Éternel",
+  expRequired: 154000
+}, {
+  level: 56,
+  name: "Souverain Suprême",
+  expRequired: 159600
+}, {
+  level: 57,
+  name: "Avatar",
+  expRequired: 165300
+}, {
+  level: 58,
+  name: "Pionnier",
+  expRequired: 171100
+}, {
+  level: 59,
+  name: "Explorateur Suprême",
+  expRequired: 177000
+}, {
+  level: 60,
+  name: "Guide",
+  expRequired: 183000
+}, {
+  level: 61,
+  name: "Gardien Suprême",
+  expRequired: 189100
+}, {
+  level: 62,
+  name: "Protecteur",
+  expRequired: 195300
+}, {
+  level: 63,
+  name: "Défenseur",
+  expRequired: 201600
+}, {
+  level: 64,
+  name: "Harmonisateur",
+  expRequired: 208000
+}, {
+  level: 65,
+  name: "Équilibriste",
+  expRequired: 214500
+}, {
+  level: 66,
+  name: "Souverain des Cieux",
+  expRequired: 221100
+}, {
+  level: 67,
+  name: "Éclaireur",
+  expRequired: 227800
+}, {
+  level: 68,
+  name: "Visionnaire Ultime",
+  expRequired: 234600
+}, {
+  level: 69,
+  name: "Sage Ultime",
+  expRequired: 241500
+}, {
+  level: 70,
+  name: "Grand Oracle",
+  expRequired: 248500
+}, {
+  level: 71,
+  name: "Roi Stratège",
+  expRequired: 255600
+}, {
+  level: 72,
+  name: "Maître Tacticien",
+  expRequired: 262800
+}, {
+  level: 73,
+  name: "Grand Mentor",
+  expRequired: 270100
+}, {
+  level: 74,
+  name: "Héros Immortel",
+  expRequired: 277500
+}, {
+  level: 75,
+  name: "Grand Alchimiste",
+  expRequired: 285000
+}, {
+  level: 76,
+  name: "Roi des Arcanes",
+  expRequired: 292600
+}, {
+  level: 77,
+  name: "Grand Seigneur",
+  expRequired: 300300
+}, {
+  level: 78,
+  name: "Maître Conquérant",
+  expRequired: 308100
+}, {
+  level: 79,
+  name: "Commandant Ultime",
+  expRequired: 316000
+}, {
+  level: 80,
+  name: "Légende Suprême",
+  expRequired: 324000
+}, {
+  level: 81,
+  name: "Grand Dominant",
+  expRequired: 332100
+}, {
+  level: 82,
+  name: "Seigneur de Guerre",
+  expRequired: 340300
+}, {
+  level: 83,
+  name: "Maître Exécuteur",
+  expRequired: 348600
+}, {
+  level: 84,
+  name: "Architecte Suprême",
+  expRequired: 357000
+}, {
+  level: 85,
+  name: "Grand Vizir",
+  expRequired: 365500
+}, {
+  level: 86,
+  name: "Empereur Suprême",
+  expRequired: 374100
+}, {
+  level: 87,
+  name: "Grand Rédempteur",
+  expRequired: 382800
+}, {
+  level: 88,
+  name: "Avatar Suprême",
+  expRequired: 391600
+}, {
+  level: 89,
+  name: "Oracle Ultime",
+  expRequired: 400500
+}, {
+  level: 90,
+  name: "Héritier Divin",
+  expRequired: 409500
+}, {
+  level: 91,
+  name: "Champion des Cieux",
+  expRequired: 418600
+}, {
+  level: 92,
+  name: "Héros Divin",
+  expRequired: 427800
+}, {
+  level: 93,
+  name: "Légende Eternelle",
+  expRequired: 437100
+}, {
+  level: 94,
+  name: "Grand Gardien",
+  expRequired: 446500
+}, {
+  level: 95,
+  name: "Roi Suprême",
+  expRequired: 456000
+}, {
+  level: 96,
+  name: "Empereur Divin",
+  expRequired: 465600
+}, {
+  level: 97,
+  name: "Seigneur des Étoiles",
+  expRequired: 475300
+}, {
+  level: 98,
+  name: "Architecte Divin",
+  expRequired: 485100
+}, {
+  level: 99,
+  name: "Avatar Eternel",
+  expRequired: 495000
+}, {
+  level: 100,
+  name: "Dieu Suprême",
+  expRequired: 505000
+}];
+const calculateLevel = _0x2126c5 => {
+  for (let _0xb7cee2 = levels.length - 1; _0xb7cee2 >= 0; _0xb7cee2--) {
+    if (_0x2126c5 >= levels[_0xb7cee2].expRequired) {
+      return levels[_0xb7cee2].level;
+    }
+  }
+  return levels[0].level;
+};
+module.exports = {
+  levels: levels,
+  calculateLevel: calculateLevel
+};

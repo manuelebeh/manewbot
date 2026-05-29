@@ -27,7 +27,7 @@ const {
   call,
   dl_save_media_ms,
   recup_msg,
-} = require('./Ovl_events');
+} = require('./events');
 const { getSecondAllSessions } = require('./DataBase/connect');
 
 const MAX_SESSIONS = 30;
@@ -42,7 +42,7 @@ const sessionsSupprimees = new Set();
 const reconnectingSessions = new Set();
 const lastReconnectAt = new Map();
 const sessionGeneration = new Map();
-const INSTANCE_LOCK_FILE = path.join(__dirname, '.ovl.pid');
+const INSTANCE_LOCK_FILE = path.join(__dirname, '.bot.pid');
 
 const RECONNECTABLE_CODES = new Set([
   DisconnectReason.connectionClosed,
@@ -59,7 +59,7 @@ function acquireInstanceLock() {
       try {
         process.kill(oldPid, 0);
         console.error(
-          'Une instance OVL tourne déjà (PID ' +
+          'Une instance du bot tourne déjà (PID ' +
             oldPid +
             '). Arrêtez-la (Ctrl+C ou kill ' +
             oldPid +
@@ -301,7 +301,7 @@ async function startGenericSession({ numero, isPrincipale = false }) {
       mimetype = 'application/octet-stream'
     ) => dl_save_media_ms(sock, message, fileName, asDocument, mimetype);
 
-    sock.recup_msg = (payload) => recup_msg({ ovl: sock, ...payload });
+    sock.recup_msg = (payload) => recup_msg({ bot: sock, ...payload });
 
     instancesSessions.set(numero, sock);
     sessionsActives.add(numero);

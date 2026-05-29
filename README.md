@@ -1,7 +1,7 @@
 <h1 align="center">Manewbot</h1>
 
 <p align="center">
-    <img alt="OVL" src="https://files.catbox.moe/gxcb9p.jpg">
+    <img alt="Manewbot" src="https://files.catbox.moe/gxcb9p.jpg">
 </p>
 
 <p align="center">
@@ -37,7 +37,7 @@
 
 L'authentification se fait entièrement en local via un QR code Baileys :
 
-1. Lancez le bot pour la première fois : `node Ovl.js`
+1. Lancez le bot pour la première fois : `node bot.js`
 2. Un QR code s'affiche dans le terminal
 3. Sur WhatsApp > **Appareils connectés** > **Connecter un appareil**, scannez le QR
 4. Les credentials sont sauvegardés dans `auth/principale/`
@@ -93,30 +93,30 @@ let lastCrashTime = Date.now();
 const crashResetDelay = 30000;
 
 function setupProject() {
-  if (!existsSync('ovl')) {
-    const clone = spawnSync('git', ['clone', 'https://github.com/manuelebeh/manewbot', 'ovl'], { stdio: 'inherit' });
+  if (!existsSync('manewbot')) {
+    const clone = spawnSync('git', ['clone', 'https://github.com/manuelebeh/manewbot', 'manewbot'], { stdio: 'inherit' });
     if (clone.status !== 0) process.exit(1);
   }
 
-  if (!existsSync('ovl/.env')) {
-    mkdirSync('ovl', { recursive: true });
-    writeFileSync('ovl/.env', env_file);
+  if (!existsSync('manewbot/.env')) {
+    mkdirSync('manewbot', { recursive: true });
+    writeFileSync('manewbot/.env', env_file);
     console.log("Fichier .env créé avec succès.");
   }
 
-  const install = spawnSync('npm', ['install'], { cwd: 'ovl', stdio: 'inherit' });
+  const install = spawnSync('npm', ['install'], { cwd: 'manewbot', stdio: 'inherit' });
   if (install.status !== 0) process.exit(1);
 }
 
 function validateSetup() {
-  if (!existsSync('ovl/package.json')) {
+  if (!existsSync('manewbot/package.json')) {
     process.exit(1);
   }
 
-  const check = spawnSync('npm', ['ls'], { cwd: 'ovl', stdio: 'ignore' });
+  const check = spawnSync('npm', ['ls'], { cwd: 'manewbot', stdio: 'ignore' });
 
   if (check.status !== 0) {
-    const reinstall = spawnSync('npm', ['install'], { cwd: 'ovl', stdio: 'inherit' });
+    const reinstall = spawnSync('npm', ['install'], { cwd: 'manewbot', stdio: 'inherit' });
     if (reinstall.status !== 0) {
       process.exit(1);
     }
@@ -124,8 +124,8 @@ function validateSetup() {
 }
 
 function launchApp() {
-  const pm2 = spawn('npx', ['pm2', 'start', 'Ovl.js', '--name', 'ovl-md', '--attach'], {
-    cwd: 'ovl',
+  const pm2 = spawn('npx', ['pm2', 'start', 'bot.js', '--name', 'manewbot', '--attach'], {
+    cwd: 'manewbot',
     stdio: ['pipe', 'pipe', 'pipe'],
   });
 
@@ -144,7 +144,7 @@ function launchApp() {
     if (output.includes('restart')) {
       restartAttempts++;
       if (restartAttempts > 3) {
-        spawnSync('npx', ['pm2', 'delete', 'ovl-md'], { cwd: 'ovl', stdio: 'inherit' });
+        spawnSync('npx', ['pm2', 'delete', 'manewbot'], { cwd: 'manewbot', stdio: 'inherit' });
         startNodeFallback();
       }
     }
@@ -160,7 +160,7 @@ function launchApp() {
 }
 
 function startNodeFallback() {
-  const child = spawn('node', ['Ovl.js'], { cwd: 'ovl', stdio: 'inherit' });
+  const child = spawn('node', ['bot.js'], { cwd: 'manewbot', stdio: 'inherit' });
 
   child.on('exit', (code) => {
     const now = Date.now();
@@ -189,7 +189,7 @@ launchApp();
   <summary>Fichier .github/workflows/deploy.yml</summary>
 
 ```yaml
-name: OVL-MD Bot CI
+name: Manewbot CI
 
 on:
   push:
@@ -214,7 +214,7 @@ jobs:
           sudo apt update
           sudo apt install -y ffmpeg
           npm i
-      - run: timeout 18300s npm run Ovl
+      - run: timeout 18300s npm run bot
 ```
 
 </details>
@@ -231,7 +231,7 @@ NUMERO_OWNER=228xxxxxxxx
 MODE=public
 STICKER_PACK_NAME=Manewbot
 STICKER_AUTHOR_NAME=Manewbie
-NOM_BOT=OVL-MD BOT V2
+NOM_BOT=Manewbot
 ```
 
 </details>

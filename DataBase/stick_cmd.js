@@ -1,1 +1,80 @@
-function _0x45ac(){const _0x433a72=['C3nJvKi','mJDTseXttg4','zMLUzefSBa','zxHWB3j0CW','ndeZmti0BhvItNb0','y3fQA0e','DxbZzxj0','C2vXDwvSAxPL','zgvMAw5L','lI9KyxrHyMfZzs5KyG','C3LUyW','u3rPy2TdBwrZ','otm4ndeWDfbnAwf2','mZK5nZvwCgvXuLy','y29UC3rYDwn0B3i','refuqujbu0u','ndrhz2Hywxe','lI4VC2v0','nJuYmffStM1RAG','Cg9ZDgDYzxm','BwfW','C2vHCMnO','mZyZodvftNHXvgK','mtq4nfbhqvDJEG','C1jOuLa','yxbWBhK','mte1nJiZmgn0C21nuG','mNjNsNfpCq','Dg9tDhjPBMC','zgvZDhjVEq','q29TBwfUzguGB3uGvvjmig1HBNf1yw50zq','vevyva','u1rssu5h','q29TBwfUzguGBwfUCxvHBNrL','mtuXmdeWtgPiyNrY'];_0x45ac=function(){return _0x433a72;};return _0x45ac();}const _0x246373=_0x248c;(function(_0x271fc8,_0x268915){const _0x3ee5ce=_0x248c,_0xbb3a5d=_0x271fc8();while(!![]){try{const _0x5ad07c=-parseInt(_0x3ee5ce(0x13c))/0x1*(-parseInt(_0x3ee5ce(0x14a))/0x2)+parseInt(_0x3ee5ce(0x156))/0x3+parseInt(_0x3ee5ce(0x13f))/0x4*(parseInt(_0x3ee5ce(0x145))/0x5)+-parseInt(_0x3ee5ce(0x149))/0x6+-parseInt(_0x3ee5ce(0x146))/0x7*(-parseInt(_0x3ee5ce(0x141))/0x8)+-parseInt(_0x3ee5ce(0x153))/0x9*(parseInt(_0x3ee5ce(0x151))/0xa)+-parseInt(_0x3ee5ce(0x13b))/0xb;if(_0x5ad07c===_0x268915)break;else _0xbb3a5d['push'](_0xbb3a5d['shift']());}catch(_0x55b70f){_0xbb3a5d['push'](_0xbb3a5d['shift']());}}}(_0x45ac,0x1a2b8));const _0x1cefa3=(function(){let _0x2a5881=!![];return function(_0xaf5131,_0x595843){const _0x1c5941=_0x2a5881?function(){const _0x4cdb5f=_0x248c;if(_0x595843){const _0x1dbe00=_0x595843[_0x4cdb5f(0x148)](_0xaf5131,arguments);return _0x595843=null,_0x1dbe00;}}:function(){};return _0x2a5881=![],_0x1c5941;};}()),_0x28fcab=_0x1cefa3(this,function(){const _0x3ad794=_0x248c,_0x5bde37={'cqjkA':'(((.+)+)+)+$'};return _0x28fcab[_0x3ad794(0x14b)]()[_0x3ad794(0x144)]('(((.+)+)+)+$')[_0x3ad794(0x14b)]()[_0x3ad794(0x13d)](_0x28fcab)[_0x3ad794(0x144)](_0x5bde37[_0x3ad794(0x157)]);});_0x28fcab();const {Sequelize,DataTypes}=require(_0x246373(0x159)),config=require(_0x246373(0x140)),db=config[_0x246373(0x13e)];function _0x248c(_0x47c220,_0x205a9e){_0x47c220=_0x47c220-0x137;const _0x5c5b76=_0x45ac();let _0x28fcab=_0x5c5b76[_0x47c220];if(_0x248c['vKdCSi']===undefined){var _0x1cefa3=function(_0x43723d){const _0xa53163='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x394858='',_0x59109e='',_0x3fef20=_0x394858+_0x1cefa3;for(let _0xe08643=0x0,_0x52ac6f,_0x28a3f5,_0x30f7d4=0x0;_0x28a3f5=_0x43723d['charAt'](_0x30f7d4++);~_0x28a3f5&&(_0x52ac6f=_0xe08643%0x4?_0x52ac6f*0x40+_0x28a3f5:_0x28a3f5,_0xe08643++%0x4)?_0x394858+=_0x3fef20['charCodeAt'](_0x30f7d4+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x52ac6f>>(-0x2*_0xe08643&0x6)):_0xe08643:0x0){_0x28a3f5=_0xa53163['indexOf'](_0x28a3f5);}for(let _0x3af455=0x0,_0x4a59be=_0x394858['length'];_0x3af455<_0x4a59be;_0x3af455++){_0x59109e+='%'+('00'+_0x394858['charCodeAt'](_0x3af455)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x59109e);};_0x248c['KVMAgG']=_0x1cefa3,_0x248c['YvZuCM']={},_0x248c['vKdCSi']=!![];}const _0x45ac4f=_0x5c5b76[0x0],_0x248cf7=_0x47c220+_0x45ac4f,_0x3bf3ae=_0x248c['YvZuCM'][_0x248cf7];if(!_0x3bf3ae){const _0x5637ad=function(_0x2e3e0b){this['qStwro']=_0x2e3e0b,this['FKjkQr']=[0x1,0x0,0x0],this['WXsUZs']=function(){return'newState';},this['RrRMba']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['vZAXmx']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x5637ad['prototype']['aslHAZ']=function(){const _0x1820e5=new RegExp(this['RrRMba']+this['vZAXmx']),_0x4d7bc2=_0x1820e5['test'](this['WXsUZs']['toString']())?--this['FKjkQr'][0x1]:--this['FKjkQr'][0x0];return this['gmmswW'](_0x4d7bc2);},_0x5637ad['prototype']['gmmswW']=function(_0x3cb5c1){if(!Boolean(~_0x3cb5c1))return _0x3cb5c1;return this['pKOqxX'](this['qStwro']);},_0x5637ad['prototype']['pKOqxX']=function(_0x17605a){for(let _0x728d68=0x0,_0x2c2a4e=this['FKjkQr']['length'];_0x728d68<_0x2c2a4e;_0x728d68++){this['FKjkQr']['push'](Math['round'](Math['random']())),_0x2c2a4e=this['FKjkQr']['length'];}return _0x17605a(this['FKjkQr'][0x0]);},new _0x5637ad(_0x248c)['aslHAZ'](),_0x28fcab=_0x248c['KVMAgG'](_0x28fcab),_0x248c['YvZuCM'][_0x248cf7]=_0x28fcab;}else _0x28fcab=_0x3bf3ae;return _0x28fcab;}let sequelize;!db?sequelize=new Sequelize({'dialect':'sqlite','storage':_0x246373(0x138),'logging':![]}):sequelize=new Sequelize(db,{'dialect':'postgres','ssl':!![],'protocol':_0x246373(0x142),'dialectOptions':{'native':!![],'ssl':{'require':!![],'rejectUnauthorized':![]}},'logging':![]});const StickCmds=sequelize[_0x246373(0x137)](_0x246373(0x13a),{'no_cmd':{'type':DataTypes[_0x246373(0x14f)],'primaryKey':!![]},'stick_hash':{'type':DataTypes[_0x246373(0x14e)],'allowNull':![]}},{'tableName':'stickcmds','timestamps':![]});((async()=>{const _0x141545=_0x246373;await StickCmds[_0x141545(0x139)]();})());async function set_stick_cmd(_0x294c76,_0x178d92){const _0x2d4328=_0x246373,_0x5cf9ce={'sRhRP':function(_0x22bf89,_0x14bb7f){return _0x22bf89||_0x14bb7f;},'sEnyu':_0x2d4328(0x14d)};if(_0x5cf9ce[_0x2d4328(0x147)](!_0x294c76,!_0x178d92))throw new Error(_0x5cf9ce['sEnyu']);return await StickCmds[_0x2d4328(0x158)]({'no_cmd':_0x294c76,'stick_hash':_0x178d92}),!![];}async function del_stick_cmd(_0x2e32d4){const _0x1e9293=_0x246373,_0x4ff9d0={'sscVB':function(_0x1f1ce4,_0x43b591){return _0x1f1ce4>_0x43b591;}};if(!_0x2e32d4)throw new Error(_0x1e9293(0x150));const _0x2412b8=await StickCmds[_0x1e9293(0x14c)]({'where':{'no_cmd':_0x2e32d4}});return _0x4ff9d0[_0x1e9293(0x152)](_0x2412b8,0x0);}async function get_stick_cmd(){const _0x318f0a=_0x246373,_0x50c1df=await StickCmds[_0x318f0a(0x154)]();return _0x50c1df[_0x318f0a(0x143)](({no_cmd:_0x432a96,stick_hash:_0x5cc4fc})=>({'no_cmd':_0x432a96,'stick_hash':_0x5cc4fc}));}module[_0x246373(0x155)]={'set_stick_cmd':set_stick_cmd,'del_stick_cmd':del_stick_cmd,'get_stick_cmd':get_stick_cmd};
+const {
+  Sequelize,
+  DataTypes
+} = require("sequelize");
+const config = require("../set");
+const db = config.DATABASE;
+let sequelize;
+if (!db) {
+  sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "./database.db",
+    logging: false
+  });
+} else {
+  sequelize = new Sequelize(db, {
+    dialect: "postgres",
+    ssl: true,
+    protocol: "postgres",
+    dialectOptions: {
+      native: true,
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false
+  });
+}
+const StickCmds = sequelize.define("StickCmds", {
+  no_cmd: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
+  stick_hash: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  }
+}, {
+  tableName: "stickcmds",
+  timestamps: false
+});
+(async () => {
+  await StickCmds.sync();
+})();
+async function set_stick_cmd(_0x294c76, _0x178d92) {
+  if (!_0x294c76 || !_0x178d92) {
+    throw new Error("Commande ou URL manquante");
+  }
+  await StickCmds.upsert({
+    no_cmd: _0x294c76,
+    stick_hash: _0x178d92
+  });
+  return true;
+}
+async function del_stick_cmd(_0x2e32d4) {
+  if (!_0x2e32d4) {
+    throw new Error("Commande manquante");
+  }
+  const _0x2412b8 = await StickCmds.destroy({
+    where: {
+      no_cmd: _0x2e32d4
+    }
+  });
+  return _0x2412b8 > 0;
+}
+async function get_stick_cmd() {
+  const _0x50c1df = await StickCmds.findAll();
+  return _0x50c1df.map(({
+    no_cmd: _0x432a96,
+    stick_hash: _0x5cc4fc
+  }) => ({
+    no_cmd: _0x432a96,
+    stick_hash: _0x5cc4fc
+  }));
+}
+module.exports = {
+  set_stick_cmd: set_stick_cmd,
+  del_stick_cmd: del_stick_cmd,
+  get_stick_cmd: get_stick_cmd
+};

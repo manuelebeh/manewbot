@@ -1,1 +1,118 @@
-const _0x2fd1c0=_0x158e;(function(_0x190020,_0x53c439){const _0x4a3639=_0x158e,_0x4785ab=_0x190020();while(!![]){try{const _0x4ab019=-parseInt(_0x4a3639(0x1bb))/0x1*(parseInt(_0x4a3639(0x177))/0x2)+parseInt(_0x4a3639(0x1d6))/0x3*(-parseInt(_0x4a3639(0x1b0))/0x4)+parseInt(_0x4a3639(0x178))/0x5+-parseInt(_0x4a3639(0x1cc))/0x6*(-parseInt(_0x4a3639(0x1af))/0x7)+-parseInt(_0x4a3639(0x189))/0x8*(parseInt(_0x4a3639(0x19f))/0x9)+parseInt(_0x4a3639(0x196))/0xa*(parseInt(_0x4a3639(0x1db))/0xb)+parseInt(_0x4a3639(0x181))/0xc;if(_0x4ab019===_0x53c439)break;else _0x4785ab['push'](_0x4785ab['shift']());}catch(_0x4879fe){_0x4785ab['push'](_0x4785ab['shift']());}}}(_0x2efd,0x2ea8a));function _0x2efd(){const _0x97d6f0=['Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2zVz2D5lxjHAw55lxrLEhqTzwzMzwn0ltC1lMH0BwW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nVDMvYlwDYywzMAxrPlte4ms5ODg1S','vw5LigvYCMv1CIbLC3qGC3vYDMvUDwuGBg9YCYbKzsbSysbNW6LUW6LYyxrPB24GzhuGBg9NBYa6ia','rxjYzxvYigf2zwmGBgeGy29TBwfUzguG','z2fSyxH5','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl21LDgfSlxrLEhqTzwzMzwn0lw9UBgLUzs0XmtaUAhrTBa','mtC4ndGYrw5TELfe','z29Szdq','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2XPz2H0lxrLEhqTzwzMzwn0lwz1DhvYAxn0AwmTDgvJAg5VBg9NEs1ZDhLSzs02ndGUAhrTBa','C2vHCMnO','y2XVDwq','Bwv0ywW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1Hlwf3zxnVBwuTBg9NBY1Zy2KTzMKTzwzMzwn0CY00otiUAhrTBa','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HlxDHDgvYy29SB3iTDgv4Dc1LzMzLy3qTB25SAw5Llty1ns5ODg1S','yMXHy2TWAw5RmG','vM91CYbKzxzLEIbMB3vYBMLYihvUihrLEhrLlG','tM1sz3O','s0Pusg0','C2vUze1LC3nHz2u','AuzwC2C','lI4VBgLIl292BgnTza','z3jHzMzPDgKX','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1SB2DVltnKlxn0EwXLlwf2zw5NzxjZlw9UBgLUzs00mJCUAhrTBa','mtiZnKrpt090uG','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3jLywXPC3rPyY0Zzc1Zyw5KlxrLEhqTzwzMzwn0lw9UBgLUzs01odaUAhrTBa','kcGOlISPkYKRksSK','zwzMywnLCG','yxbWBhK','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29TlZnKlxvUzgvYD2f0zxiTDgv4Dc1LzMzLy3qTB25SAw5Llty4mI5ODg1S','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HlwnPBMvTyxrPyY1Jyxb0ywLUlwfTzxjPy2eTDgv4Dc1LzMzLy3qTB25SAw5LltCXns5ODg1S','z29Szdu','D2f0zxjJB2XVCG','y2XVDwqY','mJm1mZC0ANPZAMPg','z29Szdm','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HlwjSywnRCgLUAY1Uzw9UlwXVz28TDgv4Dc1LzMzLy3qTB25SAw5LltCXmc5ODg1S','yM9VyNm','CMfPBG','ndCZqLPNswXw','z3jLzw5FzwzMzwn0','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3DYAxrLlxrLEhqTB24TDMLUDgfNzs10zwXLDMLZAw9Ulw9UBgLUzs02nZaUAhrTBa','z3jHzMzPDgKY','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1MB290yMfSBc1ZAgLYDc1TzxnZAs1IyxjJys1VBMXPBMuTmJy4lMH0BwW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs11BMLXDwuTD29Yzc1NCMvLBI1SAwDODc02mY5ODg1S','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29TlZnKlwn1yMLJlxrLEhqTzwzMzwn0lw9UBgLUzs04oc5ODg1S','C3bSAxq','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3DYAxrLlxrLEhqTB24TD2v0lwDSyxnZlw9UBgLUzs01odKUAhrTBa','y29UC3rYDwn0B3i','zM9VDgjHBgW','nfzkEgvJrq','ndeWndK1yw5Azwnl','Dw5Kzxj3yxrLCG','z29Szdi','Dg9tDhjPBMC','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3bHAw50lxnWBgf0DgvYlxrLEhqTzwzMzwn0ltCYlMH0BwW','zhjHz29UyMfSBdi','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3bHDwWTC2nOB2XLCY1ZAgLYDc1MB290lwjHBgWTmZm1lMH0BwW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2zYzwuTz2XPDhrLCI10zxH0lwvMzMvJDc1TywTLCI1VBMXPBMuTnJu2lMH0BwW','DgH1BMrLCG','mZyWndGYne5nwgDYDG','vMv1AwXSzxOGzM91CM5PCIbLEgfJDgvTzw50igrLDxGGDgv4DgvZihpdQxbHCSoPCYbWyxiGDw4GCg9PBNqTDMLYz3vSzsaOoYKSihbHCIbLEgvTCgXLidOGt3zSo01KlG','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs10zxH0lwvMzMvJDhmTAw4TDgHLlxn0EwXLlw9MlxrOzs1KzwfKCg9VBc1SB2DVltGXoc5ODg1S','DhLWB2DYyxbOEq','DxjS','zM9VDgjHBgWZ','C3rLzwW','tg9NBW','odHWz1jQAgG','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2HLyxrLzc1ZDgvLBc1Szxr0zxjPBMCTzwzMzwn0lty1lMH0BwW','zM9VDgjHBgWY','zNv0DxjPCW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HBM9UEw1VDxmTAgfJA2vYlwf2yxrHCNmTy3LHBI1Uzw9Ulty3nY5ODg1S','z29Szde','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2zYzwuTB25SAw5LlwrYywDVBI1IywXSlwzHy2vIB29RlwnVDMvYlxbOB3rVCY1TywTLCI00ndmUAhrTBa','AgfJA2vY','yMXHy2TWAw5RmW','B25LCgLLy2u','zxjYB3i','ig5VBIbZDxbWB3j0W6KU','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HlwjSywnRCgLUAY1ZDhLSzs1SB2DVlxDPDgGTBwvTyMvYCY1ZAwDUyxr1CMvZltGXmc5ODg1S','mZqWnJbMqxHRBvu','zhjHz29UyMfSBa','DgHVCG','vwroyMy','BwvZC2fNzq','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl3rLEhqTBgLNAhqTz2fSyxH5lwvMzMvJDhqTmZq1lMH0BwW','CgfPBNq','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1HlwnSB3vKlxrLEhqTzwzMzwn0lwLUlxrOzs1ZA3KTnJe4lMH0BwW','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl25LB24TDgv4Dc1LzMzLy3qTmtCXlMH0BwW','ndC5n3bNrwz3qq','BMvVBJi','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2XHDgvZDc1ZCgfJzs0Zzc10zxH0lwvMzMvJDc1VBMXPBMuTntu5lMH0BwW','zgvHzhbVB2W','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs0Zzc13B29KlxrLEhqTzwzMzwn0CY1VBMXPBMuTzNjLzs03mduUAhrTBa','D29Vza','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1Hlxn1Bw1LCNKTC2fUzc13CML0Aw5NlxrLEhqTzwzMzwn0ltu3nY5ODg1S','BMvVBJm','vMv1AwXSzxOGzM91CM5PCIbKDsb0zxH0zsbZyw5ZihbVAw50lxzPCMD1BguGkdSPihbVDxiGy2v0DguGy29TBwfUzguU','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs1LCMfZzxiTzgvSzxrPBMCTDgv4Dc1LzMzLy3qTB25SAw5LltCXnY5ODg1S','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nYzwf0zs10Ag9YlwXVz28TC3r5BguTDgv4Dc1LzMzLy3rZlw9UBgLUzs1MB3iTzNjLzs03otyUAhrTBa','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2DSB3nZEs1JAhjVBwuTDgv4Dc1LzMzLy3qTB25SAw5LltqYnc5ODg1S','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl25HCNv0BY1ZAgLWChvKzw4TBg9NBY1ZDhLSzs10zxH0lwvMzMvJDc1VBMXPBMuToda4lMH0BwW','vhLWzsa','AKPiwhy','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl21VzgvYBI1NB2XKlxnPBhzLCI0YmtaUAhrTBa','nJe4mvrQtNfQAq','ogflv2PPCa','AM9PBG','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2jSDwuTBMvVBI10zxH0lwvMzMvJDc0XmtCUAhrTBa','z3jHzMzPDgKZ','Ahr0Chm6lY9LBI5LCgHVDg8ZnJaUy29Tl2nSB3vKlxrLEhqTzwzMzwn0lteZos5ODg1S'];_0x2efd=function(){return _0x97d6f0;};return _0x2efd();}const {ovlcmd}=require(_0x2fd1c0(0x1c9)),textmaker=require('../lib/textmaker');function addTextproCommand(_0x2a29ac,_0x4fbc9f,_0x543789){const _0x5eed92=_0x2fd1c0,_0x32a9b1={'KJTHm':_0x5eed92(0x1c4),'jJHXv':function(_0x13cb19,_0x4330bf,_0x670043){return _0x13cb19(_0x4330bf,_0x670043);},'pplkB':function(_0x5909bf,_0x2bd3f3){return _0x5909bf<_0x2bd3f3;},'UdNbf':_0x5eed92(0x182),'XJfGb':'```Powered\x20By\x20Manewbot```','NmRgz':function(_0x2393b6){return _0x2393b6();},'NtmCS':function(_0x4c074e,_0x298cb4,_0x1ab08c){return _0x4c074e(_0x298cb4,_0x1ab08c);},'iFVsg':_0x5eed92(0x188)},_0x264d14=(function(){let _0x19fd01=!![];return function(_0x29e77a,_0x2cf3e3){const _0x1632aa=_0x19fd01?function(){const _0x4b930b=_0x158e;if(_0x2cf3e3){const _0x45cd65=_0x2cf3e3[_0x4b930b(0x1d0)](_0x29e77a,arguments);return _0x2cf3e3=null,_0x45cd65;}}:function(){};return _0x19fd01=![],_0x1632aa;};}()),_0xc8801c=_0x32a9b1['jJHXv'](_0x264d14,this,function(){const _0x5a344c=_0x5eed92;return _0xc8801c[_0x5a344c(0x17b)]()[_0x5a344c(0x1be)](_0x5a344c(0x1ce))['toString']()[_0x5a344c(0x1e4)](_0xc8801c)[_0x5a344c(0x1be)](_0x5a344c(0x1ce));});_0x32a9b1[_0x5eed92(0x1c5)](_0xc8801c),_0x32a9b1['NtmCS'](ovlcmd,{'nom_cmd':_0x2a29ac,'classe':_0x32a9b1[_0x5eed92(0x1c8)],'react':'✨','desc':'Effet\x20de\x20texte\x20avec\x20Ephoto360'},async(_0x23d15e,_0x4c11da,_0x38a36b)=>{const _0x5c1acd=_0x5eed92,{arg:_0x599244,ms:_0x5e00ea}=_0x38a36b,_0x4ea2ec=_0x599244[_0x5c1acd(0x1b1)]('\x20');if(!_0x4ea2ec)return await _0x4c11da[_0x5c1acd(0x1c7)](_0x23d15e,{'text':_0x32a9b1[_0x5c1acd(0x1c6)]},{'quoted':_0x5e00ea});try{let _0x2cc4e1;switch(_0x543789){case 0x1:if(_0x4ea2ec['includes'](';'))return await _0x4c11da['sendMessage'](_0x23d15e,{'text':_0x5c1acd(0x1a7)},{'quoted':_0x5e00ea});_0x2cc4e1=await _0x32a9b1[_0x5c1acd(0x1ad)](textmaker,_0x4fbc9f,_0x4ea2ec);break;case 0x2:const _0x59fe06=_0x4ea2ec[_0x5c1acd(0x1e2)](';');if(_0x32a9b1['pplkB'](_0x59fe06['length'],0x2))return await _0x4c11da[_0x5c1acd(0x1c7)](_0x23d15e,{'text':_0x32a9b1[_0x5c1acd(0x199)]},{'quoted':_0x5e00ea});_0x2cc4e1=await _0x32a9b1['jJHXv'](textmaker,_0x4fbc9f,_0x4ea2ec);break;default:throw new Error(_0x5c1acd(0x1ac)+_0x543789+_0x5c1acd(0x194));}await _0x4c11da['sendMessage'](_0x23d15e,{'image':{'url':_0x2cc4e1[_0x5c1acd(0x185)]},'caption':_0x32a9b1['XJfGb']},{'quoted':_0x5e00ea});}catch(_0x503024){console[_0x5c1acd(0x193)](_0x5c1acd(0x1b8)+_0x2a29ac+':',_0x503024[_0x5c1acd(0x19a)]||_0x503024),await _0x4c11da[_0x5c1acd(0x1c7)](_0x23d15e,{'text':_0x5c1acd(0x1b7)+_0x503024['message']},{'quoted':_0x5e00ea});}});}function _0x158e(_0x42b8e4,_0x5af979){_0x42b8e4=_0x42b8e4-0x176;const _0x4ee614=_0x2efd();let _0x2449e1=_0x4ee614[_0x42b8e4];if(_0x158e['IXkZkE']===undefined){var _0x5cb508=function(_0x232230){const _0x869cda='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1aa7d0='',_0x329bde='',_0x5f60cd=_0x1aa7d0+_0x5cb508;for(let _0x30c491=0x0,_0x291082,_0x298828,_0x116fee=0x0;_0x298828=_0x232230['charAt'](_0x116fee++);~_0x298828&&(_0x291082=_0x30c491%0x4?_0x291082*0x40+_0x298828:_0x298828,_0x30c491++%0x4)?_0x1aa7d0+=_0x5f60cd['charCodeAt'](_0x116fee+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0x291082>>(-0x2*_0x30c491&0x6)):_0x30c491:0x0){_0x298828=_0x869cda['indexOf'](_0x298828);}for(let _0x240465=0x0,_0x1c3322=_0x1aa7d0['length'];_0x240465<_0x1c3322;_0x240465++){_0x329bde+='%'+('00'+_0x1aa7d0['charCodeAt'](_0x240465)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x329bde);};_0x158e['FupPYb']=_0x5cb508,_0x158e['EBShJr']={},_0x158e['IXkZkE']=!![];}const _0x2efd9b=_0x4ee614[0x0],_0x158edb=_0x42b8e4+_0x2efd9b,_0x2d444a=_0x158e['EBShJr'][_0x158edb];if(!_0x2d444a){const _0x365ea2=function(_0xb88094){this['oAnFLH']=_0xb88094,this['kaANwR']=[0x1,0x0,0x0],this['RDRXEJ']=function(){return'newState';},this['ObkdvR']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['RHAucK']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x365ea2['prototype']['MYYYLP']=function(){const _0x22c0bd=new RegExp(this['ObkdvR']+this['RHAucK']),_0x303caa=_0x22c0bd['test'](this['RDRXEJ']['toString']())?--this['kaANwR'][0x1]:--this['kaANwR'][0x0];return this['PcxMOI'](_0x303caa);},_0x365ea2['prototype']['PcxMOI']=function(_0x150bad){if(!Boolean(~_0x150bad))return _0x150bad;return this['bjAMnQ'](this['oAnFLH']);},_0x365ea2['prototype']['bjAMnQ']=function(_0x174441){for(let _0x25d8cb=0x0,_0x522866=this['kaANwR']['length'];_0x25d8cb<_0x522866;_0x25d8cb++){this['kaANwR']['push'](Math['round'](Math['random']())),_0x522866=this['kaANwR']['length'];}return _0x174441(this['kaANwR'][0x0]);},new _0x365ea2(_0x158e)['MYYYLP'](),_0x2449e1=_0x158e['FupPYb'](_0x2449e1),_0x158e['EBShJr'][_0x158edb]=_0x2449e1;}else _0x2449e1=_0x2d444a;return _0x2449e1;}addTextproCommand(_0x2fd1c0(0x197),'https://en.ephoto360.com/create-dragon-ball-style-text-effects-online-809.html',0x1),addTextproCommand(_0x2fd1c0(0x1a2),_0x2fd1c0(0x183),0x2),addTextproCommand('blackpink',_0x2fd1c0(0x195),0x1),addTextproCommand('neon1',_0x2fd1c0(0x1b2),0x1),addTextproCommand(_0x2fd1c0(0x176),_0x2fd1c0(0x17e),0x2),addTextproCommand(_0x2fd1c0(0x187),_0x2fd1c0(0x18a),0x2),addTextproCommand(_0x2fd1c0(0x19c),_0x2fd1c0(0x17c),0x1),addTextproCommand(_0x2fd1c0(0x180),'https://en.ephoto360.com/thunder-text-effect-online-97.html',0x1),addTextproCommand(_0x2fd1c0(0x198),_0x2fd1c0(0x1a9),0x1),addTextproCommand(_0x2fd1c0(0x1ca),'https://en.ephoto360.com/cute-girl-painting-graffiti-text-effect-667.html',0x2),addTextproCommand(_0x2fd1c0(0x17a),'https://en.ephoto360.com/modern-gold-5-215.html',0x1),addTextproCommand(_0x2fd1c0(0x1a0),'https://en.ephoto360.com/create-light-effects-green-neon-online-429.html',0x1),addTextproCommand(_0x2fd1c0(0x1cf),_0x2fd1c0(0x1a8),0x1),addTextproCommand(_0x2fd1c0(0x1b9),_0x2fd1c0(0x19b),0x1),addTextproCommand('vintage',_0x2fd1c0(0x1dd),0x1),addTextproCommand(_0x2fd1c0(0x18e),'https://en.ephoto360.com/gold-text-effect-158.html',0x1),addTextproCommand(_0x2fd1c0(0x1de),'https://en.ephoto360.com/graffiti-text-5-180.html',0x1),addTextproCommand(_0x2fd1c0(0x190),_0x2fd1c0(0x18d),0x1),addTextproCommand(_0x2fd1c0(0x1da),_0x2fd1c0(0x1b5),0x1),addTextproCommand(_0x2fd1c0(0x184),'https://en.ephoto360.com/create-online-typography-art-effects-with-multiple-layers-811.html',0x1),addTextproCommand(_0x2fd1c0(0x1d7),_0x2fd1c0(0x1aa),0x1),addTextproCommand(_0x2fd1c0(0x1a4),_0x2fd1c0(0x1a3),0x2),addTextproCommand('captain_america',_0x2fd1c0(0x1d2),0x2),addTextproCommand('cubic',_0x2fd1c0(0x1e1),0x1),addTextproCommand(_0x2fd1c0(0x1dc),_0x2fd1c0(0x1e0),0x1),addTextproCommand('naruto',_0x2fd1c0(0x1ab),0x1),addTextproCommand('sand',_0x2fd1c0(0x1cd),0x1),addTextproCommand('plasma','https://en.ephoto360.com/plasma-text-effects-online-71.html',0x1),addTextproCommand('avengers',_0x2fd1c0(0x1cb),0x2),addTextproCommand(_0x2fd1c0(0x179),_0x2fd1c0(0x1d1),0x1),addTextproCommand('glass',_0x2fd1c0(0x1e3),0x1),addTextproCommand(_0x2fd1c0(0x1b3),_0x2fd1c0(0x1b6),0x1),addTextproCommand('summery',_0x2fd1c0(0x1a5),0x1),addTextproCommand(_0x2fd1c0(0x1bc),_0x2fd1c0(0x1ae),0x1),addTextproCommand(_0x2fd1c0(0x1bf),_0x2fd1c0(0x1b4),0x1),addTextproCommand(_0x2fd1c0(0x1c0),_0x2fd1c0(0x1ba),0x1),addTextproCommand(_0x2fd1c0(0x1d4),_0x2fd1c0(0x1c2),0x1),addTextproCommand('sci_fi',_0x2fd1c0(0x1c1),0x2),addTextproCommand(_0x2fd1c0(0x1d3),_0x2fd1c0(0x17f),0x2),addTextproCommand(_0x2fd1c0(0x1c3),'https://en.ephoto360.com/create-blackpink-s-born-pink-album-logo-online-779.html',0x2),addTextproCommand(_0x2fd1c0(0x1d5),_0x2fd1c0(0x19d),0x1),addTextproCommand(_0x2fd1c0(0x1a6),_0x2fd1c0(0x19e),0x1),addTextproCommand('space',_0x2fd1c0(0x1a1),0x2),addTextproCommand(_0x2fd1c0(0x1d9),'https://en.ephoto360.com/music-equalizer-text-effect-259.html',0x1),addTextproCommand(_0x2fd1c0(0x191),_0x2fd1c0(0x1d8),0x1),addTextproCommand(_0x2fd1c0(0x192),'https://en.ephoto360.com/create-one-piece-facebook-cover-online-553.html',0x1),addTextproCommand(_0x2fd1c0(0x17d),_0x2fd1c0(0x18f),0x1),addTextproCommand(_0x2fd1c0(0x18b),'https://en.ephoto360.com/text-on-shirt-club-real-madrid-267.html',0x2),addTextproCommand(_0x2fd1c0(0x186),_0x2fd1c0(0x1df)),addTextproCommand(_0x2fd1c0(0x18c),_0x2fd1c0(0x1bd),0x1);
+const {
+  registerCommand
+} = require("../lib/commands");
+const textmaker = require("../lib/textmaker");
+function addTextproCommand(_0x2a29ac, _0x4fbc9f, _0x543789) {
+  registerCommand({
+    nom_cmd: _0x2a29ac,
+    classe: "Logo",
+    react: "✨",
+    desc: "Effet de texte avec Ephoto360"
+  }, async (_0x23d15e, _0x4c11da, _0x38a36b) => {
+    const {
+      arg: _0x599244,
+      ms: _0x5e00ea
+    } = _0x38a36b;
+    const _0x4ea2ec = _0x599244.join(" ");
+    if (!_0x4ea2ec) {
+      return await _0x4c11da.sendMessage(_0x23d15e, {
+        text: "Vous devez fournir un texte."
+      }, {
+        quoted: _0x5e00ea
+      });
+    }
+    try {
+      let _0x2cc4e1;
+      switch (_0x543789) {
+        case 1:
+          if (_0x4ea2ec.includes(";")) {
+            return await _0x4c11da.sendMessage(_0x23d15e, {
+              text: "Veuillez fournir du texte sans point-virgule (;) pour cette commande."
+            }, {
+              quoted: _0x5e00ea
+            });
+          }
+          _0x2cc4e1 = await textmaker(_0x4fbc9f, _0x4ea2ec);
+          break;
+        case 2:
+          const _0x59fe06 = _0x4ea2ec.split(";");
+          if (_0x59fe06.length < 2) {
+            return await _0x4c11da.sendMessage(_0x23d15e, {
+              text: "Veuillez fournir exactement deux textes séparés par un point-virgule (;), par exemple : Manew;Bot."
+            }, {
+              quoted: _0x5e00ea
+            });
+          }
+          _0x2cc4e1 = await textmaker(_0x4fbc9f, _0x4ea2ec);
+          break;
+        default:
+          throw new Error("Type " + _0x543789 + " non supporté.");
+      }
+      await _0x4c11da.sendMessage(_0x23d15e, {
+        image: {
+          url: _0x2cc4e1.url
+        },
+        caption: "```Powered by Manewbot```"
+      }, {
+        quoted: _0x5e00ea
+      });
+    } catch (_0x503024) {
+      console.error("Erreur avec la commande " + _0x2a29ac + ":", _0x503024.message || _0x503024);
+      await _0x4c11da.sendMessage(_0x23d15e, {
+        text: "Une erreur est survenue lors de la génération du logo : " + _0x503024.message
+      }, {
+        quoted: _0x5e00ea
+      });
+    }
+  });
+}
+addTextproCommand("dragonball", "https://en.ephoto360.com/create-dragon-ball-style-text-effects-online-809.html", 1);
+addTextproCommand("deadpool", "https://en.ephoto360.com/create-text-effects-in-the-style-of-the-deadpool-logo-818.html", 2);
+addTextproCommand("blackpink", "https://en.ephoto360.com/create-a-blackpink-style-logo-with-members-signatures-810.html", 1);
+addTextproCommand("neon1", "https://en.ephoto360.com/blue-neon-text-effect-117.html", 1);
+addTextproCommand("football", "https://en.ephoto360.com/paul-scholes-shirt-foot-ball-335.html", 2);
+addTextproCommand("steel", "https://en.ephoto360.com/heated-steel-lettering-effect-65.html", 2);
+addTextproCommand("paint", "https://en.ephoto360.com/paint-splatter-text-effect-72.html", 1);
+addTextproCommand("thunder", "https://en.ephoto360.com/thunder-text-effect-online-97.html", 1);
+addTextproCommand("thor", "https://en.ephoto360.com/create-thor-logo-style-text-effects-online-for-free-796.html", 1);
+addTextproCommand("graffiti1", "https://en.ephoto360.com/cute-girl-painting-graffiti-text-effect-667.html", 2);
+addTextproCommand("gold2", "https://en.ephoto360.com/modern-gold-5-215.html", 1);
+addTextproCommand("neon2", "https://en.ephoto360.com/create-light-effects-green-neon-online-429.html", 1);
+addTextproCommand("effacer", "https://en.ephoto360.com/create-eraser-deleting-text-effect-online-717.html", 1);
+addTextproCommand("galaxy", "https://en.ephoto360.com/text-light-galaxy-effectt-345.html", 1);
+addTextproCommand("vintage", "https://en.ephoto360.com/write-text-on-vintage-television-online-670.html", 1);
+addTextproCommand("gold1", "https://en.ephoto360.com/gold-text-effect-158.html", 1);
+addTextproCommand("graffiti2", "https://en.ephoto360.com/graffiti-text-5-180.html", 1);
+addTextproCommand("hacker", "https://en.ephoto360.com/create-anonymous-hacker-avatars-cyan-neon-677.html", 1);
+addTextproCommand("rain", "https://en.ephoto360.com/foggy-rainy-text-effect-75.html", 1);
+addTextproCommand("typography", "https://en.ephoto360.com/create-online-typography-art-effects-with-multiple-layers-811.html", 1);
+addTextproCommand("gold3", "https://en.ephoto360.com/glossy-chrome-text-effect-online-424.html", 1);
+addTextproCommand("wood", "https://en.ephoto360.com/create-3d-wood-text-effects-online-free-705.html", 2);
+addTextproCommand("captain_america", "https://en.ephoto360.com/create-a-cinematic-captain-america-text-effect-online-715.html", 2);
+addTextproCommand("cubic", "https://en.ephoto360.com/3d-cubic-text-effect-online-88.html", 1);
+addTextproCommand("green_effect", "https://en.ephoto360.com/create-unique-word-green-light-63.html", 1);
+addTextproCommand("naruto", "https://en.ephoto360.com/naruto-shippuden-logo-style-text-effect-online-808.html", 1);
+addTextproCommand("sand", "https://en.ephoto360.com/realistic-3d-sand-text-effect-online-580.html", 1);
+addTextproCommand("plasma", "https://en.ephoto360.com/plasma-text-effects-online-71.html", 1);
+addTextproCommand("avengers", "https://en.ephoto360.com/create-logo-3d-style-avengers-online-427.html", 2);
+addTextproCommand("underwater", "https://en.ephoto360.com/3d-underwater-text-effect-online-682.html", 1);
+addTextproCommand("glass", "https://en.ephoto360.com/write-text-on-wet-glass-online-589.html", 1);
+addTextproCommand("graffiti3", "https://en.ephoto360.com/cover-graffiti-181.html", 1);
+addTextproCommand("summery", "https://en.ephoto360.com/create-a-summery-sand-writing-text-effect-577.html", 1);
+addTextproCommand("gold4", "https://en.ephoto360.com/modern-gold-silver-210.html", 1);
+addTextproCommand("cloud", "https://en.ephoto360.com/cloud-text-effect-139.html", 1);
+addTextproCommand("metal", "https://en.ephoto360.com/metal-text-effect-online-110.html", 1);
+addTextproCommand("watercolor", "https://en.ephoto360.com/create-a-watercolor-text-effect-online-655.html", 1);
+addTextproCommand("sci_fi", "https://en.ephoto360.com/create-a-awesome-logo-sci-fi-effects-492.html", 2);
+addTextproCommand("gold5", "https://en.ephoto360.com/free-glitter-text-effect-maker-online-656.html", 2);
+addTextproCommand("blackpink2", "https://en.ephoto360.com/create-blackpink-s-born-pink-album-logo-online-779.html", 2);
+addTextproCommand("cloud2", "https://en.ephoto360.com/create-a-cloud-text-effect-in-the-sky-618.html", 1);
+addTextproCommand("neon3", "https://en.ephoto360.com/neon-text-effect-171.html", 1);
+addTextproCommand("space", "https://en.ephoto360.com/latest-space-3d-text-effect-online-559.html", 2);
+addTextproCommand("boobs", "https://en.ephoto360.com/music-equalizer-text-effect-259.html", 1);
+addTextproCommand("blackpink3", "https://en.ephoto360.com/create-a-blackpink-neon-logo-text-effect-online-710.html", 1);
+addTextproCommand("onepiece", "https://en.ephoto360.com/create-one-piece-facebook-cover-online-553.html", 1);
+addTextproCommand("dragonball2", "https://en.ephoto360.com/free-online-dragon-ball-facebook-cover-photos-maker-443.html", 1);
+addTextproCommand("football2", "https://en.ephoto360.com/text-on-shirt-club-real-madrid-267.html", 2);
+addTextproCommand("football3", "https://en.ephoto360.com/create-football-shirt-messi-barca-online-268.html");
+addTextproCommand("futuris", "https://en.ephoto360.com/light-text-effect-futuristic-technology-style-648.html", 1);
