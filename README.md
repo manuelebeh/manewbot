@@ -1,10 +1,6 @@
 <h1 align="center">Manewbot</h1>
 
 <p align="center">
-    <img alt="Manewbot" src="https://files.catbox.moe/gxcb9p.jpg">
-</p>
-
-<p align="center">
     Un bot WhatsApp multi-appareil. N'oubliez pas de laisser une star pour le projet.
 </p>
 
