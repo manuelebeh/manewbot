@@ -1,9 +1,9 @@
 const {
   autoread_msg,
   autoreact_msg
-} = require("./auto_react&read_msg");
+} = require("./auto_react_read_msg");
 module.exports = {
-  rankAndLevelUp: require("./rank&levelup"),
+  rankAndLevelUp: require("./rank_levelup"),
   lecture_status: require("./lecture_status"),
   like_status: require("./like_status"),
   presence: require("./presence"),
