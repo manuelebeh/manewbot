@@ -9,13 +9,18 @@
     "stop": "pm2 stop all",
     "Ovl": "node Ovl.js"
   },
-  "keywords": ["Manewbot", "Whatsapp", "Baileys", "Muti-device"],
+  "keywords": [
+    "Manewbot",
+    "Whatsapp",
+    "Baileys",
+    "Muti-device"
+  ],
   "author": "Manuelebeh",
   "license": "MIT",
   "dependencies": {
     "@vitalets/google-translate-api": "^9.2.1",
-    "@whiskeysockets/baileys": "^7.0.0-rc11",
-    "acrcloud":"^1.4.0",
+    "@whiskeysockets/baileys": "file:./packages/baileys-cjs",
+    "acrcloud": "^1.4.0",
     "adm-zip": "^0.5.16",
     "axios": "^1.8.4",
     "cheerio": "^1.1.0",
@@ -28,13 +33,12 @@
     "pg": "^8.16.3",
     "pino": "^9.7.0",
     "pm2": "^6.0.8",
-    "sqlite3": "^5.1.7",
-    "tempmail.lol": "^4.4.0",
+    "qrcode-terminal": "^0.12.0",
     "sequelize": "^6.37.7",
     "simple-git": "^3.28.0",
+    "sqlite3": "^5.1.7",
+    "tempmail.lol": "^4.4.0",
     "wa-sticker-formatter": "^4.4.4",
     "wikipedia": "^2.1.2"
   }
 }
-
-
