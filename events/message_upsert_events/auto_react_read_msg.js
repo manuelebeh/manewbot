@@ -1,8 +1,11 @@
 const {
   WA_CONF2
 } = require("../../database/wa_conf");
+const config = require("../../set");
+const {
+  getBlockedAutoreactGroups
+} = require("../../lib/parse-env-lists");
 const emojis = ["🎐", "👍", "❤️", "😂", "😮", "😢", "😡", "🎉", "🔥", "🙏", "💯", "✨", "🎈", "🤖", "👀", "🌟", "😎", "🤩", "💥", "🎶", "😄", "😆", "😉", "😊", "😋", "😜", "😝", "😛", "🤑", "🤗", "🤔", "😳", "😱", "😨", "😰", "😥", "😭", "😓", "😪", "😴", "🙄", "🤐", "😷", "🤒", "🤕", "😵", "🤠", "😇", "🤡", "👹", "👺", "💀", "👻", "👽", "🤖", "💩", "😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🙌", "👏", "🤝", "👍", "👎", "👊", "✊", "🤛", "🤜", "🤞", "✌️", "🤟", "🤘", "👌", "👈", "👉", "👆", "👇", "☝️", "✋", "🤚", "🖐", "🖖", "👋", "🤙", "💪", "🦵", "🦶", "👂", "👃", "👣", "👁", "👀", "🧠", "🦷", "🦴", "👅", "👄", "💋", "👓", "🕶", "🥽", "🥼", "🦺", "👔"];
-const BLOCKED_REACT_JIDS = ["120363314687943170@g.us", "120363404635307998@g.us", "120363398500341783@g.us"];
 function getRandomEmoji() {
   return emojis[Math.floor(Math.random() * emojis.length)];
 }
@@ -18,7 +21,7 @@ async function autoread_msg(sock, messageKey) {
   await sock.readMessages([messageKey]);
 }
 async function autoreact_msg(sock, msg, chatJid) {
-  if (chatJid && BLOCKED_REACT_JIDS.includes(chatJid)) {
+  if (chatJid && getBlockedAutoreactGroups(config).includes(chatJid)) {
     return;
   }
   const config = await WA_CONF2.findOne({

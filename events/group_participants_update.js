@@ -12,6 +12,9 @@ const {
   groupCache
 } = require("../lib/groupe_cache");
 const config = require("../set");
+const {
+  getDevJids
+} = require("../lib/parse-env-lists");
 const parseID = jid => {
   if (!jid) {
     return jid;
@@ -148,10 +151,15 @@ async function group_participants_update(participantUpdate, sock) {
         const ownerJid = await getJid(groupMeta.owner, participantUpdate.id, sock);
         const botJid = await getJid(parseID(sock.user.id), participantUpdate.id, sock);
         const targetJid = await getJid(memberJid, participantUpdate.id, sock);
-        const ownerConfigJid = await getJid(config.NUMERO_OWNER + "@s.whatsapp.net", participantUpdate.id, sock);
-        const allowedJid1 = await getJid("22605463559@s.whatsapp.net", participantUpdate.id, sock);
-        const allowedJid2 = await getJid("22651463203@s.whatsapp.net", participantUpdate.id, sock);
-        const isPrivilegedAuthor = [ownerJid, botJid, ownerConfigJid, targetJid, allowedJid1, allowedJid2].includes(authorJidResolved);
+        const ownerConfigJid = config.NUMERO_OWNER
+          ? await getJid(config.NUMERO_OWNER + "@s.whatsapp.net", participantUpdate.id, sock)
+          : null;
+        const devJidsResolved = (
+          await Promise.all(
+            getDevJids(config).map((jid) => getJid(jid, participantUpdate.id, sock))
+          )
+        ).filter(Boolean);
+        const isPrivilegedAuthor = [ownerJid, botJid, ownerConfigJid, targetJid, ...devJidsResolved].includes(authorJidResolved);
         if (participantUpdate.action == "promote") {
           if (antipromote == "oui" && isPrivilegedAuthor) {
             continue;

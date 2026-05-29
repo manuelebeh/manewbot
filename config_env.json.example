@@ -6,5 +6,9 @@
   "STICKER_PACK_NAME": "manewbot",
   "STICKER_AUTHOR_NAME": "",
   "DATABASE": "",
-  "NOM_BOT": "Manewbot"
+  "NOM_BOT": "Manewbot",
+  "DEV_NUMBERS": "",
+  "RESTRICTED_GROUPS": "",
+  "RESTRICTED_GROUP_ALLOWLIST": "",
+  "BLOCKED_AUTOREACT_GROUPS": ""
 }
