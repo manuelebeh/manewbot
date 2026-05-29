@@ -4,6 +4,9 @@ const {
 } = require("../lib/commands");
 const config = require("../set");
 const {
+  getDevNumbers
+} = require("../lib/parse-env-lists");
+const {
   translate
 } = require("@vitalets/google-translate-api");
 const prefixe = config.PREFIXE;
@@ -1075,8 +1078,16 @@ registerCommand({
   desc: "Numero du créateur du bot",
   alias: ["dev"]
 }, async (chatJid, sock, ctx) => {
-  const url = "22651463203";
-  const url2 = "Manewbie";
+  const devNumbers = getDevNumbers(config);
+  const url = devNumbers[0] || config.NUMERO_OWNER;
+  if (!url) {
+    return sock.sendMessage(chatJid, {
+      text: "Aucun numéro développeur configuré (DEV_NUMBERS ou NUMERO_OWNER)."
+    }, {
+      quoted: ctx.ms
+    });
+  }
+  const url2 = config.NOM_OWNER || config.NOM_BOT || "Développeur";
   const url3 = "BEGIN:VCARD\nVERSION:3.0\nFN:" + url2 + "\nORG:undefined;\nTEL;type=CELL;type=VOICE;waid=" + url + ":+" + url + "\nEND:VCARD";
   sock.sendMessage(chatJid, {
     contacts: {

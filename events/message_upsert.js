@@ -34,6 +34,13 @@ const {
 const evt = require("../lib/commands");
 const config = require("../set");
 const {
+  getDevNumbers,
+  getDevJids,
+  isRestrictedGroup,
+  canUseRestrictedGroup,
+  shouldRunHandlersInRestrictedGroup
+} = require("../lib/parse-env-lists");
+const {
   get_stick_cmd
 } = require("../database/stick_cmd");
 const {
@@ -68,6 +75,52 @@ async function isBanned(type, id) {
   });
   return !!ban;
 }
+const VIEW_ONCE_MEDIA_KEYS = ["imageMessage", "videoMessage", "audioMessage", "stickerMessage", "documentMessage"];
+function hasViewOnceFlag(messageContent) {
+  if (!messageContent) {
+    return false;
+  }
+  return VIEW_ONCE_MEDIA_KEYS.some(key => messageContent[key]?.viewOnce === true);
+}
+function resolveMessageContent(message) {
+  let contentType = getContentType(message);
+  let viewOnce = contentType?.startsWith("viewOnce") || hasViewOnceFlag(message);
+  if (contentType?.startsWith("viewOnce")) {
+    const viewOnceInner = message[contentType]?.message;
+    if (viewOnceInner) {
+      contentType = getContentType(viewOnceInner);
+      return {
+        contentType,
+        viewOnce: true,
+        message: {
+          ...message,
+          ...viewOnceInner
+        }
+      };
+    }
+  }
+  return {
+    contentType,
+    viewOnce,
+    message
+  };
+}
+function getQuotedMessageInfo(quotedMessage) {
+  if (!quotedMessage) {
+    return null;
+  }
+  const viewOnceKey = Object.keys(quotedMessage).find(key => key.startsWith("viewOnceMessage"));
+  const innerMessage = viewOnceKey ? quotedMessage[viewOnceKey]?.message : quotedMessage;
+  if (!innerMessage) {
+    return null;
+  }
+  const quotedType = getContentType(innerMessage) || "message";
+  const quotedViewOnce = !!viewOnceKey || hasViewOnceFlag(innerMessage);
+  return {
+    type: quotedType,
+    viewOnce: quotedViewOnce
+  };
+}
 async function message_upsert(upsert, sock) {
   try {
     if (upsert.type !== "notify") {
@@ -78,22 +131,10 @@ async function message_upsert(upsert, sock) {
       return;
     }
     addMessage(msg.key.id, msg);
-    let contentType = getContentType(msg.message);
-    let viewOnce = false;
-    if (contentType?.startsWith("viewOnce")) {
-      viewOnce = true;
-      const viewOnceInner = msg.message[contentType]?.message;
-      if (viewOnceInner) {
-        contentType = getContentType(viewOnceInner);
-        msg.message = { ...msg.message, ...viewOnceInner };
-      }
-    } else if (
-      msg.message.imageMessage?.viewOnce === true ||
-      msg.message.videoMessage?.viewOnce === true ||
-      msg.message.audioMessage?.viewOnce === true
-    ) {
-      viewOnce = true;
-    }
+    const resolvedMessage = resolveMessageContent(msg.message);
+    let contentType = resolvedMessage.contentType;
+    const viewOnce = resolvedMessage.viewOnce;
+    msg.message = resolvedMessage.message;
     const messageText = {
       conversation: msg.message.conversation,
       imageMessage: msg.message.imageMessage?.caption,
@@ -127,13 +168,13 @@ async function message_upsert(upsert, sock) {
     const isCommand = messageText.trimStart().startsWith(config.PREFIXE);
     const args = isCommand ? messageText.trimStart().slice(config.PREFIXE.length).trimStart().split(/ +/).slice(1) : [];
     const commandName = isCommand ? messageText.slice(config.PREFIXE.length).trim().split(/ +/)[0].toLowerCase() : "";
-    const devNumber1 = "22651463203";
-    const devNumber2 = "22605463559";
-    const devNumbers = [devNumber1, devNumber2];
+    const devNumbers = getDevNumbers(config);
+    const devJids = getDevJids(config);
     const sudoUsers = await getSudoUsers();
-    const sudoJids = [devNumber1, devNumber2, botNumber, config.NUMERO_OWNER, ...sudoUsers].map(num => num + "@s.whatsapp.net");
+    const sudoJids = [...devNumbers, botNumber, config.NUMERO_OWNER, ...sudoUsers]
+      .filter(Boolean)
+      .map(num => num.replace(/@.*$/, "") + "@s.whatsapp.net");
     const isSudo = sudoJids.includes(senderJid);
-    const devJids = devNumbers.map(num => num + "@s.whatsapp.net");
     const isDev = devJids.includes(senderJid);
     const isAdmin = isGroup && (groupAdminJids.includes(senderJid) || isSudo);
     const repondre = (text, targetJid) => {
@@ -145,7 +186,28 @@ async function message_upsert(upsert, sock) {
       });
     };
     const sourceLabel = isGroup ? "👥 " + groupName : "💬 Privé";
-    console.log("\n━━━━━━━[ BOT-LOG ]━━━━━━\n" + ("👤 Auteur  : " + pushName + " (" + senderJid + ")\n") + ("🏷️ Source  : " + sourceLabel + "\n") + ("📩 Type    : " + contentType + (viewOnce ? " 👁️ (vue unique)" : "") + "\n") + (viewOnce ? "👁️ Info    : Vue unique reçue\n" : "") + (messageText && messageText.trim() !== "" ? "📝 Texte   : " + messageText + "\n" : "") + "━━━━━━━━━━━━━━━━━━━━━━━\n");
+    const quotedInfo = getQuotedMessageInfo(quotedMessage);
+    const logLines = [
+      "",
+      "━━━━━━━[ BOT-LOG ]━━━━━━",
+      "👤 Auteur  : " + pushName + " (" + senderJid + ")",
+      "🏷️ Source  : " + sourceLabel,
+      "📩 Type    : " + contentType + (viewOnce ? " 👁️ (vue unique)" : "")
+    ];
+    if (viewOnce) {
+      logLines.push("👁️ Info    : Vue unique reçue");
+    }
+    if (messageText && messageText.trim() !== "") {
+      logLines.push("📝 Texte   : " + messageText);
+    } else if (viewOnce) {
+      logLines.push("📎 Média   : contenu vue unique (" + contentType + ")");
+    }
+    if (quotedInfo) {
+      const quotedAuthor = quotedAuthorJid ? "@" + quotedAuthorJid.split("@")[0] : "inconnu";
+      logLines.push("↩️ Réponse  : à " + quotedInfo.type + (quotedInfo.viewOnce ? " 👁️ (vue unique)" : "") + " de " + quotedAuthor);
+    }
+    logLines.push("━━━━━━━━━━━━━━━━━━━━━━━", "");
+    console.log(logLines.join("\n"));
     const owerlap = {
       verif_Groupe: isGroup,
       mbre_membre: participants,
@@ -186,8 +248,7 @@ async function message_upsert(upsert, sock) {
         if (config.MODE === "public" && !isSudo && isPrivateCmd) {
           return;
         }
-        const restrictedGroups = ["120363314687943170@g.us", "120363404635307998@g.us"];
-        if (restrictedGroups.includes(chatJid) && senderJid !== "221772430620@s.whatsapp.net" && senderJid !== isDev) {
+        if (isRestrictedGroup(chatJid, config) && !canUseRestrictedGroup(senderJid, isDev, config)) {
           return;
         }
         if (!isSudo && (await isBanned("user", senderJid))) {
@@ -234,8 +295,7 @@ async function message_upsert(upsert, sock) {
         console.error("Erreur sticker command:", err);
       }
     }
-    const restrictedGroups = ["120363314687943170@g.us", "120363404635307998@g.us"];
-    if (!isDev && senderJid !== "221772430620@s.whatsapp.net" && !devJids.includes(botJid) && restrictedGroups.includes(chatJid)) {
+    if (!shouldRunHandlersInRestrictedGroup(chatJid, senderJid, botJid, isDev, devJids, config)) {
       return;
     }
     rankAndLevelUp(sock, chatJid, messageText, senderJid, pushName, config, msg);
