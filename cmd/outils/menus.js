@@ -165,7 +165,7 @@ registerCommand({
       });
       return sock.sendMessage(chatJid, {
         image: {
-          url: "https://files.catbox.moe/6xlk10.jpg"
+          url: config.THEME_LIST_IMAGE_URL
         },
         caption: url2
       }, {
@@ -173,17 +173,20 @@ registerCommand({
       });
     }
     if (text.startsWith("http://") || text.startsWith("https://")) {
+      const { validatePublicHttpUrl } = require('../../lib/url-safety');
       const text2 = arg.join(" ").split(";").map(tmp5 => tmp5.trim()).filter(tmp6 => tmp6.length > 0);
-      const value = /^https?:\/\/.+/i;
+      const safeUrls = [];
       for (const tmp7 of text2) {
-        if (!value.test(tmp7)) {
-          return repondre("❌ URL invalide : " + tmp7);
+        const check = validatePublicHttpUrl(tmp7);
+        if (!check.ok) {
+          return repondre("❌ " + check.reason + " (" + tmp7 + ")");
         }
+        safeUrls.push(check.href);
       }
-      tmp.mention = JSON.stringify(text2);
+      tmp.mention = JSON.stringify(safeUrls);
       await tmp.save();
       return sock.sendMessage(chatJid, {
-        text: "✅ " + text2.length + " thème(s) personnalisé(s) défini(s)."
+        text: "✅ " + safeUrls.length + " thème(s) personnalisé(s) défini(s)."
       }, {
         quoted: ms
       });

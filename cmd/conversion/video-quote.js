@@ -88,7 +88,7 @@ registerCommand({
   try {
     value2 = await sock.profilePictureUrl(auteur_Msg_Repondu, "image");
   } catch (err) {
-    value2 = "https://files.catbox.moe/8kvevz.jpg";
+    value2 = config.VIDEO_QUOTE_PLACEHOLDER_URL;
   }
   let value32;
   const rankRecord2 = await Ranks.findOne({

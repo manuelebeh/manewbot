@@ -5,6 +5,7 @@ const config = require('../../set');
 const { getServiceUrls, serviceNotConfiguredMessage } = require('../../lib/service-urls');
 const axios = require('axios');
 const FormData = require('form-data');
+const { validatePublicHttpUrl, validateRemoteMediaUrl } = require('../../lib/url-safety');
 
 function genererCommandeCanvacord(effectName) {
   registerCommand({
@@ -30,14 +31,18 @@ function genererCommandeCanvacord(effectName) {
         imageSource = localPath;
         isLocalFile = true;
       } else if (arg[0]?.startsWith("http")) {
-        imageSource = arg[0];
+        const urlCheck = validatePublicHttpUrl(arg[0]);
+        if (!urlCheck.ok) {
+          return bot.sendMessage(jid, { text: urlCheck.reason }, { quoted: ms });
+        }
+        imageSource = urlCheck.href;
       } else {
         const targetUser = auteur_Msg_Repondu || arg[0]?.includes("@") && arg[0].replace("@", "") + "@lid" || auteur_Message;
         const resolvedJid = await getJid(targetUser, jid, bot);
         try {
           imageSource = await bot.profilePictureUrl(resolvedJid, "image");
         } catch {
-          imageSource = "https://files.catbox.moe/ulwqtr.jpg";
+          imageSource = config.DEFAULT_AVATAR_URL;
         }
       }
       const {

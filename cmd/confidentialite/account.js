@@ -1,8 +1,7 @@
 'use strict';
 
-const {
-  registerCommand,
-} = require('./_shared');
+const { registerCommand } = require('./_shared');
+const config = require('../../set');
 
 registerCommand({
   nom_cmd: "getprivacy",
@@ -11,10 +10,10 @@ registerCommand({
   desc: "Obtenir vos paramètres de confidentialité"
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   ms
 }) => {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   try {
@@ -32,7 +31,7 @@ registerCommand({
     try {
       profilePicUrl = await bot.profilePictureUrl(jid, "image");
     } catch {
-      profilePicUrl = "https://files.catbox.moe/ulwqtr.jpg";
+      profilePicUrl = config.DEFAULT_AVATAR_URL;
     }
     await bot.sendMessage(jid, {
       image: {
@@ -54,10 +53,10 @@ registerCommand({
   desc: "Modifier votre statut de profil"
 }, async (jid, bot, {
   repondre,
-  isSudo,
+  isOwner,
   arg
 }) => {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   let bio = arg.join(" ");

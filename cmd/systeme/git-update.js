@@ -81,9 +81,19 @@ registerCommand({
     if (!status.behind && !status.modified.length && !status.created.length && !status.deleted.length) {
       return repondre("✅ Le bot est déjà à jour.");
     }
+    const dirty =
+      status.modified.length > 0 ||
+      status.created.length > 0 ||
+      status.deleted.length > 0 ||
+      status.not_added.length > 0;
+    if (dirty) {
+      await git.stash(["push", "-u", "-m", "manewbot-pre-update"]);
+      await repondre(
+        "📦 Modifications locales mises de côté (git stash). Utilisez `git stash pop` sur le serveur si besoin."
+      );
+    }
     await repondre("⏳ Téléchargement des dernières modifications...");
-    await git.reset(["--hard"]);
-    await git.pull("origin", "main");
+    await git.pull("origin", "main", ["--ff-only"]);
     await repondre("✅ Mise à jour réussie. Redémarrage en cours...");
     setTimeout(() => {
       process.exit(0);

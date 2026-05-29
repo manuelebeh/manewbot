@@ -15,7 +15,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateLastSeenPrivacy,
     label: "dernière vue"
   });
@@ -31,7 +31,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateOnlinePrivacy,
     label: "en ligne"
   });
@@ -47,7 +47,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateProfilePicturePrivacy,
     label: "photo de profil"
   });
@@ -63,7 +63,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateStatusPrivacy,
     label: "statut"
   });
@@ -79,7 +79,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateReadReceiptsPrivacy,
     label: "confirmation de lecture"
   });
@@ -95,7 +95,7 @@ registerCommand({
     bot,
     repondre: ctx.repondre,
     arg: ctx.arg,
-    isSudo: ctx.isSudo,
+    isOwner: ctx.isOwner,
     updateFunction: bot.updateGroupsAddPrivacy,
     label: "ajout en groupe"
   });

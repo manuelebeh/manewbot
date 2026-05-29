@@ -28,8 +28,12 @@ registerCommand({
   const {
     ms,
     msg_Repondu,
-    repondre
+    repondre,
+    isStaff
   } = ctx;
+  if (!isStaff) {
+    return repondre("🔒 Commande réservée au propriétaire et aux sudo.");
+  }
   if (!msg_Repondu) {
     return repondre("Veuillez mentionner un message en vue unique.");
   }
@@ -91,8 +95,12 @@ registerCommand({
     ms,
     id_Bot,
     msg_Repondu,
-    repondre
+    repondre,
+    isStaff
   } = ctx;
+  if (!isStaff) {
+    return repondre("🔒 Commande réservée au propriétaire et aux sudo.");
+  }
   if (!msg_Repondu) {
     return repondre("Veuillez mentionner un message en vue unique.");
   }

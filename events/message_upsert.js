@@ -235,6 +235,7 @@ async function message_upsert(upsert, sock) {
         chatJid,
         senderJid,
         isGroup,
+        isOwner,
         isStaff,
         isAdmin,
         sock,

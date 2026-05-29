@@ -119,7 +119,7 @@ registerCommand({
   try {
     await sock.sendMessage(chatJid, {
       image: {
-        url: "https://files.catbox.moe/lojrxz.jpg"
+        url: config.BOT_INFO_IMAGE_URL
       },
       caption: item,
       contextInfo: contextInfo

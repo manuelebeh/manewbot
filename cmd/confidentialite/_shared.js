@@ -76,11 +76,11 @@ async function handlePrivacyCommand({
   bot,
   repondre,
   arg,
-  isSudo,
+  isOwner,
   updateFunction,
   label
 }) {
-  if (!isSudo) {
+  if (!isOwner) {
     return repondre("Vous n'avez pas le droit d'exécuter cette commande.");
   }
   const options = privacyValues[type];

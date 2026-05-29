@@ -25,6 +25,10 @@ registerCommand({
   react: "🖥️",
   desc: "Affiche les informations du système en temps réel"
 }, async (chatJid, sock, ctx) => {
+  const { isOwner, repondre } = ctx;
+  if (!isOwner) {
+    return repondre("🔒 Commande réservée au propriétaire.");
+  }
   const value = os.platform();
   const value2 = os.arch();
   const value3 = os.cpus();

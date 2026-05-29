@@ -55,4 +55,21 @@ module.exports = {
     process.env.YOUTUBE_DL_API_BASE || 'https://you-tube-dl-psi.vercel.app',
   /** API paroles (commande lyrics) */
   LYRICS_API_BASE: process.env.LYRICS_API_BASE || 'https://api.delirius.store',
+  /** Chatbot HTTP API (vide = chatbot désactivé côté réseau) */
+  CHATBOT_API_BASE: process.env.CHATBOT_API_BASE || '',
+  WAIFU_PICS_API_BASE: process.env.WAIFU_PICS_API_BASE || 'https://api.waifu.pics/sfw',
+  CATBOX_UPLOAD_URL: process.env.CATBOX_UPLOAD_URL || 'https://catbox.moe/user/api.php',
+  DEFAULT_AVATAR_URL: process.env.DEFAULT_AVATAR_URL || 'https://files.catbox.moe/ulwqtr.jpg',
+  THEME_LIST_IMAGE_URL:
+    process.env.THEME_LIST_IMAGE_URL || 'https://files.catbox.moe/6xlk10.jpg',
+  EPHOTO360_BASE: process.env.EPHOTO360_BASE || 'https://en.ephoto360.com',
+  GITHUB_KOPEL_JSON_URL:
+    process.env.GITHUB_KOPEL_JSON_URL ||
+    'https://raw.githubusercontent.com/iamriz7/kopel_/main/kopel.json',
+  WELCOME_IMAGE_URL:
+    process.env.WELCOME_IMAGE_URL || 'https://files.catbox.moe/82g8ey.jpg',
+  BOT_INFO_IMAGE_URL:
+    process.env.BOT_INFO_IMAGE_URL || 'https://files.catbox.moe/lojrxz.jpg',
+  VIDEO_QUOTE_PLACEHOLDER_URL:
+    process.env.VIDEO_QUOTE_PLACEHOLDER_URL || 'https://files.catbox.moe/8kvevz.jpg',
 };

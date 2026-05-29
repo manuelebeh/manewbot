@@ -1,39 +1,47 @@
 'use strict';
 
 const { registerCommand } = require('../../lib/commands');
+const config = require('../../set');
 const axios = require('axios');
 const fs = require('fs');
 const { runFfmpeg } = require('../../lib/ffmpeg');
+const { validateRemoteMediaUrl } = require('../../lib/url-safety');
 
-const reactions = {
-  embeter: "https://api.waifu.pics/sfw/bully",
-  caliner: "https://api.waifu.pics/sfw/cuddle",
-  pleurer: "https://api.waifu.pics/sfw/cry",
-  enlacer: "https://api.waifu.pics/sfw/hug",
-  awoo: "https://api.waifu.pics/sfw/awoo",
-  embrasser: "https://api.waifu.pics/sfw/kiss",
-  lecher: "https://api.waifu.pics/sfw/lick",
-  tapoter: "https://api.waifu.pics/sfw/pat",
-  sourire_fier: "https://api.waifu.pics/sfw/smug",
-  assommer: "https://api.waifu.pics/sfw/bonk",
-  lancer: "https://api.waifu.pics/sfw/yeet",
-  rougir: "https://api.waifu.pics/sfw/blush",
-  sourire: "https://api.waifu.pics/sfw/smile",
-  saluer: "https://api.waifu.pics/sfw/wave",
-  highfive: "https://api.waifu.pics/sfw/highfive",
-  tenir_main: "https://api.waifu.pics/sfw/handhold",
-  croquer: "https://api.waifu.pics/sfw/nom",
-  mordre: "https://api.waifu.pics/sfw/bite",
-  sauter: "https://api.waifu.pics/sfw/glomp",
-  gifler: "https://api.waifu.pics/sfw/slap",
-  tuer: "https://api.waifu.pics/sfw/kill",
-  coup_de_pied: "https://api.waifu.pics/sfw/kick",
-  heureux: "https://api.waifu.pics/sfw/happy",
-  clin_doeil: "https://api.waifu.pics/sfw/wink",
-  pousser: "https://api.waifu.pics/sfw/poke",
-  danser: "https://api.waifu.pics/sfw/dance",
-  gene: "https://api.waifu.pics/sfw/cringe"
+const reactionActions = {
+  embeter: 'bully',
+  caliner: 'cuddle',
+  pleurer: 'cry',
+  enlacer: 'hug',
+  awoo: 'awoo',
+  embrasser: 'kiss',
+  lecher: 'lick',
+  tapoter: 'pat',
+  sourire_fier: 'smug',
+  assommer: 'bonk',
+  lancer: 'yeet',
+  rougir: 'blush',
+  sourire: 'smile',
+  saluer: 'wave',
+  highfive: 'highfive',
+  tenir_main: 'handhold',
+  croquer: 'nom',
+  mordre: 'bite',
+  sauter: 'glomp',
+  gifler: 'slap',
+  tuer: 'kill',
+  coup_de_pied: 'kick',
+  heureux: 'happy',
+  clin_doeil: 'wink',
+  pousser: 'poke',
+  danser: 'dance',
+  gene: 'cringe',
 };
+
+function buildWaifuApiUrl(action) {
+  const base = (config.WAIFU_PICS_API_BASE || 'https://api.waifu.pics/sfw').replace(/\/$/, '');
+  return base + '/' + action;
+}
+
 function generateCaption(commandName, authorTag, targetTag) {
   const captions = {
     embeter: {
@@ -49,112 +57,112 @@ function generateCaption(commandName, authorTag, targetTag) {
       withoutTarget: "@" + authorTag + " pleure tout seul..."
     },
     enlacer: {
-      withTarget: "@" + authorTag + " enlace chaleureusement @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut enlacer tout le monde !"
+      withTarget: "@" + authorTag + " enlace @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " veut un câlin !"
     },
     awoo: {
-      withTarget: "@" + authorTag + " fait \"Awoo\" à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " hurle \"Awoo\" pour tout le monde !"
+      withTarget: "@" + authorTag + " fait awoo à @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " fait awoo !"
     },
     embrasser: {
-      withTarget: "@" + authorTag + " embrasse tendrement @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut embrasser tout le monde !"
+      withTarget: "@" + authorTag + " embrasse @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " cherche quelqu'un à embrasser !"
     },
     lecher: {
       withTarget: "@" + authorTag + " lèche @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut lécher tout le monde !"
+      withoutTarget: "@" + authorTag + " lèche l'air !"
     },
     tapoter: {
-      withTarget: "@" + authorTag + " tapote la tête de @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut tapoter la tête de tout le monde !"
+      withTarget: "@" + authorTag + " tapote @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " tapote tout le monde !"
     },
     sourire_fier: {
-      withTarget: "@" + authorTag + " adresse un sourire fier à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " affiche un sourire fier devant tout le monde !"
+      withTarget: "@" + authorTag + " sourit fièrement à @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " sourit fièrement !"
     },
     assommer: {
-      withTarget: "@" + authorTag + " assomme @" + targetTag + " avec une massue !",
-      withoutTarget: "@" + authorTag + " est prêt à assommer tout le monde !"
+      withTarget: "@" + authorTag + " assomme @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " assomme tout le monde !"
     },
     lancer: {
-      withTarget: "@" + authorTag + " lance @" + targetTag + " loin dans les airs !",
-      withoutTarget: "@" + authorTag + " veut lancer quelqu'un dans les airs !"
+      withTarget: "@" + authorTag + " lance @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " lance quelque chose !"
     },
     rougir: {
-      withTarget: "@" + authorTag + " rougit en regardant @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " rougit devant tout le monde !"
+      withTarget: "@" + authorTag + " rougit devant @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " rougit !"
     },
     sourire: {
-      withTarget: "@" + authorTag + " sourit joyeusement à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " sourit joyeusement à tout le monde !"
+      withTarget: "@" + authorTag + " sourit à @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " sourit !"
     },
     saluer: {
-      withTarget: "@" + authorTag + " salue chaleureusement @" + targetTag + " !",
+      withTarget: "@" + authorTag + " salue @" + targetTag + " !",
       withoutTarget: "@" + authorTag + " salue tout le monde !"
     },
     highfive: {
-      withTarget: "@" + authorTag + " donne un high-five à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut donner un high-five à tout le monde !"
+      withTarget: "@" + authorTag + " fait un high-five avec @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " cherche un high-five !"
     },
     tenir_main: {
       withTarget: "@" + authorTag + " tient la main de @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut tenir la main de tout le monde !"
+      withoutTarget: "@" + authorTag + " cherche une main à tenir !"
     },
     croquer: {
-      withTarget: "@" + authorTag + " croque un morceau de @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut croquer tout le monde !"
+      withTarget: "@" + authorTag + " croque @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " croque l'air !"
     },
     mordre: {
       withTarget: "@" + authorTag + " mord @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut mordre tout le monde !"
+      withoutTarget: "@" + authorTag + " mord tout le monde !"
     },
     sauter: {
-      withTarget: "@" + authorTag + " saute sur @" + targetTag + " avec enthousiasme !",
-      withoutTarget: "@" + authorTag + " veut sauter sur tout le monde !"
+      withTarget: "@" + authorTag + " saute sur @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " saute partout !"
     },
     gifler: {
       withTarget: "@" + authorTag + " gifle @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut gifler tout le monde !"
+      withoutTarget: "@" + authorTag + " gifle tout le monde !"
     },
     tuer: {
       withTarget: "@" + authorTag + " tue @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " est prêt à tuer tout le monde !"
+      withoutTarget: "@" + authorTag + " est en mode tueur !"
     },
     coup_de_pied: {
       withTarget: "@" + authorTag + " donne un coup de pied à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut donner un coup de pied à tout le monde !"
+      withoutTarget: "@" + authorTag + " donne des coups de pied !"
     },
     heureux: {
-      withTarget: "@" + authorTag + " est heureux en voyant @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " est heureux avec tout le monde !"
+      withTarget: "@" + authorTag + " est heureux avec @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " est heureux !"
     },
     clin_doeil: {
       withTarget: "@" + authorTag + " fait un clin d'œil à @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " fait un clin d'œil à tout le monde !"
+      withoutTarget: "@" + authorTag + " fait un clin d'œil !"
     },
     pousser: {
-      withTarget: "@" + authorTag + " pousse doucement @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " veut pousser tout le monde !"
+      withTarget: "@" + authorTag + " pousse @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " pousse tout le monde !"
     },
     danser: {
-      withTarget: "@" + authorTag + " danse joyeusement avec @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " danse pour tout le monde !"
+      withTarget: "@" + authorTag + " danse avec @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " danse !"
     },
     gene: {
-      withTarget: "@" + authorTag + " est gêné en regardant @" + targetTag + " !",
-      withoutTarget: "@" + authorTag + " est gêné devant tout le monde !"
+      withTarget: "@" + authorTag + " est gêné avec @" + targetTag + " !",
+      withoutTarget: "@" + authorTag + " est gêné !"
     }
   };
-  if (captions[commandName]) {
-    if (targetTag) {
-      return captions[commandName].withTarget;
-    } else {
-      return captions[commandName].withoutTarget;
-    }
-  } else {
+  const entry = captions[commandName];
+  if (!entry) {
     return "@" + authorTag + " a exécuté " + commandName + " !";
   }
+  if (targetTag) {
+    return entry.withTarget;
+  }
+  return entry.withoutTarget;
 }
+
 async function giftovidbuff(gifBuffer) {
   const tempGifPath = "temp_" + Date.now() + ".gif";
   const tempMp4Path = "temp_" + Date.now() + ".mp4";
@@ -166,7 +174,8 @@ async function giftovidbuff(gifBuffer) {
   return videoBuffer;
 }
 
-function addReactionCommand(commandName, apiUrl) {
+function addReactionCommand(commandName, action) {
+  const apiUrl = buildWaifuApiUrl(action);
   registerCommand({
     nom_cmd: commandName,
     classe: "Réaction",
@@ -185,8 +194,12 @@ function addReactionCommand(commandName, apiUrl) {
     const resolvedTarget = await getJid(targetJid, chatJid, sock);
     try {
       const apiResponse = await axios.get(apiUrl);
-      const gifUrl = apiResponse.data.url;
-      const gifBuffer = (await axios.get(gifUrl, {
+      const gifUrl = apiResponse.data?.url;
+      const mediaCheck = validateRemoteMediaUrl(gifUrl);
+      if (!mediaCheck.ok) {
+        return repondre({ text: "Réponse média invalide." });
+      }
+      const gifBuffer = (await axios.get(mediaCheck.href, {
         responseType: "arraybuffer"
       })).data;
       const videoBuffer = await giftovidbuff(gifBuffer);
@@ -213,8 +226,9 @@ module.exports = {
   axios,
   fs,
   runFfmpeg,
-  reactions,
+  reactionActions,
   generateCaption,
   giftovidbuff,
   addReactionCommand,
+  buildWaifuApiUrl,
 };

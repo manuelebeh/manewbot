@@ -1,9 +1,20 @@
 'use strict';
 
 const { registerCommand } = require('../../lib/commands');
+const config = require('../../set');
 const textmaker = require('../../lib/textmaker');
 
-function addTextproCommand(commandName, url, textType) {
+function resolveEphotoUrl(urlOrPath) {
+  if (urlOrPath.startsWith('http://') || urlOrPath.startsWith('https://')) {
+    return urlOrPath;
+  }
+  const base = (config.EPHOTO360_BASE || 'https://en.ephoto360.com').replace(/\/$/, '');
+  const pathPart = urlOrPath.startsWith('/') ? urlOrPath : '/' + urlOrPath;
+  return base + pathPart;
+}
+
+function addTextproCommand(commandName, urlOrPath, textType) {
+  const url = resolveEphotoUrl(urlOrPath);
   registerCommand({
     nom_cmd: commandName,
     classe: "Logo",

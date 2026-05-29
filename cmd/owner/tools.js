@@ -6,6 +6,7 @@ const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 const config = require('../../set');
 const { registerCommand } = require('../../lib/commands');
 const { requireOwner, ownerReply } = require('../../lib/require-owner');
+const { validatePublicHttpUrl, resolveAndValidateUrl } = require('../../lib/url-safety');
 
 const OWNER_DENIED = "❌ Vous n'avez pas le droit d'exécuter cette commande.";
 
@@ -104,17 +105,13 @@ registerCommand(
         'Veuillez fournir un lien valide. Le bot extraira le HTML, CSS, JavaScript, et les médias de la page web.'
       );
     }
-    if (!/^https?:\/\//i.test(url)) {
-      return ownerReply(
-        sock,
-        chatJid,
-        ms,
-        'Veuillez fournir une URL valide commençant par http:// ou https://'
-      );
+    const urlCheck = validatePublicHttpUrl(url);
+    if (!urlCheck.ok) {
+      return ownerReply(sock, chatJid, ms, urlCheck.reason);
     }
 
     try {
-      const response = await axios.get(url);
+      const response = await axios.get(urlCheck.href);
       const html = response.data;
       const $ = cheerio.load(html);
 
@@ -140,7 +137,9 @@ registerCommand(
 
       if (stylesheets.length > 0) {
         for (const href of stylesheets) {
-          const cssRes = await axios.get(new URL(href, url));
+          const resolved = resolveAndValidateUrl(urlCheck.href, href);
+          if (!resolved.ok) continue;
+          const cssRes = await axios.get(resolved.href);
           await ownerReply(sock, chatJid, ms, '**Contenu du fichier CSS**:\n\n' + cssRes.data);
         }
       } else {
@@ -149,7 +148,9 @@ registerCommand(
 
       if (scripts.length > 0) {
         for (const src of scripts) {
-          const jsRes = await axios.get(new URL(src, url));
+          const resolved = resolveAndValidateUrl(urlCheck.href, src);
+          if (!resolved.ok) continue;
+          const jsRes = await axios.get(resolved.href);
           await ownerReply(sock, chatJid, ms, '**Contenu du fichier JavaScript**:\n\n' + jsRes.data);
         }
       } else {

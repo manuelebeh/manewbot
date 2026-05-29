@@ -15,11 +15,11 @@ registerCommand({
     ms,
     repondre,
     arg,
-    isSudo
+    isOwner
   } = ctx;
   try {
-    if (!isSudo) {
-      return repondre("Seuls les utilisateurs sudo peuvent utiliser cette commande");
+    if (!isOwner) {
+      return repondre("Cette commande est réservée au propriétaire.");
     }
     const mode = arg[0]?.toLowerCase();
     const presenceByNumber = {

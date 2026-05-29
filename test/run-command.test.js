@@ -125,6 +125,22 @@ describe('run-command ACL', () => {
     assert.equal(onlyAdmins, false);
   });
 
+  it('blocks Owner-class commands for non-owner even in public mode', async () => {
+    const ownerCmd = { nom_cmd: 'restart', classe: 'Owner', react: '♻️' };
+    const allowed = await shouldAllowCommand({
+      cmd: ownerCmd,
+      config: { ...baseConfig, MODE: 'public' },
+      chatJid: groupJid,
+      senderJid: userJid,
+      isGroup: true,
+      isOwner: false,
+      isStaff: false,
+      isAdmin: true,
+      ...makeDeps(),
+    });
+    assert.equal(allowed, false);
+  });
+
   it('runCommand invokes handler only when ACL passes', async () => {
     let called = false;
     const cmd = {
@@ -140,6 +156,7 @@ describe('run-command ACL', () => {
       chatJid: groupJid,
       senderJid: userJid,
       isGroup: true,
+      isOwner: false,
       isStaff: false,
       isAdmin: false,
       sock: { sendMessage: async () => {} },
@@ -156,6 +173,7 @@ describe('run-command ACL', () => {
       chatJid: groupJid,
       senderJid: userJid,
       isGroup: true,
+      isOwner: false,
       isStaff: false,
       isAdmin: true,
       sock: { sendMessage: async () => {} },

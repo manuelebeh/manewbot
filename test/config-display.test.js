@@ -21,4 +21,9 @@ describe('config-display', () => {
   it('masks TELEGRAM_BOT_TOKEN entirely', () => {
     assert.equal(formatConfigValue('TELEGRAM_BOT_TOKEN', '123:ABCsecret'), '[MASQUÉ]');
   });
+
+  it('masks ACRCLOUD_HOST like other API config', () => {
+    const masked = formatConfigValue('ACRCLOUD_HOST', 'identify-eu-west-1.acrcloud.com');
+    assert.equal(masked, 'iden….com');
+  });
 });

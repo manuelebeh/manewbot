@@ -25,7 +25,7 @@ registerCommand({
   try {
     profilePic = await sock.profilePictureUrl(resolvedJid, "image");
   } catch {
-    profilePic = "https://files.catbox.moe/ulwqtr.jpg";
+    profilePic = config.DEFAULT_AVATAR_URL;
   }
   const allRanks = await Ranks.findAll({
     order: [["messages", "DESC"]]
@@ -112,7 +112,7 @@ registerCommand({
   try {
     profilePic = await sock.profilePictureUrl(resolvedJid, "image");
   } catch {
-    profilePic = "https://files.catbox.moe/ulwqtr.jpg";
+    profilePic = config.DEFAULT_AVATAR_URL;
   }
   const rankRecord = await Ranks.findOne({
     where: {
