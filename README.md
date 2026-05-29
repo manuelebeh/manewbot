@@ -267,6 +267,17 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 
 **Tests locaux** : `npm test` · **CI** : `npm run check:secrets` + tests unitaires (voir `.github/workflows/ci.yml`).
 
+### Structure des commandes
+
+Les gros modules sont découpés en sous-dossiers (chargés via `cmd/groupe.js`, `cmd/owner.js`, etc.) :
+
+| Dossier | Rôle |
+|---------|------|
+| `cmd/owner/` | Commandes propriétaire (ban, sudo, sessions, …) |
+| `cmd/groupe/` | Modération et réglages de groupe |
+| `cmd/conversion/` | Stickers, média, ffmpeg (`upload`, `stickers`, `image-edit`, …) |
+| `cmd/outils/` | Menus, ping, capture, tempmail, … |
+
 </details>
 
 ---

@@ -1,0 +1,152 @@
+'use strict';
+
+const {
+  registerCommand
+} = require("../../lib/commands");
+const fs = require("fs");
+const {
+  Sticker,
+  StickerTypes
+} = require("wa-sticker-formatter");
+const {
+  execSync,
+  exec,
+  spawn
+} = require("child_process");
+const path = require("path");
+const config = require("../../set");
+const gTTS = require("gtts");
+const axios = require("axios");
+const FormData = require("form-data");
+const {
+  readFileSync
+} = require("fs");
+const sharp = require("sharp");
+const {
+  Ranks
+} = require("../../database/rank");
+const os = require("os");
+let fusionCache = {};
+
+async function uploadToCatbox(filePath) {
+  try {
+    const formData = new FormData();
+    formData.append("reqtype", "fileupload");
+    formData.append("fileToUpload", fs.createReadStream(filePath));
+    const response = await axios.post("https://catbox.moe/user/api.php", formData, {
+      headers: formData.getHeaders()
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Erreur lors de l'upload sur Catbox:", err);
+    throw new Error("Une erreur est survenue lors de l'upload du fichier.");
+  }
+}
+
+const alea = (suffix) => "" + Math.floor(Math.random() * 10000) + suffix;
+
+const isSupportedFile = (filename) => {
+  const extensions = [".jpg", ".jpeg", ".png", ".webp", ".mp4", ".gif"];
+  return extensions.some((ext) => filename.endsWith(ext));
+};
+
+const remini = async (imageInput, mode) => {
+  const modes = ["enhance", "recolor", "dehaze"];
+  const selectedMode = modes.includes(mode) ? mode : modes[0];
+  const apiUrl = "https://inferenceengine.vyro.ai/" + selectedMode;
+  const formData = new FormData();
+  formData.append("model_version", 1);
+  const imageBuffer = Buffer.isBuffer(imageInput) ? imageInput : readFileSync(imageInput);
+  formData.append("image", imageBuffer, {
+    filename: "enhance_image_body.jpg",
+    contentType: "image/jpeg"
+  });
+  const response = await axios.post(apiUrl, formData, {
+    headers: {
+      ...formData.getHeaders(),
+      "User-Agent": "okhttp/4.9.3",
+      Connection: "Keep-Alive",
+      "Accept-Encoding": "gzip"
+    },
+    responseType: "arraybuffer"
+  });
+  return Buffer.from(response.data);
+};
+
+async function convertWebpToMp4({
+  file: file,
+  filename: filename,
+  url: url
+}) {
+  try {
+    if (!file && !url) {
+      throw new Error("Un fichier ou une URL est requis.");
+    }
+    if (file && !filename) {
+      throw new Error("Le nom du fichier est requis pour les fichiers envoyés.");
+    }
+    const formData2 = new FormData();
+    if (file) {
+      formData2.append("new-image", file, {
+        filename: filename
+      });
+    }
+    if (url) {
+      formData2.append("new-image-url", url);
+    }
+    const response2 = await axios.post("https://ezgif.com/webp-to-mp4", formData2, {
+      headers: formData2.getHeaders()
+    });
+    const value2 = response2?.request?.res?.responseUrl;
+    if (!value2) {
+      throw new Error("Redirection introuvable.");
+    }
+    const value32 = value2.replace(/\.html$/, "");
+    const value42 = value32.split("/").pop();
+    const response32 = await axios.post(value32 + "?ajax=true", new URLSearchParams({
+      file: value42,
+      background: "#ffffff",
+      backgroundc: "#ffffff",
+      repeat: "1",
+      ajax: "true"
+    }), {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    });
+    const value52 = response32.data.toString();
+    const value62 = "\" controls><source src=\"";
+    const value72 = "\" type=\"video/mp4\">Your browser";
+    const value82 = value52.split(value62)?.[1]?.split(value72)?.[0];
+    if (!value82) {
+      throw new Error("Conversion échouée.");
+    }
+    return "https:" + value82.replace("https:", "");
+  } catch (err) {
+    throw new Error("Erreur conversion WebP → MP4 : " + err);
+  }
+}
+
+module.exports = {
+  registerCommand,
+  fs,
+  path,
+  os,
+  axios,
+  FormData,
+  readFileSync,
+  config,
+  Sticker,
+  StickerTypes,
+  execSync,
+  spawn,
+  gTTS,
+  sharp,
+  Ranks,
+  uploadToCatbox,
+  alea,
+  isSupportedFile,
+  fusionCache,
+  remini,
+  convertWebpToMp4,
+};
