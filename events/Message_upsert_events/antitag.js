@@ -1,7 +1,7 @@
 const {
   Antitag,
   Antitag_warnings
-} = require("../../DataBase/antitag");
+} = require("../../database/antitag");
 async function antitag(_0x1e2b60, _0x1447ff, _0x4685d2, _0x567acd, _0x6a46f9, _0x47b651, _0x1ff661, _0x12ddc6) {
   if (_0x1447ff.message?.[_0x567acd]?.contextInfo?.mentionedJid?.length > 30) {
     try {

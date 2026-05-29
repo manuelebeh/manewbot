@@ -7,10 +7,10 @@ const fs = require("fs");
 const axios = require("axios");
 const {
   levels
-} = require("../DataBase/levels");
+} = require("../database/levels");
 const {
   Ranks
-} = require("../DataBase/rank");
+} = require("../database/rank");
 registerCommand({
   nom_cmd: "fliptext",
   classe: "Fun",

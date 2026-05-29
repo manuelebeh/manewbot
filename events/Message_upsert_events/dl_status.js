@@ -1,6 +1,6 @@
 const {
   WA_CONF
-} = require("../../DataBase/wa_conf");
+} = require("../../database/wa_conf");
 async function dl_status(_0x410d39, _0x91d9de, _0x41a1e9, _0x105e33) {
   const _0x2f37bc = await WA_CONF.findOne({
     where: {

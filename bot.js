@@ -17,7 +17,7 @@ const {
 
 const { getMessage } = require('./lib/store');
 const { groupCache } = require('./lib/groupeCache');
-const { localAuthExists, ensureAuthDir } = require('./DataBase/session');
+const { localAuthExists, ensureAuthDir } = require('./database/session');
 const config = require('./set');
 const {
   message_upsert,
@@ -28,7 +28,7 @@ const {
   dl_save_media_ms,
   recup_msg,
 } = require('./events');
-const { getSecondAllSessions } = require('./DataBase/connect');
+const { getSecondAllSessions } = require('./database/connect');
 
 const MAX_SESSIONS = 30;
 const STARTUP_DELAY_MS = 45000;

@@ -1,6 +1,6 @@
 const {
   WA_CONF
-} = require("../../DataBase/wa_conf");
+} = require("../../database/wa_conf");
 async function antidelete(_0xf91dc9, _0x51ac00, _0x353d7f, _0x2365b0, _0x174fae, _0x1f12f2, _0x37be1f) {
   const _0x280bb7 = await WA_CONF.findOne({
     where: {

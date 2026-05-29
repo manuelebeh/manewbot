@@ -7,10 +7,10 @@ const {
 const {
   Bans,
   OnlyAdmins
-} = require("../DataBase/ban");
+} = require("../database/ban");
 const {
   Sudo
-} = require("../DataBase/sudo");
+} = require("../database/sudo");
 const config = require("../set");
 const axios = require("axios");
 const {
@@ -21,35 +21,35 @@ const cheerio = require("cheerio");
 const {
   WA_CONF,
   WA_CONF2
-} = require("../DataBase/wa_conf");
+} = require("../database/wa_conf");
 const {
   ChatbotConf
-} = require("../DataBase/chatbot");
+} = require("../database/chatbot");
 const path = require("path");
 const fs = require("fs");
 const {
   saveSecondSession,
   getSecondAllSessions,
   deleteSecondSession
-} = require("../DataBase/connect");
+} = require("../database/connect");
 const {
   setMention,
   delMention,
   getMention
-} = require("../DataBase/mention");
+} = require("../database/mention");
 const {
   set_stick_cmd,
   del_stick_cmd,
   get_stick_cmd
-} = require("../DataBase/stick_cmd");
+} = require("../database/stick_cmd");
 const {
   set_cmd,
   del_cmd,
   list_cmd
-} = require("../DataBase/public_private_cmd");
+} = require("../database/public_private_cmd");
 const {
   Plugin
-} = require("../DataBase/plugin");
+} = require("../database/plugin");
 const {
   extractNpmModules,
   installModules,
@@ -57,7 +57,7 @@ const {
 } = require("../lib/plugin");
 const {
   Levelup
-} = require("../DataBase/rank");
+} = require("../database/rank");
 registerCommand({
   nom_cmd: "delete",
   classe: "Owner",

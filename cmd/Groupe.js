@@ -7,33 +7,33 @@ const {
 } = require("wa-sticker-formatter");
 const {
   Antilink
-} = require("../DataBase/antilink");
+} = require("../database/antilink");
 const {
   Antitag
-} = require("../DataBase/antitag");
+} = require("../database/antitag");
 const {
   Antibot
-} = require("../DataBase/antibot");
+} = require("../database/antibot");
 const {
   GroupSettings,
   Events2
-} = require("../DataBase/events");
+} = require("../database/events");
 const fs = require("fs");
 const {
   setWarn,
   delWarn,
   getLimit,
   setLimit
-} = require("../DataBase/warn");
+} = require("../database/warn");
 const {
   Antimention
-} = require("../DataBase/antimention");
+} = require("../database/antimention");
 const {
   Ranks
-} = require("../DataBase/rank");
+} = require("../database/rank");
 const {
   Antispam
-} = require("../DataBase/antispam");
+} = require("../database/antispam");
 registerCommand({
   nom_cmd: "tagall",
   classe: "Groupe",

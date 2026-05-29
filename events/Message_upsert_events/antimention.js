@@ -1,7 +1,7 @@
 const {
   Antimention,
   Antimention_warnings
-} = require("../../DataBase/antimention");
+} = require("../../database/antimention");
 async function antimention(_0x15af5c, _0x47e6e7, _0x5ba24a, _0x3b1d8b, _0x57ec70, _0x22f61d, _0x281ae9) {
   try {
     const _0x1ab0fc = _0x5ba24a.message?.groupStatusMentionMessage;

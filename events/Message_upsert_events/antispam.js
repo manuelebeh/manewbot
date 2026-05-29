@@ -1,7 +1,7 @@
 const {
   Antispam,
   AntispamWarnings
-} = require("../../DataBase/antispam");
+} = require("../../database/antispam");
 const messageStore = {};
 const advancedSurveillance = {};
 async function antispam(_0x4bc163, _0x4be075, _0x1318da, _0x56bd16, _0x5a3100, _0x5ed919, _0x113c15) {

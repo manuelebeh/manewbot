@@ -3,7 +3,7 @@ const {
 } = require("../lib/commands");
 const {
   WA_CONF
-} = require("../DataBase/wa_conf");
+} = require("../database/wa_conf");
 registerCommand({
   nom_cmd: "presence",
   classe: "confidentialité",

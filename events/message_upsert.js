@@ -19,10 +19,10 @@ const {
 const {
   Bans,
   OnlyAdmins
-} = require("../DataBase/ban");
+} = require("../database/ban");
 const {
   Sudo
-} = require("../DataBase/sudo");
+} = require("../database/sudo");
 const {
   getMessage,
   addMessage
@@ -35,10 +35,10 @@ const evt = require("../lib/commands");
 const config = require("../set");
 const {
   get_stick_cmd
-} = require("../DataBase/stick_cmd");
+} = require("../database/stick_cmd");
 const {
   list_cmd
-} = require("../DataBase/public_private_cmd");
+} = require("../database/public_private_cmd");
 const decodeJid = _0xa7ecb4 => {
   if (!_0xa7ecb4) {
     return _0xa7ecb4;

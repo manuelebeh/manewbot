@@ -6,6 +6,7 @@ config_env.json
 !config_env.json.example
 *.db
 cache_jid.json
+lib/store_msg.json
 store_msg.json
 auth/
 .bot.pid

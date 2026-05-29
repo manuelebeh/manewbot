@@ -1,7 +1,7 @@
 const {
   Antilink,
   Antilink_warnings
-} = require("../../DataBase/antilink");
+} = require("../../database/antilink");
 function containsLink(_0x33c67f) {
   const _0x32eb67 = /(https?:\/\/[^\s]+)|(www\.[^\s]+)/i;
   return _0x32eb67.test(_0x33c67f);

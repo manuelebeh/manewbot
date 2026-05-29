@@ -1,7 +1,7 @@
 const axios = require("axios");
 const {
   ChatbotConf
-} = require("../../DataBase/chatbot");
+} = require("../../database/chatbot");
 async function chatbot(_0x334135, _0x12f80d, _0x2fc483, _0x3af225, _0x258f02, _0x39cba1, _0x910f3e, _0xf36c3a) {
   try {
     if (_0x12f80d && !_0x258f02.includes(_0x39cba1) && _0x910f3e !== _0x39cba1) {
