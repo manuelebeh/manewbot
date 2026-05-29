@@ -294,7 +294,7 @@ async function startGenericSession({ numero, isPrincipale = false }) {
     sock.ev.on('creds.update', saveCreds);
     sock.ev.on('call', (event) => call(sock, event));
 
-    sock.downloadMediaMessage = (
+    sock.dl_save_media_ms = (
       message,
       fileName = '',
       asDocument = true,
