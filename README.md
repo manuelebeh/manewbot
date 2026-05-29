@@ -269,14 +269,14 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 
 ### Structure des commandes
 
-Chaque catégorie est un dossier avec un barrel `cmd/<catégorie>/index.js` (chargé par `lib/plugin.js`, plus de doublon `cmd/jeux.js` + `cmd/jeux/`) :
+Chaque catégorie est un dossier avec un barrel `cmd/<category>/index.js` (chargé par `lib/plugin.js`) :
 
 | Dossier | Rôle |
 |---------|------|
 | `cmd/owner/` | Commandes propriétaire (ban, sudo, sessions, …) |
-| `cmd/groupe/` | Tagging, polls, welcome, antimodules, … |
-| `cmd/groupe/moderation/` | kick, kickall, promote, warn, … |
-| `cmd/groupe/settings/` | gcreate, gname, lock, link, ginfo, … |
+| `cmd/group/` | Tagging, polls, welcome, antimodules, … |
+| `cmd/group/moderation/` | kick, kickall, promote, warn, … |
+| `cmd/group/settings/` | gcreate, gname, lock, link, ginfo, … |
 | `cmd/conversion/` | `stickers/`, `image-edit/`, `ffmpeg/`, `video-quote/`, helpers |
 | `lib/dl/` | Scrapers YouTube, TikTok, Instagram, Facebook, Twitter, APK |
 | `lib/message-upsert/` | Helpers résolution messages / view-once |
@@ -287,18 +287,18 @@ Chaque catégorie est un dossier avec un barrel `cmd/<catégorie>/index.js` (cha
 | `cmd/<cat>/deps.js` ou `media.js` | Dépendances lourdes de la catégorie (conversion → `media.js`) |
 
 Chaque commande importe seulement ce dont elle a besoin, par ex. `require('../register')` + `require('../deps')`. Sous-dossiers spécialisés utilisent des modules nommés (`deps.js`, `textpro.js`, `audio-fx.js`, …).
-| `cmd/outils/` | capture, tempmail, devtools, … |
-| `cmd/outils/menus/` | description, theme, menu, allmenu |
-| `cmd/jeux/` | tictactoe, anime-quizz, dmots |
-| `cmd/jeux/wcg/` | Word Chain Game (helpers + game) |
+| `cmd/tools/` | capture, tempmail, devtools, … |
+| `cmd/tools/menus/` | description, theme, menu, allmenu |
+| `cmd/games/` | tictactoe, anime-quizz, dmots |
+| `cmd/games/wcg/` | Word Chain Game (helpers + game) |
 | `cmd/search/` | img, web, entertainment, shazam |
-| `cmd/telechargement/` | YouTube, TikTok, Instagram, APK, … |
-| `cmd/economie/` | wallet, banking, games, admin |
+| `cmd/download/` | YouTube, TikTok, Instagram, APK, … |
+| `cmd/economy/` | wallet, banking, games, admin |
 | `cmd/fun/` | text, quotes, ranks, fake |
-| `cmd/ia/` | gpt, dalle, gemini, llama, claude, … |
-| `cmd/confidentialite/` | présence, bio, confidentialité WA |
+| `cmd/ai/` | gpt, dalle, gemini, llama, claude, … |
+| `cmd/privacy/` | présence, bio, confidentialité WA |
 | `cmd/status/` | save, sendme, toggles status |
-| `cmd/systeme/` | setvar, checkupdate, update |
+| `cmd/system/` | setvar, checkupdate, update |
 | `cmd/logo/` | Effets texte ephoto360 (~50 cmd) — `logovintage`, `logospace`, `logounderwater` |
 | `cmd/reaction/` | Réactions GIF waifu.pics (~27 cmd) |
 | `cmd/image_edits/` | Effets image OVL (~24 cmd) |
