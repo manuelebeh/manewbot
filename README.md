@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-    Un bot WhatsApp multi-appareil. N'oubliez pas de laisser une ⭐ (star) pour le projet.
+    Un bot WhatsApp multi-appareil. N'oubliez pas de laisser une star pour le projet.
 </p>
 
 <p align="center">
@@ -28,7 +28,7 @@
 <details>
   <summary>Déploiement de OVL-MD-V2</summary>
 
-### 🧬 Étape 1 : Fork du dépôt GitHub  
+### Étape 1 : Fork du dépôt GitHub  
 [![Fork GitHub](https://img.shields.io/badge/Fork%20le%20Repo-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Ainz-devs/OVL-MD-V2/fork)
 
 ---
@@ -73,7 +73,7 @@ Au redémarrage suivant, le bot se reconnecte automatiquement sans QR.
 ---
 
 <details>
-  <summary>📝 Fichier index.js ou main.js pour déploiement sur panel</summary>
+  <summary>Fichier index.js ou main.js pour déploiement sur panel</summary>
 
 ```js
 const { spawnSync, spawn } = require('child_process');
@@ -83,7 +83,7 @@ const { existsSync, mkdirSync, writeFileSync } = require('fs');
 const env_file = ``;
 
 if (!env_file.trim()) {
-  console.error("❌ 'env_file' est vide. Veuillez renseigner vos variables d'environnement avant de lancer le script.");
+  console.error("'env_file' est vide. Veuillez renseigner vos variables d'environnement avant de lancer le script.");
   process.exit(1);
 }
 
@@ -101,7 +101,7 @@ function setupProject() {
   if (!existsSync('ovl/.env')) {
     mkdirSync('ovl', { recursive: true });
     writeFileSync('ovl/.env', env_file);
-    console.log("✅ Fichier .env créé avec succès.");
+    console.log("Fichier .env créé avec succès.");
   }
 
   const install = spawnSync('npm', ['install'], { cwd: 'ovl', stdio: 'inherit' });
@@ -186,7 +186,7 @@ launchApp();
 ---
 
 <details>
-  <summary>⚙️ Fichier .github/workflows/deploy.yml</summary>
+  <summary>Fichier .github/workflows/deploy.yml</summary>
 
 ```yaml
 name: OVL-MD Bot CI
@@ -229,9 +229,9 @@ PREFIXE=.
 NOM_OWNER=Ainz
 NUMERO_OWNER=226xxxxxxxx
 MODE=public
-STICKER_PACK_NAME=ᴏᴠʟ-ᴍᴅ-ᴠ𝟸
-STICKER_AUTHOR_NAME=ᴀɪɴᴢ🔅✨
-NOM_BOT=🤖 OVL-MD BOT V2
+STICKER_PACK_NAME=OVL-MD-V2
+STICKER_AUTHOR_NAME=Ainz
+NOM_BOT=OVL-MD BOT V2
 ```
 
 </details>
@@ -254,14 +254,33 @@ Pour retirer un compte secondaire, utilisez la commande owner correspondante. Le
 
 ---
 
-### Développeur Principal
-- **Ainz**
+<details>
+  <summary>Sécurité (VPS / panel)</summary>
+
+### Pare-feu : ne pas exposer le port 3000
+
+Le bot démarre un mini serveur HTTP pour le health check (Render, Heroku, etc.). **Par défaut**, il écoute uniquement sur `127.0.0.1` — pas accessible depuis Internet.
+
+Sur un **VPS ou panel** :
+
+- Ne ouvrez **pas** le port 3000 (ni `HEALTH_PORT`) dans le pare-feu public (`ufw`, security group cloud, etc.).
+- Pour désactiver complètement le health check : `ENABLE_HEALTH_CHECK=false` dans `.env`.
+- N'exposez `0.0.0.0` (`HEALTH_BIND_HOST=0.0.0.0`) **que** si votre hébergeur PaaS l'exige pour ses sondes internes.
+
+### Compte WhatsApp dédié
+
+Utilisez un **numéro réservé au bot**, pas votre ligne personnelle :
+
+- Limite le risque en cas de bannissement ou de fuite du dossier `auth/`.
+- Facilite la rotation : supprimez `auth/principale/` et rescannez un nouveau QR.
+- `NUMERO_OWNER` dans `.env` doit correspondre au compte qui contrôle le bot (owner des commandes).
+
+Protégez aussi `auth/` (déjà dans `.gitignore`) : permissions restrictives, sauvegardes chiffrées, jamais commitées.
+
+</details>
+
 ---
-### 🙌 Remerciements
-- Haibo_lugh – pour son soutien et aide dans la gestion du bot au support.
-- Nathan Harmone – pour ses tutoriels YouTube.
-- Dr Djibi – pour son soutien.
----
+
 ### Licence
 
 Distribué sous la licence MIT. Voir le fichier [LICENSE](./LICENSE) pour plus d'informations.

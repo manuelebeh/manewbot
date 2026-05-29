@@ -242,16 +242,31 @@ async function startPrincipalSession() {
   surveillerNouvellesSessions();
 }
 
-const app = express();
-const port = process.env.PORT || 3000;
+function startHealthCheck() {
+  if (process.env.ENABLE_HEALTH_CHECK === 'false') return;
 
-app.get('/', (_req, res) => {
-  res.send('OK');
-});
+  const port = Number(process.env.HEALTH_PORT || process.env.PORT || 3000);
+  const host =
+    process.env.HEALTH_BIND_HOST ||
+    (process.env.HEALTH_BIND_ALL === 'true' ? '0.0.0.0' : '127.0.0.1');
 
-app.listen(port, () => {
-  console.log('HTTP health check sur le port ' + port);
-});
+  const app = express();
+  app.get('/', (_req, res) => {
+    res.send('OK');
+  });
+
+  app.listen(port, host, () => {
+    console.log('HTTP health check sur ' + host + ':' + port);
+    if (host === '0.0.0.0') {
+      console.log(
+        'Attention : le port est exposé sur toutes les interfaces. ' +
+          'Préférez 127.0.0.1 (défaut) ou un pare-feu strict sur un VPS.'
+      );
+    }
+  });
+}
+
+startHealthCheck();
 
 process.on('uncaughtException', (error) => {
   console.log('uncaughtException :', error.message);
