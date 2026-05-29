@@ -14,33 +14,9 @@ const simpleGit = require("simple-git");
 const git = simpleGit();
 const ENV_FILE = path.join(process.cwd(), ".env");
 const CONFIG_ENV_FILE = path.join(process.cwd(), "config_env.json");
-const MASKED_CONFIG_KEYS = new Set([
-  "DATABASE",
-  "GOOGLE_SEARCH_API_KEY",
-  "GOOGLE_SEARCH_CX",
-  "OMDB_API_KEY",
-  "TENOR_API_KEY",
-  "TENOR_EMOJI_API_KEY",
-  "OPENWEATHER_API_KEY",
-  "ACRCLOUD_ACCESS_KEY",
-  "ACRCLOUD_ACCESS_SECRET"
-]);
-function formatConfigValue(key, value) {
-  if (value === undefined || value === null || value === "") {
-    return value;
-  }
-  const str = String(value);
-  if (key === "DATABASE") {
-    return "[MASQUÉ]";
-  }
-  if (MASKED_CONFIG_KEYS.has(key)) {
-    if (str.length <= 8) {
-      return "[MASQUÉ]";
-    }
-    return str.slice(0, 4) + "…" + str.slice(-4);
-  }
-  return str;
-}
+const {
+  formatConfigValue
+} = require("../lib/config-display");
 registerCommand({
   nom_cmd: "setvar",
   classe: "Système",
@@ -69,7 +45,7 @@ registerCommand({
     configEnv[key] = value;
     require("../lib/manage_env").writeConfigEnv(configEnv);
     config[key] = value;
-    repondre("Variable mise à jour : " + key + " = " + value);
+    repondre("Variable mise à jour : " + key + " = " + formatConfigValue(key, value));
   } catch (err) {
     console.error(err);
     repondre("Une erreur est survenue lors de la mise à jour de la variable.");

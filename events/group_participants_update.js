@@ -6,9 +6,6 @@ const {
   Sudo
 } = require("../database/sudo");
 const {
-  jidDecode
-} = require("@whiskeysockets/baileys");
-const {
   getJid
 } = require("./message_upsert_events");
 const {
@@ -18,16 +15,10 @@ const config = require("../set");
 const {
   getSudoOnlyJids
 } = require("../lib/parse-env-lists");
-const parseID = jid => {
-  if (!jid) {
-    return jid;
-  }
-  if (/:\d+@/gi.test(jid)) {
-    const decoded = jidDecode(jid) || {};
-    return decoded.user && decoded.server && decoded.user + "@" + decoded.server || jid;
-  }
-  return jid;
-};
+const {
+  decodeJid
+} = require("../lib/jid");
+const parseID = decodeJid;
 async function getSudoUserIds() {
   try {
     const records = await Sudo.findAll({

@@ -429,7 +429,7 @@ acquireInstanceLock();
 startHealthCheck();
 
 process.on('uncaughtException', (error) => {
-  console.log('uncaughtException :', error.message);
+  console.error('uncaughtException :', error);
 });
 
 process.on('unhandledRejection', (error) => {

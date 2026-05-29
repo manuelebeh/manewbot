@@ -3,7 +3,9 @@ const {
 } = require("../lib/commands");
 const axios = require("axios");
 const fs = require("fs");
-const child_process = require("child_process");
+const {
+  runFfmpeg
+} = require("../lib/ffmpeg");
 const reactions = {
   embeter: "https://api.waifu.pics/sfw/bully",
   caliner: "https://api.waifu.pics/sfw/cuddle",
@@ -158,15 +160,7 @@ async function giftovidbuff(gifBuffer) {
   const tempGifPath = "temp_" + Date.now() + ".gif";
   const tempMp4Path = "temp_" + Date.now() + ".mp4";
   fs.writeFileSync(tempGifPath, gifBuffer);
-  await new Promise((resolve, reject) => {
-    child_process.exec("ffmpeg -i " + tempGifPath + " -movflags faststart -pix_fmt yuv420p -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\" " + tempMp4Path, err => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve();
-      }
-    });
-  });
+  await runFfmpeg(tempGifPath, "-movflags faststart -pix_fmt yuv420p -vf \"scale=trunc(iw/2)*2:trunc(ih/2)*2\"", tempMp4Path);
   const videoBuffer = fs.readFileSync(tempMp4Path);
   fs.unlinkSync(tempGifPath);
   fs.unlinkSync(tempMp4Path);
