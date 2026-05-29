@@ -8,7 +8,7 @@ module.exports = {
   PREFIXE: process.env.PREFIXE || '.',
   NOM_OWNER: process.env.NOM_OWNER || '',
   NUMERO_OWNER: process.env.NUMERO_OWNER || '',
-  MODE: process.env.MODE || 'public',
+  MODE: process.env.MODE || 'private',
   STICKER_PACK_NAME: process.env.STICKER_PACK_NAME || 'Manewbot',
   STICKER_AUTHOR_NAME: process.env.STICKER_AUTHOR_NAME || '',
   DATABASE: process.env.DATABASE,
@@ -38,4 +38,14 @@ module.exports = {
   AI_LLAMA_API_BASE: process.env.AI_LLAMA_API_BASE || '',
   /** Capture d'écran web (défaut : AI_API_BASE si vide) */
   SSWEB_API_BASE: process.env.SSWEB_API_BASE || '',
+  /** attp, ttp, effets image (ex. https://api-ovl.koyeb.app) */
+  OVL_API_BASE: process.env.OVL_API_BASE || '',
+  /** Amélioration image remini proxy (ex. https://www.itzky.xyz) */
+  REMINI_API_BASE: process.env.REMINI_API_BASE || '',
+  /** Stickers quotely (ex. https://bot.lyo.su) */
+  QUOTELY_API_BASE: process.env.QUOTELY_API_BASE || '',
+  /** Enhancement vyro fallback (ex. https://inferenceengine.vyro.ai) */
+  VYRO_API_BASE: process.env.VYRO_API_BASE || '',
+  /** Conversion webp→mp4 (défaut : https://ezgif.com) */
+  EZGIF_API_BASE: process.env.EZGIF_API_BASE || 'https://ezgif.com',
 };

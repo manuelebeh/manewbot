@@ -23,6 +23,10 @@ const {
   remini,
   convertWebpToMp4,
 } = require('./_shared');
+const {
+  getServiceUrls,
+  serviceNotConfiguredMessage
+} = require('../../lib/service-urls');
 
 registerCommand({
   nom_cmd: "tts",
@@ -95,8 +99,14 @@ registerCommand({
     return repondre("Veuillez fournir du texte");
   }
   const text2 = arg.join(" ");
+  const {
+    ovl
+  } = getServiceUrls(config);
+  if (!ovl) {
+    return repondre(serviceNotConfiguredMessage("OVL_API_BASE"));
+  }
   try {
-    const response2 = await axios.get("https://api-ovl.koyeb.app/attp?texte=" + encodeURIComponent(text2), {
+    const response2 = await axios.get(ovl + "/attp?texte=" + encodeURIComponent(text2), {
       responseType: "arraybuffer"
     });
     const outputBuffer2 = await new Sticker(response2.data, {
@@ -132,8 +142,14 @@ registerCommand({
     return repondre("Veuillez fournir du texte");
   }
   const text2 = arg.join(" ");
+  const {
+    ovl
+  } = getServiceUrls(config);
+  if (!ovl) {
+    return repondre(serviceNotConfiguredMessage("OVL_API_BASE"));
+  }
   try {
-    const response2 = await axios.get("https://api-ovl.koyeb.app/ttp?texte=" + encodeURIComponent(text2), {
+    const response2 = await axios.get(ovl + "/ttp?texte=" + encodeURIComponent(text2), {
       responseType: "arraybuffer"
     });
     const outputBuffer2 = await new Sticker(response2.data, {
