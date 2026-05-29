@@ -143,12 +143,19 @@ registerCommand({
     });
   }
   const query = arg.join(" ");
+  if (!config.GOOGLE_SEARCH_API_KEY || !config.GOOGLE_SEARCH_CX) {
+    return await bot.sendMessage(jid, {
+      text: "❗ Recherche Google non configurée (GOOGLE_SEARCH_API_KEY / GOOGLE_SEARCH_CX)."
+    }, {
+      quoted: ms
+    });
+  }
   try {
     const response = await axios.get("https://www.googleapis.com/customsearch/v1", {
       params: {
         q: query,
-        key: "AIzaSyDMbI3nvmQUrfjoCJYLS69Lej1hSXQjnWI",
-        cx: "baf9bdb0c631236e5"
+        key: config.GOOGLE_SEARCH_API_KEY,
+        cx: config.GOOGLE_SEARCH_CX
       }
     });
     if (!response.data.items || response.data.items.length === 0) {
@@ -277,8 +284,15 @@ registerCommand({
       quoted: ms
     });
   }
+  if (!config.OMDB_API_KEY) {
+    return bot.sendMessage(jid, {
+      text: "❗ Recherche IMDB non configurée (OMDB_API_KEY)."
+    }, {
+      quoted: ms
+    });
+  }
   try {
-    const response = await axios.get("http://www.omdbapi.com/?apikey=742b2d09&t=" + encodeURIComponent(title) + "&plot=full&lang=fr");
+    const response = await axios.get("http://www.omdbapi.com/?apikey=" + config.OMDB_API_KEY + "&t=" + encodeURIComponent(title) + "&plot=full&lang=fr");
     const movie = response.data;
     if (movie.Response === "False") {
       return bot.sendMessage(jid, {
@@ -344,10 +358,16 @@ registerCommand({
       quoted: ms
     });
   }
-  const tenorApiKey = "AIzaSyCyouca1_KKy4W_MG1xsPzuku5oa8W358c";
+  if (!config.TENOR_API_KEY) {
+    return bot.sendMessage(jid, {
+      text: "Recherche de stickers non configurée (TENOR_API_KEY)."
+    }, {
+      quoted: ms
+    });
+  }
   const searchQuery = encodeURIComponent(arg.join(" "));
   try {
-    const response = await axios.get("https://tenor.googleapis.com/v2/search?q=" + searchQuery + "&key=" + tenorApiKey + "&client_key=my_project&limit=8&media_filter=gif");
+    const response = await axios.get("https://tenor.googleapis.com/v2/search?q=" + searchQuery + "&key=" + config.TENOR_API_KEY + "&client_key=my_project&limit=8&media_filter=gif");
     const results = response.data.results;
     if (!results.length) {
       return bot.sendMessage(jid, {
@@ -401,9 +421,15 @@ registerCommand({
       quoted: ms
     });
   }
+  if (!config.OPENWEATHER_API_KEY) {
+    return bot.sendMessage(jid, {
+      text: "❗ Météo non configurée (OPENWEATHER_API_KEY)."
+    }, {
+      quoted: ms
+    });
+  }
   try {
-    const apiKey = "1ad47ec6172f19dfaf89eb3307f74785";
-    const weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + encodeURIComponent(city) + "&units=metric&appid=" + apiKey;
+    const weatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + encodeURIComponent(city) + "&units=metric&appid=" + config.OPENWEATHER_API_KEY;
     const response = await axios.get(weatherUrl);
     const data = response.data;
     const cityName = data.name;
@@ -521,11 +547,13 @@ registerCommand({
     repondre("❌ Une erreur s'est produite lors de la récupération des paroles.");
   }
 });
-const acr = new acrcloud({
-  host: "identify-eu-west-1.acrcloud.com",
-  access_key: "12e1a7cd0396b0c7419792fe23161175",
-  access_secret: "IFXo3K5j6dwpFXMRR7FFitF1LWqx9jqj8KE6Cztj"
-});
+const acr = config.ACRCLOUD_ACCESS_KEY && config.ACRCLOUD_ACCESS_SECRET
+  ? new acrcloud({
+    host: config.ACRCLOUD_HOST,
+    access_key: config.ACRCLOUD_ACCESS_KEY,
+    access_secret: config.ACRCLOUD_ACCESS_SECRET
+  })
+  : null;
 registerCommand({
   nom_cmd: "shazam",
   classe: "Search",
@@ -547,6 +575,9 @@ registerCommand({
   }
   if (!mediaMessage) {
     return repondre("Répondez à un audio ou une courte vidéo");
+  }
+  if (!acr) {
+    return repondre("Shazam non configuré (ACRCLOUD_ACCESS_KEY / ACRCLOUD_ACCESS_SECRET).");
   }
   try {
     const filePath = await bot.dl_save_media_ms(mediaMessage);

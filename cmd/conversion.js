@@ -572,8 +572,15 @@ registerCommand({
     });
   }
   let [emoji1, emoji2] = arg[0].split(";");
+  if (!config.TENOR_EMOJI_API_KEY) {
+    return sock.sendMessage(chatJid, {
+      text: "Emoji mix non configuré (TENOR_EMOJI_API_KEY)."
+    }, {
+      quoted: ms
+    });
+  }
   try {
-    let response2 = await axios.get("https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=" + encodeURIComponent(emoji1) + "_" + encodeURIComponent(emoji2));
+    let response2 = await axios.get("https://tenor.googleapis.com/v2/featured?key=" + config.TENOR_EMOJI_API_KEY + "&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=" + encodeURIComponent(emoji1) + "_" + encodeURIComponent(emoji2));
     let data2 = response2.data;
     if (!data2.results || data2.results.length === 0) {
       return sock.sendMessage(chatJid, {

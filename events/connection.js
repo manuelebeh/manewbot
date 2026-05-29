@@ -68,6 +68,28 @@ function buildOnlineBox() {
 }
 
 async function installMissingDependencies() {
+  if (process.env.NODE_ENV === 'production') {
+    const rootPkg = require('../package.json');
+    const allDeps = { ...rootPkg.dependencies, ...rootPkg.devDependencies };
+    const missing = [];
+
+    for (const name of Object.keys(allDeps || {})) {
+      try {
+        require.resolve(name);
+      } catch {
+        missing.push(name);
+      }
+    }
+
+    if (missing.length) {
+      console.warn(
+        '⚠️ Dépendances manquantes (installation auto désactivée en production) : ' +
+          missing.join(', ')
+      );
+    }
+    return;
+  }
+
   const rootPkg = require('../package.json');
   const allDeps = { ...rootPkg.dependencies, ...rootPkg.devDependencies };
   const missing = [];

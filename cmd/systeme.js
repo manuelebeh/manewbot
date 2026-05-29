@@ -14,6 +14,33 @@ const simpleGit = require("simple-git");
 const git = simpleGit();
 const ENV_FILE = path.join(process.cwd(), ".env");
 const CONFIG_ENV_FILE = path.join(process.cwd(), "config_env.json");
+const MASKED_CONFIG_KEYS = new Set([
+  "DATABASE",
+  "GOOGLE_SEARCH_API_KEY",
+  "GOOGLE_SEARCH_CX",
+  "OMDB_API_KEY",
+  "TENOR_API_KEY",
+  "TENOR_EMOJI_API_KEY",
+  "OPENWEATHER_API_KEY",
+  "ACRCLOUD_ACCESS_KEY",
+  "ACRCLOUD_ACCESS_SECRET"
+]);
+function formatConfigValue(key, value) {
+  if (value === undefined || value === null || value === "") {
+    return value;
+  }
+  const str = String(value);
+  if (key === "DATABASE") {
+    return "[MASQUÉ]";
+  }
+  if (MASKED_CONFIG_KEYS.has(key)) {
+    if (str.length <= 8) {
+      return "[MASQUÉ]";
+    }
+    return str.slice(0, 4) + "…" + str.slice(-4);
+  }
+  return str;
+}
 registerCommand({
   nom_cmd: "setvar",
   classe: "Système",
@@ -103,13 +130,13 @@ registerCommand({
       if (entries.length === 0) {
         return repondre("Aucune variable définie.");
       }
-      const list = entries.map(([name, val]) => "• " + name + " = " + val).join("\n");
+      const list = entries.map(([name, val]) => "• " + name + " = " + formatConfigValue(name, val)).join("\n");
       return repondre("Liste des variables :\n" + list);
     } else {
       if (config[key] === undefined) {
         return repondre("La variable " + key + " n'existe pas.");
       }
-      return repondre(key + " = " + config[key]);
+      return repondre(key + " = " + formatConfigValue(key, config[key]));
     }
   } catch (err) {
     repondre("Une erreur est survenue lors de la récupération de la variable.");

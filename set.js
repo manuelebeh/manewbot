@@ -21,4 +21,13 @@ module.exports = {
   BLOCKED_AUTOREACT_GROUPS: process.env.BLOCKED_AUTOREACT_GROUPS || '',
   /** on/off — réaction emoji sur le message à l'exécution d'une commande (vide = activé) */
   COMMAND_REACT: process.env.COMMAND_REACT || '',
+  GOOGLE_SEARCH_API_KEY: process.env.GOOGLE_SEARCH_API_KEY || '',
+  GOOGLE_SEARCH_CX: process.env.GOOGLE_SEARCH_CX || '',
+  OMDB_API_KEY: process.env.OMDB_API_KEY || '',
+  TENOR_API_KEY: process.env.TENOR_API_KEY || '',
+  TENOR_EMOJI_API_KEY: process.env.TENOR_EMOJI_API_KEY || '',
+  OPENWEATHER_API_KEY: process.env.OPENWEATHER_API_KEY || '',
+  ACRCLOUD_HOST: process.env.ACRCLOUD_HOST || 'identify-eu-west-1.acrcloud.com',
+  ACRCLOUD_ACCESS_KEY: process.env.ACRCLOUD_ACCESS_KEY || '',
+  ACRCLOUD_ACCESS_SECRET: process.env.ACRCLOUD_ACCESS_SECRET || '',
 };

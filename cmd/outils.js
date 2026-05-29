@@ -18,7 +18,7 @@ const {
 } = require("tempmail.lol");
 const JavaScriptObfuscator = require("javascript-obfuscator");
 const {
-  exec
+  spawn
 } = require("child_process");
 const AdmZip = require("adm-zip");
 const os = require("os");
@@ -1013,6 +1013,9 @@ registerCommand({
   const value = arg[0];
   const value2 = value + ".git";
   const pluginName = arg[1] ? arg[1] : path.basename(value2, ".git");
+  if (/[/\\]|\.\./.test(pluginName)) {
+    return repondre("Nom de dossier invalide.");
+  }
   const value3 = pluginName + ".zip";
   const value4 = /^(https?:\/\/|git@)([\w.@:\/-]+)(\.git)(\/?)$/;
   if (!value4.test(value2)) {
@@ -1020,9 +1023,16 @@ registerCommand({
   }
   try {
     repondre("🔄Clonage du dépôt en cours...");
-    exec("git clone " + value2 + " " + pluginName, (tmp, tmp2, tmp3) => {
-      if (tmp) {
-        return repondre("Erreur lors du clonage du dépôt : " + tmp.message);
+    const cloneProcess = spawn("git", ["clone", value2, pluginName], {
+      cwd: process.cwd()
+    });
+    let stderr = "";
+    cloneProcess.stderr.on("data", chunk => {
+      stderr += chunk.toString();
+    });
+    cloneProcess.on("close", code => {
+      if (code !== 0) {
+        return repondre("Erreur lors du clonage du dépôt : " + (stderr.trim() || "code " + code));
       }
       try {
         const value5 = new AdmZip();
