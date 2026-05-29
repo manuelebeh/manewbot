@@ -1,1 +1,86 @@
-const _0x1d59a4=_0xf3c6;(function(_0x21c96a,_0x244875){const _0x3fdcf5=_0xf3c6,_0x20c3ce=_0x21c96a();while(!![]){try{const _0x29973e=parseInt(_0x3fdcf5(0x18e))/0x1*(-parseInt(_0x3fdcf5(0x18a))/0x2)+-parseInt(_0x3fdcf5(0x18f))/0x3*(-parseInt(_0x3fdcf5(0x193))/0x4)+-parseInt(_0x3fdcf5(0x186))/0x5*(-parseInt(_0x3fdcf5(0x198))/0x6)+parseInt(_0x3fdcf5(0x17d))/0x7+parseInt(_0x3fdcf5(0x188))/0x8*(parseInt(_0x3fdcf5(0x192))/0x9)+parseInt(_0x3fdcf5(0x185))/0xa*(parseInt(_0x3fdcf5(0x195))/0xb)+-parseInt(_0x3fdcf5(0x181))/0xc;if(_0x29973e===_0x244875)break;else _0x20c3ce['push'](_0x20c3ce['shift']());}catch(_0x459267){_0x20c3ce['push'](_0x20c3ce['shift']());}}}(_0x182c,0xea983));const _0x11e6df=(function(){let _0x231f73=!![];return function(_0xd77a6,_0x1513d3){const _0x446f57=_0x231f73?function(){const _0x2973cc=_0xf3c6;if(_0x1513d3){const _0x2471fd=_0x1513d3[_0x2973cc(0x18d)](_0xd77a6,arguments);return _0x1513d3=null,_0x2471fd;}}:function(){};return _0x231f73=![],_0x446f57;};}()),_0x284dad=_0x11e6df(this,function(){const _0x2f786e=_0xf3c6,_0x1861e1={'KRdes':_0x2f786e(0x17f)};return _0x284dad[_0x2f786e(0x191)]()[_0x2f786e(0x189)]('(((.+)+)+)+$')[_0x2f786e(0x191)]()[_0x2f786e(0x180)](_0x284dad)[_0x2f786e(0x189)](_0x1861e1[_0x2f786e(0x187)]);});_0x284dad();const {Sequelize,DataTypes}=require(_0x1d59a4(0x184)),config=require(_0x1d59a4(0x199)),db=config['DATABASE'];let sequelize;!db?sequelize=new Sequelize({'dialect':'sqlite','storage':'./database.db','logging':![]}):sequelize=new Sequelize(db,{'dialect':_0x1d59a4(0x190),'ssl':!![],'protocol':_0x1d59a4(0x190),'dialectOptions':{'native':!![],'ssl':{'require':!![],'rejectUnauthorized':![]}},'logging':![]});const GroupSettings=sequelize[_0x1d59a4(0x19a)](_0x1d59a4(0x17e),{'id':{'type':DataTypes[_0x1d59a4(0x182)],'primaryKey':!![]},'welcome':{'type':DataTypes[_0x1d59a4(0x182)],'defaultValue':_0x1d59a4(0x19b)},'goodbye':{'type':DataTypes['STRING'],'defaultValue':_0x1d59a4(0x19b)},'antipromote':{'type':DataTypes[_0x1d59a4(0x182)],'defaultValue':_0x1d59a4(0x19b)},'antidemote':{'type':DataTypes[_0x1d59a4(0x182)],'defaultValue':_0x1d59a4(0x19b)}},{'tableName':_0x1d59a4(0x196),'timestamps':![]}),Events2=sequelize[_0x1d59a4(0x19a)](_0x1d59a4(0x194),{'id':{'type':DataTypes[_0x1d59a4(0x182)],'primaryKey':!![]},'welcome_msg':{'type':DataTypes['TEXT'],'allowNull':!![]},'goodbye_msg':{'type':DataTypes[_0x1d59a4(0x18b)],'allowNull':!![]},'promoteAlert':{'type':DataTypes[_0x1d59a4(0x18b)],'defaultValue':'non'},'demoteAlert':{'type':DataTypes[_0x1d59a4(0x18b)],'defaultValue':_0x1d59a4(0x19b)}},{'tableName':_0x1d59a4(0x183),'timestamps':![]});function _0x182c(){const _0x320f42=['yxbWBhK','odfNBwr5uKq','mZznuK5Rv3G','Cg9ZDgDYzxm','Dg9tDhjPBMC','mJyXENfMzxDO','mJCWnta0D2TTrhb1','rxzLBNrZmG','mtfxD0npBLe','z3jVDxbFC2v0DgLUz3m','zxHWB3j0CW','ntrAEK5VAfO','lI4VC2v0','zgvMAw5L','BM9U','otGYmZK3nwvitfPfyG','r3jVDxbtzxr0Aw5NCW','kcGOlISPkYKRksSK','y29UC3rYDwn0B3i','mZeXntm5mJbzsMHgzgO','u1rssu5h','zxzLBNrZmG','C2vXDwvSAxPL','mty4ntu1mZbsBuXHzxq','mZq3ntCWDxPXrwTu','s1jKzxm','mZaYngPtEuPSzq','C2vHCMnO','mJqXotHxvgrxAhi','vevyva','C3LUyW'];_0x182c=function(){return _0x320f42;};return _0x182c();}function _0xf3c6(_0x353308,_0x1dc9ec){_0x353308=_0x353308-0x17d;const _0x1bf222=_0x182c();let _0x284dad=_0x1bf222[_0x353308];if(_0xf3c6['seIfuV']===undefined){var _0x11e6df=function(_0x10e5a4){const _0xa82b72='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5b3b3e='',_0x95143c='',_0x33e3ec=_0x5b3b3e+_0x11e6df;for(let _0x1f5d4d=0x0,_0xa7424e,_0xc8b470,_0x29dc0d=0x0;_0xc8b470=_0x10e5a4['charAt'](_0x29dc0d++);~_0xc8b470&&(_0xa7424e=_0x1f5d4d%0x4?_0xa7424e*0x40+_0xc8b470:_0xc8b470,_0x1f5d4d++%0x4)?_0x5b3b3e+=_0x33e3ec['charCodeAt'](_0x29dc0d+0xa)-0xa!==0x0?String['fromCharCode'](0xff&_0xa7424e>>(-0x2*_0x1f5d4d&0x6)):_0x1f5d4d:0x0){_0xc8b470=_0xa82b72['indexOf'](_0xc8b470);}for(let _0x45cff4=0x0,_0x310502=_0x5b3b3e['length'];_0x45cff4<_0x310502;_0x45cff4++){_0x95143c+='%'+('00'+_0x5b3b3e['charCodeAt'](_0x45cff4)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x95143c);};_0xf3c6['nnnuIm']=_0x11e6df,_0xf3c6['TmfbFD']={},_0xf3c6['seIfuV']=!![];}const _0x182cdb=_0x1bf222[0x0],_0xf3c64a=_0x353308+_0x182cdb,_0x238ab1=_0xf3c6['TmfbFD'][_0xf3c64a];if(!_0x238ab1){const _0x3f06a6=function(_0x43b612){this['wVlwOC']=_0x43b612,this['QOQNhS']=[0x1,0x0,0x0],this['xCgNlX']=function(){return'newState';},this['MGqRLb']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['pPfANz']='[\x27|\x22].+[\x27|\x22];?\x20*}';};_0x3f06a6['prototype']['jOVUqS']=function(){const _0x322cca=new RegExp(this['MGqRLb']+this['pPfANz']),_0x5a2dc2=_0x322cca['test'](this['xCgNlX']['toString']())?--this['QOQNhS'][0x1]:--this['QOQNhS'][0x0];return this['NzyfxN'](_0x5a2dc2);},_0x3f06a6['prototype']['NzyfxN']=function(_0x5da120){if(!Boolean(~_0x5da120))return _0x5da120;return this['puneVa'](this['wVlwOC']);},_0x3f06a6['prototype']['puneVa']=function(_0x1ab3f6){for(let _0x3dd857=0x0,_0x215edc=this['QOQNhS']['length'];_0x3dd857<_0x215edc;_0x3dd857++){this['QOQNhS']['push'](Math['round'](Math['random']())),_0x215edc=this['QOQNhS']['length'];}return _0x1ab3f6(this['QOQNhS'][0x0]);},new _0x3f06a6(_0xf3c6)['jOVUqS'](),_0x284dad=_0xf3c6['nnnuIm'](_0x284dad),_0xf3c6['TmfbFD'][_0xf3c64a]=_0x284dad;}else _0x284dad=_0x238ab1;return _0x284dad;}((async()=>{const _0x3a6a5e=_0x1d59a4;await GroupSettings[_0x3a6a5e(0x18c)](),await Events2[_0x3a6a5e(0x18c)]();})()),module[_0x1d59a4(0x197)]={'GroupSettings':GroupSettings,'Events2':Events2};
+const {
+  Sequelize,
+  DataTypes
+} = require("sequelize");
+const config = require("../set");
+const db = config.DATABASE;
+let sequelize;
+if (!db) {
+  sequelize = new Sequelize({
+    dialect: "sqlite",
+    storage: "./database.db",
+    logging: false
+  });
+} else {
+  sequelize = new Sequelize(db, {
+    dialect: "postgres",
+    ssl: true,
+    protocol: "postgres",
+    dialectOptions: {
+      native: true,
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    logging: false
+  });
+}
+const GroupSettings = sequelize.define("GroupSettings", {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
+  welcome: {
+    type: DataTypes.STRING,
+    defaultValue: "non"
+  },
+  goodbye: {
+    type: DataTypes.STRING,
+    defaultValue: "non"
+  },
+  antipromote: {
+    type: DataTypes.STRING,
+    defaultValue: "non"
+  },
+  antidemote: {
+    type: DataTypes.STRING,
+    defaultValue: "non"
+  }
+}, {
+  tableName: "group_settings",
+  timestamps: false
+});
+const Events2 = sequelize.define("Events2", {
+  id: {
+    type: DataTypes.STRING,
+    primaryKey: true
+  },
+  welcome_msg: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  goodbye_msg: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+  promoteAlert: {
+    type: DataTypes.TEXT,
+    defaultValue: "non"
+  },
+  demoteAlert: {
+    type: DataTypes.TEXT,
+    defaultValue: "non"
+  }
+}, {
+  tableName: "events2",
+  timestamps: false
+});
+(async () => {
+  await GroupSettings.sync();
+  await Events2.sync();
+})();
+module.exports = {
+  GroupSettings: GroupSettings,
+  Events2: Events2
+};
