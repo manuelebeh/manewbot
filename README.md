@@ -51,10 +51,6 @@ On the next restart, the bot reconnects automatically without a new QR scan.
 - Create an account: [Heroku signup](https://signup.heroku.com/)
 - Quick deploy: [Deploy on Heroku](https://dashboard.heroku.com/new?template=https://github.com/manuelebeh/manewbot)
 
-#### <img src="https://img.shields.io/badge/Render-12100E?style=for-the-badge&logo=render&logoColor=white" height="28" />
-- Create an account: [Render signup](https://dashboard.render.com/register)
-- Quick deploy: [Deploy on Render](https://dashboard.render.com/web/new)
-
 #### <img src="https://img.shields.io/badge/Panel-grey?style=for-the-badge&logo=windows-terminal&logoColor=white" height="28" />
 - Set up a server (Node.js 22+)
 - Entry point: `bot.js` (or use the panel script below to clone the repo and run `bot.js`)
@@ -63,6 +59,54 @@ On the next restart, the bot reconnects automatically without a new QR scan.
 #### <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" height="28" />
 - Add a `.env` file
 - CI is already defined in `.github/workflows/ci.yml` (see below)
+
+#### <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" height="28" />
+
+Prerequisites: Docker, Node **22** (for local dev only), file `.env` (copy from `.env.example`).
+
+```bash
+cp .env.example .env
+# Edit .env (NOM_OWNER, NUMERO_OWNER, …)
+
+# Build and run in background
+docker compose up -d --build
+
+# First WhatsApp pairing (QR in terminal)
+docker compose run --rm -it manewbot
+
+# Logs
+docker compose logs -f manewbot
+```
+
+**Persisted data** (via `docker-compose.yml`):
+
+| Mount | Role |
+|-------|------|
+| `./auth` | Baileys sessions (required) |
+| `./.env` | Config + `setvar` / `delvar` |
+| Volume `manewbot-db` | SQLite `database.db` when `DATABASE` is unset |
+
+After changing `.env` on the host, recreate the container (a simple `restart` does not reload `--env-file`):
+
+```bash
+docker compose up -d --force-recreate
+```
+
+Without Compose:
+
+```bash
+docker build -t manewbot .
+docker run -d --restart unless-stopped --name manewbot \
+  --env-file .env \
+  -v "$(pwd)/auth:/app/auth" \
+  -v "$(pwd)/.env:/app/.env" \
+  -v manewbot-db:/app/database.db \
+  manewbot
+```
+
+PaaS health check: set `ENABLE_HEALTH_CHECK=true`, `HEALTH_BIND_HOST=0.0.0.0`, publish port `3000` (uncomment `ports` in `docker-compose.yml`).
+
+**One instance per data set** — do not run two containers sharing the same `auth/` or DB volume (`.bot.pid` lock).
 
 </details>
 
