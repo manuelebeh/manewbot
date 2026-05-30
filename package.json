@@ -21,6 +21,12 @@
   ],
   "author": "Manuelebeh",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
+  "volta": {
+    "node": "22.22.3"
+  },
   "dependencies": {
     "@vitalets/google-translate-api": "^9.2.1",
     "@whiskeysockets/baileys": "file:./packages/baileys-cjs",
