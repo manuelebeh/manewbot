@@ -1,0 +1,23 @@
+services:
+  manewbot:
+    build: .
+    image: manewbot:latest
+    container_name: manewbot
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      # Sessions WhatsApp (obligatoire)
+      - ./auth:/app/auth
+      # Persistance setvar / delvar et sync avec manage_env()
+      - ./.env:/app/.env
+      # SQLite par défaut (fichier dans le volume nommé, pas sur l'hôte)
+      - manewbot-db:/app/database.db
+      # config_env.json optionnel : décommenter si le fichier existe déjà
+      # - ./config_env.json:/app/config_env.json
+    # PaaS / sonde HTTP : décommenter si ENABLE_HEALTH_CHECK=true et HEALTH_BIND_HOST=0.0.0.0
+    # ports:
+    #   - "${HEALTH_PORT:-3000}:3000"
+
+volumes:
+  manewbot-db:

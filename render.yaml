@@ -1,0 +1,35 @@
+# Blueprint Render — https://render.com/docs/blueprint-spec
+# Déploiement : Dashboard → New → Blueprint → repo GitHub
+# Les secrets (NUMERO_OWNER, clés API, DATABASE…) se configurent dans le dashboard.
+
+services:
+  - type: worker
+    name: manewbot
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    disk:
+      name: manewbot-auth
+      mountPath: /app/auth
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ENABLE_HEALTH_CHECK
+        value: "false"
+      - key: AUTO_INSTALL_MISSING_DEPS
+        value: "false"
+      # Obligatoire — à renseigner dans le dashboard Render :
+      - key: PREFIXE
+        sync: false
+      - key: NOM_OWNER
+        sync: false
+      - key: NUMERO_OWNER
+        sync: false
+      - key: MODE
+        value: private
+      - key: NOM_BOT
+        value: Manewbot
+      # Recommandé sur Render (filesystem éphémère) : Postgres
+      # - key: DATABASE
+      #   sync: false

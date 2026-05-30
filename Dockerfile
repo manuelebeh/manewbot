@@ -1,8 +1,12 @@
 FROM node:22-bookworm-slim
 
+LABEL org.opencontainers.image.title="Manewbot" \
+      org.opencontainers.image.source="https://github.com/manuelebeh/manewbot"
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     git \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -19,7 +23,11 @@ ENV NODE_ENV=production
 
 USER node
 
+# Port HTTP uniquement si ENABLE_HEALTH_CHECK=true (défaut VPS : health désactivé)
 EXPOSE 3000
+
+# Données à monter au run (voir docker-compose.yml)
+VOLUME ["/app/auth"]
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=120s --retries=3 \
   CMD node -e "const e=process.env.ENABLE_HEALTH_CHECK==='true';if(!e)process.exit(0);const p=+(process.env.HEALTH_PORT||process.env.PORT||3000);require('http').get('http://127.0.0.1:'+p,r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))"
