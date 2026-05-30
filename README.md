@@ -56,7 +56,7 @@ On the next restart, the bot reconnects automatically without a new QR scan.
 - Quick deploy: [Deploy on Render](https://dashboard.render.com/web/new)
 
 #### <img src="https://img.shields.io/badge/Panel-grey?style=for-the-badge&logo=windows-terminal&logoColor=white" height="28" />
-- Set up a server (Node.js 20+)
+- Set up a server (Node.js 22+)
 - Entry point: `bot.js` (or use the panel script below to clone the repo and run `bot.js`)
 - Run `npm install` then `node bot.js` or `npm start` (PM2)
 
