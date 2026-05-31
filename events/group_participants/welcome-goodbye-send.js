@@ -1,12 +1,20 @@
 'use strict';
 
 const config = require('../../set');
+const { getGroupMetadata } = require('../../lib/groupe_cache');
 
-async function envoyerWelcomeGoodbye(groupId, memberJid, messageType, eventSettings, sock) {
-  const groupMetadata = await sock.groupMetadata(groupId);
-  const groupName = groupMetadata.subject || 'Groupe';
-  const memberCount = groupMetadata.participants.length;
-  const description = groupMetadata.desc || 'Aucune description';
+async function envoyerWelcomeGoodbye(
+  groupId,
+  memberJid,
+  messageType,
+  eventSettings,
+  sock,
+  groupMetadata = null
+) {
+  const meta = groupMetadata || (await getGroupMetadata(sock, groupId));
+  const groupName = meta.subject || 'Groupe';
+  const memberCount = meta.participants.length;
+  const description = meta.desc || 'Aucune description';
   const mentionUser = '@' + memberJid.split('@')[0];
   const template = {
     welcome:

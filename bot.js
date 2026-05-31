@@ -159,29 +159,57 @@ async function reconnectSession({ numero, isPrincipale }) {
   }
 }
 
+const SIGNAL_NOISE = [
+  'Closing session',
+  'SessionEntry',
+  'Decrypted message with closed session',
+];
+
+const DECRYPT_NOISE = [
+  'Bad MAC',
+  'Failed to decrypt',
+  'No matching sessions',
+];
+
+function lineIncludesNoise(line, patterns) {
+  return patterns.some((pattern) => line.includes(pattern));
+}
+
 console.info = function (...args) {
   const line = args.join(' ');
-  if (line.includes('Closing session') || line.includes('SessionEntry')) return;
+  if (lineIncludesNoise(line, SIGNAL_NOISE)) return;
   console.log(...args);
 };
 
 console.warn = function (...args) {
   const line = args.join(' ');
-  if (line.includes('Closing session') || line.includes('SessionEntry')) return;
+  if (lineIncludesNoise(line, SIGNAL_NOISE)) return;
   console.log(...args);
 };
 
 console.error = function (...args) {
   const line = args.join(' ');
   if (
-    line.includes('Bad MAC') ||
-    line.startsWith('Failed to decrypt') ||
-    line.includes('No matching sessions')
+    lineIncludesNoise(line, DECRYPT_NOISE) ||
+    lineIncludesNoise(line, SIGNAL_NOISE)
   ) {
     return;
   }
   console.log(...args);
 };
+
+function createRetryCounterCache() {
+  const store = new Map();
+  return {
+    get: async (key) => store.get(key),
+    set: async (key, value) => {
+      store.set(key, value);
+    },
+    del: async (key) => {
+      store.delete(key);
+    },
+  };
+}
 
 function authFolderFor({ numero, isPrincipale }) {
   return isPrincipale ? PRINCIPAL_FOLDER : numero;
@@ -234,6 +262,7 @@ async function startGenericSession({ numero, isPrincipale = false }) {
       generateHighQualityLinkPreview: true,
       shouldSyncHistoryMessage: () => false,
       syncFullHistory: false,
+      msgRetryCounterCache: createRetryCounterCache(),
       cachedGroupMetadata: async (jid) => groupCache.get(jid),
       getMessage: async (key) => {
         const stored = getMessage(key.id);

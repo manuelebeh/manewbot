@@ -1,5 +1,6 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const { getGroupMetadata } = require('../../lib/groupe_cache');
+const path = require('path');
 const filePath = path.join(__dirname, "../../lib/cache_jid.json");
 if (!fs.existsSync(filePath)) {
   fs.writeFileSync(filePath, JSON.stringify({}, null, 2));
@@ -26,7 +27,7 @@ async function getJid(participantId, groupJid, sock, retryCount = 0) {
     if (!groupJid || !groupJid.endsWith("@g.us")) {
       return null;
     }
-    const groupMeta = await sock.groupMetadata(groupJid);
+    const groupMeta = await getGroupMetadata(sock, groupJid);
     if (!groupMeta || !Array.isArray(groupMeta.participants)) {
       return null;
     }
