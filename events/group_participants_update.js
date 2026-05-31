@@ -2,7 +2,7 @@
 
 const { GroupSettings, Events2 } = require('../database/events');
 const { Sudo } = require('../database/sudo');
-const { groupCache } = require('../lib/groupe_cache');
+const { getGroupMetadata, isRateLimitError } = require('../lib/groupe_cache');
 const { envoyerWelcomeGoodbye } = require('./group_participants/welcome-goodbye-send');
 const { handlePromoteDemote } = require('./group_participants/promote-demote');
 
@@ -17,9 +17,8 @@ async function getSudoUserIds() {
 
 async function group_participants_update(participantUpdate, sock) {
   try {
-    const groupMetadata = await sock.groupMetadata(participantUpdate.id);
-    groupCache.set(participantUpdate.id, groupMetadata);
-    const groupMeta = groupMetadata;
+    const groupMeta = await getGroupMetadata(sock, participantUpdate.id);
+    if (!groupMeta) return;
     const groupSettings = await GroupSettings.findOne({
       where: { id: participantUpdate.id },
     });
@@ -51,7 +50,8 @@ async function group_participants_update(participantUpdate, sock) {
           memberJid,
           'welcome',
           eventSettings,
-          sock
+          sock,
+          groupMeta
         );
       }
       if (participantUpdate.action === 'remove' && goodbye === 'oui' && eventSettings) {
@@ -60,7 +60,8 @@ async function group_participants_update(participantUpdate, sock) {
           memberJid,
           'goodbye',
           eventSettings,
-          sock
+          sock,
+          groupMeta
         );
       }
       if (
@@ -86,6 +87,13 @@ async function group_participants_update(participantUpdate, sock) {
       }
     }
   } catch (err) {
+    if (isRateLimitError(err)) {
+      console.warn(
+        '⚠️ group_participants_update ignoré (rate-overlimit) :',
+        participantUpdate.id
+      );
+      return;
+    }
     console.error('❌ Erreur group_participants_update :', err);
   }
 }

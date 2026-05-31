@@ -1,6 +1,5 @@
-const {
-  WA_CONF
-} = require("../../database/wa_conf");
+const { WA_CONF } = require('../../database/wa_conf');
+const { getGroupMetadata } = require('../../lib/groupe_cache');
 async function antidelete(sock, msg, senderJid, contentType, getMessage, chatJid, botJid) {
   const config = await WA_CONF.findOne({
     where: {
@@ -43,7 +42,11 @@ async function antidelete(sock, msg, senderJid, contentType, getMessage, chatJid
         if (!shouldNotify) {
           return;
         }
-        const sourceLabel = isGroupChat ? "👥 Groupe : " + (await sock.groupMetadata(remoteJid)).subject : isStatus ? "📢 Status WhatsApp" : "📩 Chat : @" + chatId.split("@")[0];
+        const sourceLabel = isGroupChat
+          ? '👥 Groupe : ' + (await getGroupMetadata(sock, remoteJid)).subject
+          : isStatus
+            ? '📢 Status WhatsApp'
+            : '📩 Chat : @' + chatId.split('@')[0];
         const alertText = ("\n✨ Manewbot ANTI-DELETE MSG ✨\n👤 Envoyé par : @" + authorJid.split("@")[0] + "\n❌ Supprimé par : @" + senderJid.split("@")[0] + "\n⏰ Heure de suppression : " + deleteTime + "\n" + sourceLabel + "\n        ").trim();
         if (antideleteMode.includes("-org")) {
           if (!botJid) {

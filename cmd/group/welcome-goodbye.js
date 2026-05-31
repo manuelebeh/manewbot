@@ -1,6 +1,7 @@
 'use strict';
 
 const { registerCommand } = require('../../lib/commands');
+const { getGroupMetadata } = require('../../lib/groupe_cache');
 const { GroupSettings, Events2 } = require('../../database/events');
 
 function registerWelcomeGoodbye(cmdName) {
@@ -65,7 +66,7 @@ function registerWelcomeGoodbye(cmdName) {
             );
           }
 
-          const groupMeta = await sock.groupMetadata(chatJid);
+          const groupMeta = await getGroupMetadata(sock, chatJid);
           const groupName = groupMeta.subject || 'Groupe';
           const memberCount = groupMeta.participants.length;
           const groupDesc = groupMeta.desc || 'Aucune description';
