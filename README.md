@@ -1,7 +1,7 @@
 <h1 align="center">Manewbot</h1>
 
 <p align="center">
-    A multi-device WhatsApp bot. Don't forget to star the project.
+    WhatsApp multi-device bot, built with Baileys.
 </p>
 
 <p align="center">
@@ -31,14 +31,13 @@
 
 ### Step 2: Pair WhatsApp (local session)
 
-Authentication is fully local via a Baileys QR code:
+Pairing uses a local Baileys QR code:
 
-1. Start the bot for the first time: `node bot.js`
-2. A QR code appears in the terminal
-3. In WhatsApp go to **Linked devices** > **Link a device** and scan the QR
-4. Credentials are saved in `auth/principale/`
+1. Run `node bot.js`
+2. Scan the QR shown in the terminal (WhatsApp → Linked devices → Link a device)
+3. Session files land in `auth/principale/`
 
-On the next restart, the bot reconnects automatically without a new QR scan.
+Later starts reuse that session; no new QR unless you wipe `auth/`.
 
 ---
 
@@ -106,7 +105,7 @@ docker run -d --restart unless-stopped --name manewbot \
 
 PaaS health check: set `ENABLE_HEALTH_CHECK=true`, `HEALTH_BIND_HOST=0.0.0.0`, publish port `3000` (uncomment `ports` in `docker-compose.yml`).
 
-**One instance per data set** — do not run two containers sharing the same `auth/` or DB volume (`.bot.pid` lock).
+Run one container per `auth/` and DB volume. Sharing them trips the `.bot.pid` lock.
 
 </details>
 
@@ -263,7 +262,7 @@ STICKER_PACK_NAME=Manewbot
 STICKER_AUTHOR_NAME=Manewbie
 ```
 
-Common optional variables: `COMMAND_REACT`, `RESTRICTED_GROUPS`, `WHATSAPP_NEWSLETTER_JID`, API keys (`AI_API_BASE`, `GOOGLE_SEARCH_*`, …) — see the full [`.env.example`](./.env.example) file.
+Optional knobs (`COMMAND_REACT`, `RESTRICTED_GROUPS`, API bases, …) are listed in [`.env.example`](./.env.example).
 
 </details>
 
@@ -293,11 +292,11 @@ To remove a secondary account, use the matching owner command. The `auth/<number
 | **Owner** | `NUMERO_OWNER` in `.env` | `classe: Owner` commands (blocked at router if not owner), `setvar`, `update`, sensitive config, full immunity |
 | **Sudo** | `setsudo` command (DB table) | Staff: private/public mode commands, group moderation; only the owner can kick/ban a sudo |
 | **WA admin** | WhatsApp group admin | Group commands per `verif_Admin` |
-| **Member** | — | Per `MODE`, bans, public/private command lists |
+| **Member** | (none) | Depends on `MODE`, bans, and public/private command lists |
 
-**Restricted groups** (`RESTRICTED_GROUPS`): only the owner, sudo users, and JIDs in `RESTRICTED_GROUP_ALLOWLIST` can use the bot and passive handlers in those groups.
+In groups listed in `RESTRICTED_GROUPS`, only the owner, sudo users, and JIDs in `RESTRICTED_GROUP_ALLOWLIST` can talk to the bot (including passive handlers).
 
-**Local checks**: `npm test` · **Quality**: `npm run check:syntax` · `npm run lint` · **CI**: `check:secrets`, `check:syntax`, tests, ESLint (see `.github/workflows/ci.yml`).
+Local checks: `npm test`, `npm run check:syntax`, `npm run lint`. CI runs those plus `check:secrets` (see `.github/workflows/ci.yml`).
 
 ### Command structure
 
@@ -344,16 +343,16 @@ Each command file imports only what it needs (`register` + `deps`, or named modu
 <details>
   <summary>Security (VPS / panel)</summary>
 
-### Git: never commit `.env` or `auth/`
+### Git: keep `.env` and `auth/` out of commits
 
-These paths are in `.gitignore`:
+Already listed in `.gitignore`:
 
 - `.env`, `.env.*` (except `.env.example`)
 - `auth/` (Baileys sessions / `creds.json`)
 - `config_env.json` (except the versioned example)
 - `backups/` (local archives)
 
-Local or CI check:
+Check locally or in CI:
 
 ```bash
 npm run check:secrets
@@ -362,7 +361,7 @@ npm run check:secrets
 
 ### Encrypted backups
 
-Never store `auth/` or `.env` in plain text on a repo or unencrypted cloud.
+Do not leave `auth/` or `.env` in plain text on a remote repo or unencrypted cloud.
 
 ```bash
 chmod +x scripts/backup-secrets.sh
@@ -374,23 +373,23 @@ Restore on the server: `gpg -d backups/….tar.gz.gpg | tar -xzf - -C /path/to/b
 
 ### Firewall: do not expose port 3000
 
-The bot can start a small HTTP server for health checks (Render, Heroku, etc.). **By default** it listens on `127.0.0.1` — not reachable from the internet.
+Health checks can open a tiny HTTP server (Render, Heroku, …). Default bind is `127.0.0.1`, so nothing answers from the public internet.
 
-On a **VPS or panel** (recommended in `.env.example`):
+On a VPS or panel (see `.env.example`):
 
-- `ENABLE_HEALTH_CHECK=false` — no HTTP port at all.
-- Otherwise keep `HEALTH_BIND_HOST=127.0.0.1` (default) and **do not** open port 3000 (`HEALTH_PORT`) in `ufw`, iptables, or your cloud security group.
-- Only bind `0.0.0.0` (`HEALTH_BIND_HOST=0.0.0.0`) if your PaaS host requires it for internal probes.
+- `ENABLE_HEALTH_CHECK=false`: no HTTP port.
+- Or keep `HEALTH_BIND_HOST=127.0.0.1` and leave port 3000 (`HEALTH_PORT`) closed in `ufw` / your cloud security group.
+- Bind `0.0.0.0` only when the host needs it for internal probes.
 
 ### Dedicated WhatsApp account
 
-Use a **number dedicated to the bot**, not your personal line:
+Prefer a number used only for the bot:
 
-- Limits risk if the account is banned or `auth/` leaks.
-- Easier rotation: delete `auth/principale/` and scan a new QR.
-- `NUMERO_OWNER` in `.env` must match the account that controls the bot (command owner).
+- Less damage if WhatsApp bans it or `auth/` leaks.
+- Easy reset: delete `auth/principale/` and scan again.
+- `NUMERO_OWNER` must be the number that owns the bot.
 
-Also protect `auth/` (already in `.gitignore`): restrictive permissions, encrypted backups, never committed.
+Keep `auth/` out of git (already ignored), with tight file permissions and encrypted backups.
 
 ### Production checklist (VPS / panel)
 
@@ -398,29 +397,29 @@ Also protect `auth/` (already in `.gitignore`): restrictive permissions, encrypt
 |----------|----------------|
 | `NODE_ENV=production` | No automatic `npm install` of deps on reconnect; message logs **off** by default |
 | `AUTO_INSTALL_MISSING_DEPS=false` | Optional in prod (explicit; default off when `NODE_ENV=production`) |
-| `COMMAND_REACT` | `on` / `off` — emoji reaction on the message when a command runs |
-| `LOG_MESSAGES` | `off` or `minimal` in prod (`full` only for debugging) |
-| `ENABLE_HEALTH_CHECK` | `false` on VPS unless you need a local probe on `127.0.0.1` |
-| API keys / `*_API_BASE` | Set in `.env` (see `.env.example`) — related commands stay disabled if empty |
-| `TELEGRAM_BOT_TOKEN` | Required for `tgs` (owner) — **never commit**; revoke on BotFather if leaked |
-| `CHATBOT_API_BASE` | Chatbot GET URL (`?user_id=&text=`) — empty = no external calls |
-| `WAIFU_PICS_API_BASE`, `EPHOTO360_BASE`, `CATBOX_UPLOAD_URL`, … | See `.env.example` (overridable media URLs) |
+| `COMMAND_REACT` | `on` / `off`: react with an emoji when a command runs |
+| `LOG_MESSAGES` | `off` or `minimal` in prod (`full` only while debugging) |
+| `ENABLE_HEALTH_CHECK` | `false` on VPS unless you want a local probe on `127.0.0.1` |
+| API keys / `*_API_BASE` | From `.env` (see `.env.example`); empty means those commands stay off |
+| `TELEGRAM_BOT_TOKEN` | Needed for `tgs` (owner). Never commit it; revoke on BotFather if it leaked |
+| `CHATBOT_API_BASE` | Chatbot GET URL (`?user_id=&text=`). Empty skips external calls |
+| `WAIFU_PICS_API_BASE`, `EPHOTO360_BASE`, `CATBOX_UPLOAD_URL`, … | Media URL overrides in `.env.example` |
 
 ### Git history and secrets
 
-If a token or key was **committed in the past**, removing it from current code is not enough — it remains in Git history.
+Deleting a key from current files does not erase it from old commits.
 
-1. Revoke / rotate the key with the provider (Telegram BotFather, Google Cloud, etc.).
-2. Rewrite history with [git-filter-repo](https://github.com/newren/git-filter-repo) or BFG, then `git push --force` (team coordination required).
-3. Verify: `npm run check:secrets` and `git log -p -- .env` (must not show secrets).
+1. Revoke or rotate it with the provider (BotFather, Google Cloud, …).
+2. Rewrite history with [git-filter-repo](https://github.com/newren/git-filter-repo) or BFG, then `git push --force` (agree with anyone else on the repo first).
+3. Check with `npm run check:secrets` and `git log -p -- .env` (should show no secrets).
 
-### Sensitive commands (reminder)
+### Sensitive commands
 
-- `vv` / `vv2` / `capture`: owner/sudo (`isStaff`) only.
-- `fetch_sc`: owner + validated public URLs (no SSRF to private networks).
-- `update`: `git stash` then `pull --ff-only` (no more `reset --hard`).
+- `vv` / `vv2` / `capture`: owner or sudo (`isStaff`) only.
+- `fetch_sc`: owner only, and only validated public URLs (blocks private-network SSRF).
+- `update`: `git stash` then `pull --ff-only` (no `reset --hard`).
 
-**After any `.env` change**: restart the process (`node bot.js` or your systemd/PM2 service). Reloading commands on WhatsApp reconnect does **not** reload `dotenv`.
+After editing `.env`, restart the process (`node bot.js`, systemd, or PM2). A WhatsApp reconnect reloads commands but not `dotenv`.
 
 ```bash
 npm run check:secrets && npm run check:syntax && npm test && npm run lint   # before deploy
@@ -433,4 +432,4 @@ npm run check:secrets && npm run check:syntax && npm test && npm run lint   # be
 
 ### License
 
-Distributed under the MIT License. See [LICENSE](./LICENSE) for details.
+MIT. Details in [LICENSE](./LICENSE).

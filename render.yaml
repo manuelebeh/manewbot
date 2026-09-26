@@ -1,4 +1,4 @@
-# Blueprint Render — https://render.com/docs/blueprint-spec
+# Blueprint Render: https://render.com/docs/blueprint-spec
 # Déploiement : Dashboard → New → Blueprint → repo GitHub
 # Les secrets (NUMERO_OWNER, clés API, DATABASE…) se configurent dans le dashboard.
 
@@ -19,7 +19,7 @@ services:
         value: "false"
       - key: AUTO_INSTALL_MISSING_DEPS
         value: "false"
-      # Obligatoire — à renseigner dans le dashboard Render :
+      # Obligatoire: à renseigner dans le dashboard Render
       - key: PREFIXE
         sync: false
       - key: NOM_OWNER
