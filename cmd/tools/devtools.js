@@ -1,52 +1,11 @@
 'use strict';
 
-const JavaScriptObfuscator = require('javascript-obfuscator');
 const { registerCommand } = require('./register');
 const { fs, path, spawn, AdmZip } = require('./deps');
 const { requireOwner, ownerReply } = require('../../lib/require-owner');
 
 const OWNER_DENIED = "❌ Réservé au propriétaire du bot.";
 
-registerCommand({
-  nom_cmd: "obfuscate",
-  classe: "Outils",
-  react: "📥",
-  desc: "Obfusque du code JavaScript",
-  alias: ["obf"]
-}, async (chatJid, sock, ctx) => {
-  const {
-    arg,
-    repondre,
-    ms
-  } = ctx;
-  if (!requireOwner(ctx, () => ownerReply(sock, chatJid, ms, OWNER_DENIED))) return;
-  if (!arg || arg.length === 0) {
-    return repondre("Veuillez fournir le code JavaScript à obfusquer.");
-  }
-  const text = arg.join(" ");
-  try {
-    repondre("🔄obfucation en cours...");
-    const value = JavaScriptObfuscator.obfuscate(text, {
-      compact: true,
-      controlFlowFlattening: true
-    }).getObfuscatedCode();
-    const text2 = path.join(__dirname, "obfuscate.js");
-    fs.writeFileSync(text2, value);
-    await sock.sendMessage(chatJid, {
-      document: {
-        url: text2
-      },
-      mimetype: "application/javascript",
-      fileName: "obfuscate.js"
-    }, {
-      quoted: ms
-    });
-    fs.unlinkSync(text2);
-  } catch (err) {
-    console.error(err);
-    repondre("Une erreur est survenue lors de l'obfuscation du code.");
-  }
-});
 registerCommand({
   nom_cmd: "gitclone",
   classe: "Outils",
